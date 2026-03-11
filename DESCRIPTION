@@ -1,0 +1,23 @@
+Package: dyadicMarkov
+Type: Package
+Title: Pattern Identification for Dyadic Sequences Using Transition Matrices
+Version: 0.1.0
+Authors@R: c(
+  person("Mattia", "Böllenrücher", email = "mattia.boellenruecher@student.unisg.ch", role = c("aut", "cre", "cph")),
+  person("Mégane", "Bollenrucher", role = "aut"),
+  person("Jean-Philippe", "Antonietti", role = "aut"))
+Description: Provides methods for analyzing dyadic interaction sequences using transition matrices within the Actor-Partner Interdependence Model. The package supports the computation of empirical transition counts, maximum likelihood estimation of transition probabilities and identification of interaction patterns in univariate and bivariate dyadic interaction sequences.
+License: MIT + file LICENSE
+URL: https://github.com/BoellenruecherM/dyadicMarkov-public
+BugReports: https://github.com/BoellenruecherM/dyadicMarkov-public/issues
+Encoding: UTF-8
+Language: en-US
+Depends: R (>= 4.1.0)
+Suggests:
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Config/testthat/edition: 3
