@@ -50,10 +50,13 @@ if (length(start) != 1 || length(end) != 1 || start >= end) {
   stop("README.md must contain exactly one valid cranlogs marker block.")
 }
 
+before <- if (start > 1) readme[1:(start - 1)] else character()
+after <- if (end < length(readme)) readme[(end + 1):length(readme)] else character()
+
 new_readme <- c(
-  readme[seq_len(start - 1)],
+  before,
   block,
-  readme[(end + 1):length(readme)]
+  after
 )
 
 writeLines(new_readme, readme_file)
