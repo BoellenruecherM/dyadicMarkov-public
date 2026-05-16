@@ -21,21 +21,28 @@ jobs:
         with:
           use-public-rspm: true
 
-      - name: Install cranlogs
+      - name: Install R packages
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: |
             any::cranlogs
+            any::jsonlite
+            any::httr2
           needs: |
             cranlogs
+            jsonlite
+            httr2
 
-      - name: Check cranlogs installation
+      - name: Check package installation
         run: |
           packageVersion("cranlogs")
-          library(cranlogs)
+          packageVersion("jsonlite")
+          packageVersion("httr2")
         shell: Rscript {0}
 
       - name: Update README statistics
+        env:
+          GH_TRAFFIC_TOKEN: ${{ github.token }}
         run: Rscript update_cranlogs_readme.R
 
       - name: Commit and push changes
