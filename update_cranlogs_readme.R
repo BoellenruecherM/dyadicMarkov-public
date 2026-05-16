@@ -6,14 +6,6 @@ if (!requireNamespace("cranlogs", quietly = TRUE)) {
   install.packages("cranlogs", repos = "https://cloud.r-project.org")
 }
 
-if (!requireNamespace("jsonlite", quietly = TRUE)) {
-  install.packages("jsonlite", repos = "https://cloud.r-project.org")
-}
-
-if (!requireNamespace("httr2", quietly = TRUE)) {
-  install.packages("httr2", repos = "https://cloud.r-project.org")
-}
-
 get_downloads <- function(...) {
   x <- cranlogs::cran_downloads(...)
   list(
@@ -49,10 +41,12 @@ make_badge <- function(label, message, color = "blue") {
   message <- URLencode(as.character(message), reserved = TRUE)
 
   sprintf(
-    '<img src="https://img.shields.io/badge/%s-%s-%s?style=flat" alt="">',
+    '<img src="https://img.shields.io/badge/%s-%s-%s?style=flat" alt="%s: %s">',
     label,
     message,
-    color
+    color,
+    label,
+    message
   )
 }
 
@@ -74,39 +68,6 @@ get_number_of_versions <- function(pkg) {
   archive_count + 1L
 }
 
-get_github_views <- function() {
-  repo <- Sys.getenv("GITHUB_REPOSITORY")
-  token <- Sys.getenv("GH_TRAFFIC_TOKEN")
-
-  if (repo == "" || token == "") {
-    return(NA_integer_)
-  }
-
-  url <- sprintf("https://api.github.com/repos/%s/traffic/views", repo)
-
-  out <- tryCatch({
-    req <- httr2::request(url) |>
-      httr2::req_headers(
-        "Accept" = "application/vnd.github+json",
-        "Authorization" = paste("Bearer", token),
-        "X-GitHub-Api-Version" = "2022-11-28"
-      )
-
-    resp <- httr2::req_perform(req)
-
-    if (httr2::resp_status(resp) != 200) {
-      return(NA_integer_)
-    }
-
-    body <- httr2::resp_body_json(resp)
-    as.integer(body$count)
-  }, error = function(e) {
-    NA_integer_
-  })
-
-  out
-}
-
 version <- get_cran_version(pkg)
 version_count <- get_number_of_versions(pkg)
 version_updates <- version_count
@@ -116,9 +77,6 @@ last_day <- get_downloads(packages = pkg, when = "last-day")
 last_week <- get_downloads(packages = pkg, when = "last-week")
 last_month <- get_downloads(packages = pkg, when = "last-month")
 total <- get_downloads(packages = pkg, from = release_date, to = Sys.Date())
-
-github_views <- get_github_views()
-views_text <- if (is.na(github_views)) "n/a" else format_count(github_views)
 
 title_html <- paste(
   "Pattern Identification",
@@ -135,8 +93,7 @@ badges <- c(
   make_badge("downloads", paste0(format_count(last_day$count), "/day"), "brightgreen"),
   make_badge("downloads", paste0(format_count(last_week$count), "/week"), "brightgreen"),
   make_badge("downloads", paste0(format_count(last_month$count), "/month"), "blue"),
-  make_badge("downloads", format_count(total$count), "blue"),
-  make_badge("views", views_text, "brightgreen")
+  make_badge("downloads", format_count(total$count), "blue")
 )
 
 block <- c(
@@ -144,12 +101,12 @@ block <- c(
   "",
   '<table>',
   '  <tr>',
-  sprintf('    <td style="vertical-align: top; padding-right: 14px;">%s</td>', title_html),
+  sprintf('    <td style="vertical-align: middle; padding-right: 14px;">%s</td>', title_html),
   sprintf('    <td>%s</td>', paste(badges, collapse = "<br>\n")),
   '  </tr>',
   '</table>',
   "",
-  "<sub>Download counts are recorded download events from the RStudio/Posit CRAN mirror via <code>cranlogs</code>; they are not unique users. GitHub views, when available, refer to recent repository traffic.</sub>",
+  "<sub>Download counts are recorded from the RStudio/Posit CRAN mirror via <code>cranlogs</code>.</sub>",
   "",
   sprintf("<!-- Last automatic update: %s -->", Sys.Date()),
   "",
