@@ -1,25 +1,6 @@
 # dyadicMarkov
 
 <!-- cranlogs:start -->
-
-<table>
-  <tr>
-    <td style="vertical-align: middle; padding-right: 14px;">Pattern Identification<br>for Dyadic Sequences<br>Using Transition Matrices</td>
-    <td><img src="https://img.shields.io/badge/version-0.1.0-blue?style=flat" alt="version: 0.1.0"><br>
-<img src="https://img.shields.io/badge/version%20updates-1-brightgreen?style=flat" alt="version%20updates: 1"><br>
-<img src="https://img.shields.io/badge/pub%20age-2%20months-red?style=flat" alt="pub%20age: 2%20months"><br>
-<img src="https://img.shields.io/badge/rPkgNetStats-one%20version-orange?style=flat" alt="rPkgNetStats: one%20version"><br>
-<img src="https://img.shields.io/badge/downloads-44%2Fday-brightgreen?style=flat" alt="downloads: 44%2Fday"><br>
-<img src="https://img.shields.io/badge/downloads-148%2Fweek-brightgreen?style=flat" alt="downloads: 148%2Fweek"><br>
-<img src="https://img.shields.io/badge/downloads-476%2Fmonth-blue?style=flat" alt="downloads: 476%2Fmonth"><br>
-<img src="https://img.shields.io/badge/downloads-1%2C091-blue?style=flat" alt="downloads: 1%2C091"></td>
-  </tr>
-</table>
-
-<sub>Download counts are recorded from the RStudio/Posit CRAN mirror via <code>cranlogs</code>.</sub>
-
-<!-- Last automatic update: 2026-05-16 -->
-
 <!-- cranlogs:end -->
 
 ## Overview
@@ -41,6 +22,11 @@ Then load the package with:
 ```r
 library(dyadicMarkov)
 ```
+
+The official CRAN page is available here:  
+https://cran.r-project.org/web/packages/dyadicMarkov/index.html
+
+The CRAN page includes the package reference manual, vignette, source files and additional package metadata.
 
 ## Methodological background
 
