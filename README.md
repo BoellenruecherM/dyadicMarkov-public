@@ -43,7 +43,7 @@ library(dyadicMarkov)
 ```
 
 The official CRAN page is available here:  
-https://cran.r-project.org/web/packages/dyadicMarkov/index.html
+https://cran.r-project.org/package=dyadicMarkov
 
 The CRAN page includes the package reference manual, vignette, source files and additional package metadata.
 
