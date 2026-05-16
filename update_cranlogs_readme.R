@@ -27,7 +27,7 @@ block <- c(
   "",
   "## CRAN download statistics",
   "",
-  "Download counts are recorded download events from the RStudio/Posit CRAN mirror via `cranlogs`; they are not unique users.",
+  "Download counts are recorded download events from the RStudio/Posit CRAN mirror via `cranlogs`",
   "",
   "| Period | Downloads |",
   "|---|---:|",
