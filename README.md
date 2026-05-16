@@ -43,7 +43,7 @@ The Quantitative Methods for Psychology, 20(1), 17–32.
 DOI: [10.20982/tqmp.20.1.p017](https://doi.org/10.20982/tqmp.20.1.p017)  
 PDF: https://www.tqmp.org/RegularArticles/vol20-1/p017/p017.pdf
 
-A package paper for the Journal of Statistical Software will be added here once available.
+A package paper will be added here once available.
 
 ## Citation
 
