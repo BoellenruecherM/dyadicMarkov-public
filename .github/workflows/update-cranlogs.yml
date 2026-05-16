@@ -25,8 +25,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Update README statistics
-        run: |
-          Rscript update_cranlogs_readme.R
+        run: Rscript update_cranlogs_readme.R
 
       - name: Commit and push changes
         run: |
