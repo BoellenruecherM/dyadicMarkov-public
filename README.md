@@ -9,16 +9,16 @@
 <img src="https://img.shields.io/badge/version%20updates-1-brightgreen?style=flat" alt="version%20updates: 1"><br>
 <img src="https://img.shields.io/badge/pub%20age-2%20months-red?style=flat" alt="pub%20age: 2%20months"><br>
 <img src="https://img.shields.io/badge/rPkgNetStats-one%20version-orange?style=flat" alt="rPkgNetStats: one%20version"><br>
-<img src="https://img.shields.io/badge/downloads-44%2Fday-brightgreen?style=flat" alt="downloads: 44%2Fday"><br>
-<img src="https://img.shields.io/badge/downloads-154%2Fweek-brightgreen?style=flat" alt="downloads: 154%2Fweek"><br>
-<img src="https://img.shields.io/badge/downloads-477%2Fmonth-blue?style=flat" alt="downloads: 477%2Fmonth"><br>
-<img src="https://img.shields.io/badge/downloads-1%2C145-blue?style=flat" alt="downloads: 1%2C145"></td>
+<img src="https://img.shields.io/badge/downloads-10%2Fday-brightgreen?style=flat" alt="downloads: 10%2Fday"><br>
+<img src="https://img.shields.io/badge/downloads-118%2Fweek-brightgreen?style=flat" alt="downloads: 118%2Fweek"><br>
+<img src="https://img.shields.io/badge/downloads-484%2Fmonth-blue?style=flat" alt="downloads: 484%2Fmonth"><br>
+<img src="https://img.shields.io/badge/downloads-1%2C155-blue?style=flat" alt="downloads: 1%2C155"></td>
   </tr>
 </table>
 
 <sub>Download counts are recorded from the RStudio/Posit CRAN mirror via <code>cranlogs</code>.</sub>
 
-<!-- Last automatic update: 2026-05-19 -->
+<!-- Last automatic update: 2026-05-20 -->
 
 <!-- cranlogs:end -->
 
