@@ -43,7 +43,7 @@ library(dyadicMarkov)
 ```
 
 The official CRAN page is available here:  
-<a href="https://cran.r-project.org/package=dyadicMarkov" target="_blank" rel="noopener noreferrer">[CRAN page for dyadicMarkov]</a>
+[CRAN page for dyadicMarkov](https://cran.r-project.org/package=dyadicMarkov)
 
 The CRAN page includes the package reference manual, vignette, source files and additional package metadata.
 
@@ -59,13 +59,13 @@ Bollenrücher, M., Darwiche, J., & Antonietti, J.-P. (2023).
 *Dyadic pattern analysis using longitudinal Actor-Partner Interdependence Model with Markov chains for unique case analysis*.  
 The Quantitative Methods for Psychology, 19(3), 230–245.  
 DOI: [10.20982/tqmp.19.3.p230](https://doi.org/10.20982/tqmp.19.3.p230)  
-PDF: https://www.tqmp.org/RegularArticles/vol19-3/p230/p230.pdf
+PDF: [PDF](https://www.tqmp.org/RegularArticles/vol19-3/p230/p230.pdf)
 
 Bollenrücher, M., Darwiche, J., & Antonietti, J.-P. (2024).  
 *Methodology for identification, visualization, and clustering of similar behaviors in dyadic sequences analyzed through the longitudinal Actor-Partner Interdependence Model with Markov chains*.  
 The Quantitative Methods for Psychology, 20(1), 17–32.  
 DOI: [10.20982/tqmp.20.1.p017](https://doi.org/10.20982/tqmp.20.1.p017)  
-PDF: https://www.tqmp.org/RegularArticles/vol20-1/p017/p017.pdf
+PDF: [PDF](https://www.tqmp.org/RegularArticles/vol20-1/p017/p017.pdf)
 
 A package paper will be added here once available.
 
