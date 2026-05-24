@@ -13,6 +13,7 @@
       <a href="https://www.r-pkg.org/pkg/dyadicMarkov"><img src="https://cranlogs.r-pkg.org/badges/last-month/dyadicMarkov?color=blue" alt="CRAN downloads last month"></a><br>
       <a href="https://www.r-pkg.org/pkg/dyadicMarkov"><img src="https://cranlogs.r-pkg.org/badges/grand-total/dyadicMarkov?color=blue" alt="CRAN downloads total"></a><br>
       <a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active"></a>
+      <br><a href="https://github.com/BoellenruecherM/dyadicMarkov-public/actions/workflows/R-CMD-check.yaml"><img src="https://github.com/BoellenruecherM/dyadicMarkov-public/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a>
     </td>
   </tr>
 </table>
