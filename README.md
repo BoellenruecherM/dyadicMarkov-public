@@ -7,6 +7,7 @@
     <td style="vertical-align: middle; padding-right: 14px;">Pattern Identification<br>for Dyadic Sequences<br>Using Transition Matrices</td>
     <td>
       <a href="https://CRAN.R-project.org/package=dyadicMarkov"><img src="https://www.r-pkg.org/badges/version/dyadicMarkov" alt="CRAN version"></a><br>
+      <a href="https://CRAN.R-project.org/package=dyadicMarkov"><img src="https://www.r-pkg.org/badges/version-ago/dyadicMarkov" alt="CRAN release age"></a><br>
       <a href="https://cran.r-project.org/web/checks/check_results_dyadicMarkov.html"><img src="https://badges.cranchecks.info/worst/dyadicMarkov.svg" alt="CRAN checks"></a><br>
       <a href="https://boellenruecherm.r-universe.dev/dyadicMarkov"><img src="https://boellenruecherm.r-universe.dev/dyadicMarkov/badges/version" alt="R-universe version"></a><br>
       <a href="https://boellenruecherm.r-universe.dev/dyadicMarkov"><img src="https://boellenruecherm.r-universe.dev/dyadicMarkov/badges/checks" alt="R-universe checks"></a><br>
@@ -17,6 +18,8 @@
     </td>
   </tr>
 </table>
+
+<sub>Download counts are recorded from the RStudio/Posit CRAN mirror via <code>cranlogs</code>.</sub>
 
 <sub>Download counts are recorded from the RStudio/Posit CRAN mirror via <code>cranlogs</code>.</sub>
 
