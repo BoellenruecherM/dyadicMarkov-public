@@ -20,10 +20,6 @@
 
 <sub>Download counts are recorded from the RStudio/Posit CRAN mirror via <code>cranlogs</code>.</sub>
 
-<sub>Download counts are recorded from the RStudio/Posit CRAN mirror via <code>cranlogs</code>.</sub>
-
-<sub>Download counts are recorded from the RStudio/Posit CRAN mirror via <code>cranlogs</code>.</sub>
-
 <!-- Last automatic update: 2026-05-25 -->
 
 <!-- cranlogs:end -->
