@@ -5,22 +5,20 @@
 <table>
   <tr>
     <td style="vertical-align: middle; padding-right: 14px;">Pattern Identification<br>for Dyadic Sequences<br>Using Transition Matrices</td>
-    <td>
-      <a href="https://CRAN.R-project.org/package=dyadicMarkov"><img src="https://www.r-pkg.org/badges/version/dyadicMarkov" alt="CRAN version"></a><br>
-      <a href="https://cran.r-project.org/web/checks/check_results_dyadicMarkov.html"><img src="https://badges.cranchecks.info/worst/dyadicMarkov.svg" alt="CRAN checks"></a><br>
-      <a href="https://boellenruecherm.r-universe.dev/dyadicMarkov"><img src="https://boellenruecherm.r-universe.dev/dyadicMarkov/badges/version" alt="R-universe version"></a><br>
-      <a href="https://boellenruecherm.r-universe.dev/dyadicMarkov"><img src="https://boellenruecherm.r-universe.dev/dyadicMarkov/badges/checks" alt="R-universe checks"></a><br>
-      <a href="https://www.r-pkg.org/pkg/dyadicMarkov"><img src="https://cranlogs.r-pkg.org/badges/last-month/dyadicMarkov?color=blue" alt="CRAN downloads last month"></a><br>
-      <a href="https://www.r-pkg.org/pkg/dyadicMarkov"><img src="https://cranlogs.r-pkg.org/badges/grand-total/dyadicMarkov?color=blue" alt="CRAN downloads total"></a><br>
-      <a href="https://www.repostatus.org/#active"><img src="https://www.repostatus.org/badges/latest/active.svg" alt="Project Status: Active"></a><br>
-<a href="https://github.com/BoellenruecherM/dyadicMarkov-public/actions/workflows/R-CMD-check.yaml"><img src="https://github.com/BoellenruecherM/dyadicMarkov-public/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main" alt="R-CMD-check"></a>
-    </td>
+    <td><img src="https://img.shields.io/badge/version-0.1.0-blue?style=flat" alt="version: 0.1.0"><br>
+<img src="https://img.shields.io/badge/version%20updates-1-brightgreen?style=flat" alt="version%20updates: 1"><br>
+<img src="https://img.shields.io/badge/pub%20age-2%20months-red?style=flat" alt="pub%20age: 2%20months"><br>
+<img src="https://img.shields.io/badge/rPkgNetStats-one%20version-orange?style=flat" alt="rPkgNetStats: one%20version"><br>
+<img src="https://img.shields.io/badge/downloads-4%2Fday-brightgreen?style=flat" alt="downloads: 4%2Fday"><br>
+<img src="https://img.shields.io/badge/downloads-108%2Fweek-brightgreen?style=flat" alt="downloads: 108%2Fweek"><br>
+<img src="https://img.shields.io/badge/downloads-479%2Fmonth-blue?style=flat" alt="downloads: 479%2Fmonth"><br>
+<img src="https://img.shields.io/badge/downloads-1%2C209-blue?style=flat" alt="downloads: 1%2C209"></td>
   </tr>
 </table>
 
 <sub>Download counts are recorded from the RStudio/Posit CRAN mirror via <code>cranlogs</code>.</sub>
 
-<!-- Last automatic update: 2026-05-24 -->
+<!-- Last automatic update: 2026-05-25 -->
 
 <!-- cranlogs:end -->
 
