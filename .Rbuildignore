@@ -1,9 +1,4 @@
-^\.github$
-^\.github/.*$
+^\.github($|/)
 ^cran-comments\.md$
 ^CONTRIBUTING\.md$
 ^README\.Rmd$
-^.*\.Rproj$
-^\.Rproj\.user$
-^\.gitignore$
-^\.gitattributes$
