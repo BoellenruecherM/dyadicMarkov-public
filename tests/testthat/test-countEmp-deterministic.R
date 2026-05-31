@@ -15,5 +15,5 @@ test_that("countEmp returns exact counts on a tiny hand-constructed chain", {
     nrow = 4L, ncol = 2L, byrow = TRUE
   )
 
-  expect_identical(got, exp)
+  expect_identical(unclass(got), exp)
 })

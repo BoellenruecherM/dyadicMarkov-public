@@ -39,12 +39,12 @@ test_that("univariatePattern runs", {
 
 test_that("bivariate pipeline runs for states=2 (exported API only)", {
   states <- 2L
-  T <- 200L
+  n_obs <- 200L
 
-  chainFM_V1 <- rep(c(1L,2L,1L,2L,2L), length.out = T)
-  chainSM_V1 <- rep(c(2L,1L,2L,1L,1L), length.out = T)
-  chainFM_V2 <- rep(c(1L,1L,2L,2L,1L), length.out = T)
-  chainSM_V2 <- rep(c(2L,2L,1L,1L,2L), length.out = T)
+  chainFM_V1 <- rep(c(1L,2L,1L,2L,2L), length.out = n_obs)
+  chainSM_V1 <- rep(c(2L,1L,2L,1L,1L), length.out = n_obs)
+  chainFM_V2 <- rep(c(1L,1L,2L,2L,1L), length.out = n_obs)
+  chainSM_V2 <- rep(c(2L,2L,1L,1L,2L), length.out = n_obs)
 
   emp <- dyadicMarkov::countEmpBivariate(
     chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2, states = states

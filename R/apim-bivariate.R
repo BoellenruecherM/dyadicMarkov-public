@@ -1,12 +1,25 @@
-#' Empirical transition counts for the bivariate dyadic model
+#' Empirical transition counts for bivariate dyadic sequences
 #'
-#' Computes empirical transition counts for the bivariate dyadic model (two variables).
-#' The current implementation supports \code{states = 2} only.
+#' Computes empirical transition counts for bivariate categorical dyadic
+#' sequences with two variables. This function currently supports
+#' \code{states = 2} only.
 #'
-#' @param chainFM_V1,chainSM_V1 Vectors of observed states for variable 1 (FM and SM).
-#' @param chainFM_V2,chainSM_V2 Vectors of observed states for variable 2 (FM and SM).
+#' @param chainFM_V1,chainSM_V1 Vectors of observed states for variable 1
+#'   for the first and second member.
+#' @param chainFM_V2,chainSM_V2 Vectors of observed states for variable 2
+#'   for the first and second member.
 #' @param states A single integer. Currently only \code{2} is supported.
-#' @returns An integer matrix of counts with 16 rows and 2 columns (when \code{states = 2}).
+#'   Default is 2.
+#' @details The bivariate counter currently supports \code{states = 2} only.
+#'   Rows represent the previous dyadic states of variable 1 and variable 2.
+#'   The implementation uses the row mapping
+#'   \code{states^2 * (states * (FM_V1,t - 1) + (SM_V1,t - 1)) +}
+#'   \code{states * (FM_V2,t - 1) + (SM_V2,t - 1) + 1}. Columns correspond to
+#'   the state of the first member on variable 1 at the next time point,
+#'   \eqn{FM_{V1,t+1}}.
+#' @returns An integer matrix with class
+#'   \code{c("dyadic_counts", "matrix", "array")} with 16 rows and 2 columns
+#'   when \code{states = 2}. It remains usable as an ordinary matrix.
 #' @examples
 #' chainFM_V1 <- c(1L, 2L, 1L, 2L, 2L, 1L)
 #' chainSM_V1 <- c(2L, 1L, 2L, 1L, 1L, 2L)
@@ -18,62 +31,109 @@
 countEmpBivariate <- function(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2, states = 2L) {
 
   # Bivariate theory currently implemented for states = 2 only
-  ok_states <- length(states) == 1L && is.finite(states) &&
-    states == as.integer(states) && as.integer(states) == 2L
-  if (!ok_states) stop("bivariate functions currently support states = 2 only.")
+  ok_states <- !missing(states) &&
+    is.numeric(states) &&
+    length(states) == 1L &&
+    is.finite(states) &&
+    states == floor(states) &&
+    states == 2L
+
+  if (!ok_states) {
+    stop("bivariate functions currently support states = 2 only.", call. = FALSE)
+  }
+
   states <- 2L
 
+  # Chain values must be numeric before integer/range checks
+  if (!is.numeric(chainFM_V1) || !is.numeric(chainSM_V1) ||
+      !is.numeric(chainFM_V2) || !is.numeric(chainSM_V2)) {
+    stop("chain values must be numeric integers in {1, 2}.", call. = FALSE)
+  }
+
   # No missing values allowed
-  if (anyNA(chainFM_V1) || anyNA(chainSM_V1) || anyNA(chainFM_V2) || anyNA(chainSM_V2)) {
-    stop("chains must not contain NA.")
+  if (anyNA(chainFM_V1) || anyNA(chainSM_V1) ||
+      anyNA(chainFM_V2) || anyNA(chainSM_V2)) {
+    stop("bivariate chains must not contain NA.", call. = FALSE)
   }
 
-  # All four sequences must have the same length (and allow at least one transition)
+  # No undefined numeric values allowed
+  if (any(!is.finite(c(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2)))) {
+    stop("bivariate chains must contain finite integer-coded states.", call. = FALSE)
+  }
+
+  # All four sequences must have the same length and allow at least one transition
   n <- length(chainFM_V1)
-  if (n != length(chainSM_V1) || n != length(chainFM_V2) || n != length(chainSM_V2)) {
-    stop("chains must have the same length.")
-  }
-  if (n < 2L) stop("chains must have length >= 2.")
 
-  # With states = 2, values must be in {1, 2} (and integer-like)
-  bad <- any(chainFM_V1 != as.integer(chainFM_V1)) || any(chainSM_V1 != as.integer(chainSM_V1)) ||
-    any(chainFM_V2 != as.integer(chainFM_V2)) || any(chainSM_V2 != as.integer(chainSM_V2)) ||
-    any(chainFM_V1 < 1L | chainFM_V1 > 2L) || any(chainSM_V1 < 1L | chainSM_V1 > 2L) ||
-    any(chainFM_V2 < 1L | chainFM_V2 > 2L) || any(chainSM_V2 < 1L | chainSM_V2 > 2L)
-  if (bad) stop("with states = 2, chain values must be integers in {1, 2}.")
+  if (n != length(chainSM_V1) ||
+      n != length(chainFM_V2) ||
+      n != length(chainSM_V2)) {
+    stop("chains must have the same length.", call. = FALSE)
+  }
+
+  if (n < 2L) {
+    stop("bivariate chains must have length >= 2.", call. = FALSE)
+  }
+
+  # With states = 2, values must be in {1, 2} and integer-like
+  bad <- any(chainFM_V1 != as.integer(chainFM_V1)) ||
+    any(chainSM_V1 != as.integer(chainSM_V1)) ||
+    any(chainFM_V2 != as.integer(chainFM_V2)) ||
+    any(chainSM_V2 != as.integer(chainSM_V2)) ||
+    any(chainFM_V1 < 1L | chainFM_V1 > 2L) ||
+    any(chainSM_V1 < 1L | chainSM_V1 > 2L) ||
+    any(chainFM_V2 < 1L | chainFM_V2 > 2L) ||
+    any(chainSM_V2 < 1L | chainSM_V2 > 2L)
+
+  if (bad) {
+    stop("with states = 2, chain values must be integers in {1, 2}.", call. = FALSE)
+  }
 
   # Number of transitions and next FM state for variable 1 (columns)
   chainCount <- n - 1L
   col <- chainFM_V1[2L:(chainCount + 1L)]
 
   # Current dyad states for both variables
-  bfm1 <- chainFM_V1[1L:chainCount]; bsm1 <- chainSM_V1[1L:chainCount]
-  bfm2 <- chainFM_V2[1L:chainCount]; bsm2 <- chainSM_V2[1L:chainCount]
+  bfm1 <- chainFM_V1[1L:chainCount]
+  bsm1 <- chainSM_V1[1L:chainCount]
+  bfm2 <- chainFM_V2[1L:chainCount]
+  bsm2 <- chainSM_V2[1L:chainCount]
 
   # Legacy dimensions: 16 rows (states = 2) and 2 columns
   nrow_out <- 4L * states * states
 
-  # Map (V1 state, V2 state) to a row index in 1:16, then flatten (row, col) for tabulate()
+  # Map (V1 state, V2 state) to a row index in 1:16, then flatten
+  # (row, col) for tabulate()
   row <- states^2 * (states * (bfm1 - 1L) + (bsm1 - 1L)) +
     states * (bfm2 - 1L) + (bsm2 - 1L) + 1L
+
   idx <- row + (col - 1L) * nrow_out
 
   tab <- tabulate(idx, nbins = nrow_out * states)
   count <- matrix(tab, nrow = nrow_out, ncol = states)
 
+  class(count) <- c("dyadic_counts", "matrix", "array")
   count
 }
 
 
-#' Classify the bivariate dependence case
+#' Bivariate case identification for dyadic Markov chains
 #'
-#' Classifies the bivariate case as \code{"trivial"}, \code{"univariate"},
-#' \code{"partial"}, or \code{"complete"} using two chi-squared tests against
-#' constrained models (states = 2 only).
+#' Identifies the bivariate case as \code{"trivial"}, \code{"univariate"},
+#' \code{"partial"}, or \code{"complete"} using two likelihood-ratio tests
+#' against constrained bivariate structures.
 #'
-#' @param empirical An empirical bivariate count matrix (must be 16x2; states = 2).
+#' @param empirical An empirical bivariate count matrix with 16 rows and 2
+#'   columns, as returned by \code{\link{countEmpBivariate}}.
 #' @param alpha A single number in (0, 1) giving the significance level.
-#' @returns A list with components \code{testUnivariate}, \code{testPartial}, and \code{case}.
+#'   Default is 0.05.
+#' @details The returned case corresponds to the global approach of the
+#'   bivariate method. It determines whether the sequence analyzed is treated
+#'   as trivial, univariate, partial bivariate, or complete bivariate before
+#'   the local identification of the pattern of interaction.
+#' @returns A list with class \code{c("dyadic_case", "list")} containing
+#'   components \code{testUnivariate}, \code{testPartial}, \code{case}, and
+#'   metadata fields \code{alpha} and \code{call}. It remains usable as an
+#'   ordinary list.
 #' @examples
 #' chainFM_V1 <- c(1L, 2L, 1L, 2L, 2L, 1L)
 #' chainSM_V1 <- c(2L, 1L, 2L, 1L, 1L, 2L)
@@ -82,27 +142,18 @@ countEmpBivariate <- function(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2, st
 #' emp <- countEmpBivariate(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2, states = 2L)
 #' bivariateCase(emp, alpha = 0.05)
 #' @export
-bivariateCase <- function(empirical, alpha = 0.05){
+bivariateCase <- function(empirical, alpha = 0.05) {
 
-  # Significance level
-  if (!(length(alpha) == 1L && is.finite(alpha) && alpha > 0 && alpha < 1)) {
-    stop("alpha must be a single number in (0, 1).")
-  }
+  .validate_alpha(alpha)
 
-  # Bivariate case currently supports states = 2 only (16x2 empirical counts)
-  if (!is.matrix(empirical) || nrow(empirical) != 16L || ncol(empirical) != 2L) {
-    stop("bivariate functions currently support states = 2 only (empirical must be a 16x2 matrix).")
-  }
-  if (anyNA(empirical) || any(empirical < 0)) {
-    stop("empirical must contain non-negative counts with no NA.")
-  }
+  .validate_bivariate_empirical_matrix(empirical)
 
   # Build constrained theoretical count matrices (G-family)
   g <- countTheoBivariateG(empirical)
   theoA1 <- g[[1]]
   theoB1 <- g[[2]]
 
-  # Two chi-squared tests used for case classification
+  # Two likelihood-ratio tests used for case identification
   testUnivariate <- bivariateTest(population = theoA1, empirical = empirical)
   testPartial    <- bivariateTest(population = theoB1, empirical = empirical)
 
@@ -122,20 +173,31 @@ bivariateCase <- function(empirical, alpha = 0.05){
     case <- "complete"
   }
 
-  list(testUnivariate = testUnivariate, testPartial = testPartial, case = case)
+  out <- list(
+    testUnivariate = testUnivariate,
+    testPartial = testPartial,
+    case = case,
+    alpha = alpha,
+    call = match.call()
+  )
+  class(out) <- c("dyadic_case", "list")
+  out
 }
 
 
-#' Select the best partial bivariate pattern by AIC
+#' Partial bivariate pattern identification by AIC
 #'
-#' Compares the partial bivariate patterns B1/B2/B3 using AIC and returns the
-#' selected pattern.
+#' Compares the partial bivariate patterns B1, B2, and B3 using AIC and returns
+#' the selected pattern.
 #'
-#' @param empirical An empirical bivariate count matrix (must be 16x2; states = 2).
-#' @details Requires a bivariate empirical count matrix for \code{states = 2}
-#'   (output of \code{\link{countEmpBivariate}}).
-#' @returns A list with components \code{aic} (a data frame) and \code{pattern}
-#'   (the selected pattern label).
+#' @param empirical An empirical bivariate count matrix with 16 rows and 2
+#'   columns, as returned by \code{\link{countEmpBivariate}}.
+#' @details Conditional on the partial bivariate case, AIC is used to select
+#'   among the B1, B2, and B3 structures.
+#' @returns A list with class \code{c("dyadic_pattern", "list")} containing
+#'   components \code{aic} (a data frame with candidate patterns and AIC
+#'   values), \code{pattern} (the selected pattern label), and \code{call}. It
+#'   remains usable as an ordinary list.
 #' @examples
 #' chainFM_V1 <- c(1L, 2L, 1L, 2L, 2L, 1L)
 #' chainSM_V1 <- c(2L, 1L, 2L, 1L, 1L, 2L)
@@ -144,15 +206,9 @@ bivariateCase <- function(empirical, alpha = 0.05){
 #' emp <- countEmpBivariate(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2, states = 2L)
 #' partialPattern(emp)
 #' @export
-partialPattern <- function(empirical){
+partialPattern <- function(empirical) {
 
-  # Bivariate case currently supports states = 2 only (16x2 empirical counts)
-  if (!is.matrix(empirical) || nrow(empirical) != 16L || ncol(empirical) != 2L) {
-    stop("bivariate functions currently support states = 2 only (empirical must be a 16x2 matrix).")
-  }
-  if (anyNA(empirical) || any(empirical < 0)) {
-    stop("empirical must contain non-negative counts with no NA.")
-  }
+  .validate_bivariate_empirical_matrix(empirical)
 
   # Constrained theoretical matrices for partial patterns B1/B2/B3
   g <- countTheoBivariateG(empirical)  # list(theoA1, theoB1)
@@ -164,9 +220,21 @@ partialPattern <- function(empirical){
 
   # AIC values for each candidate pattern (k differs by constraint structure)
   aic_vals <- c(
-    "partial actor partner (B1)" = aicBivariate(population = theoB1, empirical = empirical, test = "duo"),
-    "partial actor (B2)"         = aicBivariate(population = theoB2, empirical = empirical, test = "single"),
-    "partial partner (B3)"       = aicBivariate(population = theoB3, empirical = empirical, test = "single")
+    "partial actor partner (B1)" = aicBivariate(
+      population = theoB1,
+      empirical = empirical,
+      test = "duo"
+    ),
+    "partial actor (B2)" = aicBivariate(
+      population = theoB2,
+      empirical = empirical,
+      test = "single"
+    ),
+    "partial partner (B3)" = aicBivariate(
+      population = theoB3,
+      empirical = empirical,
+      test = "single"
+    )
   )
 
   # Summary table
@@ -180,20 +248,28 @@ partialPattern <- function(empirical){
   # Select best (smallest AIC)
   pattern <- names(aic_vals)[which.min(aic_vals)]
 
-  list(aic = aic, pattern = pattern)
+  out <- list(
+    aic = aic,
+    pattern = pattern,
+    call = match.call()
+  )
+  class(out) <- c("dyadic_pattern", "list")
+  out
 }
 
-#' Select the best complete bivariate pattern by AIC
+#' Complete bivariate pattern identification by AIC
 #'
-#' Compares complete bivariate patterns (C, D1–D4, E1–E4) using AIC and returns
-#' the selected pattern.
+#' Compares the complete bivariate patterns C, D1--D4, and E1--E4 using AIC and
+#' returns the selected pattern.
 #'
-#' @param empirical An empirical bivariate count matrix (must be 16x2; states = 2).
-#' @details Requires a bivariate empirical count matrix for \code{states = 2}
-#'   (output of \code{\link{countEmpBivariate}}).
-#' @returns A list with components \code{aic} (a data frame with columns
-#'   \code{pattern}, \code{matrix}, \code{aic}) and \code{pattern} (the selected
-#'   pattern label).
+#' @param empirical An empirical bivariate count matrix with 16 rows and 2
+#'   columns, as returned by \code{\link{countEmpBivariate}}.
+#' @details Conditional on the complete bivariate case, AIC is used to select
+#'   among the C, D1--D4, and E1--E4 structures.
+#' @returns A list with class \code{c("dyadic_pattern", "list")} containing
+#'   components \code{aic} (a data frame with columns \code{pattern},
+#'   \code{matrix}, and \code{aic}), \code{pattern} (the selected pattern
+#'   label), and \code{call}. It remains usable as an ordinary list.
 #' @examples
 #' chainFM_V1 <- c(1L, 2L, 1L, 2L, 2L, 1L)
 #' chainSM_V1 <- c(2L, 1L, 2L, 1L, 1L, 2L)
@@ -202,15 +278,9 @@ partialPattern <- function(empirical){
 #' emp <- countEmpBivariate(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2, states = 2L)
 #' completePattern(emp)
 #' @export
-completePattern <- function(empirical){
+completePattern <- function(empirical) {
 
-  # Bivariate case currently supports states = 2 only (16x2 empirical counts)
-  if (!is.matrix(empirical) || nrow(empirical) != 16L || ncol(empirical) != 2L) {
-    stop("bivariate functions currently support states = 2 only (empirical must be a 16x2 matrix).")
-  }
-  if (anyNA(empirical) || any(empirical < 0)) {
-    stop("empirical must contain non-negative counts with no NA.")
-  }
+  .validate_bivariate_empirical_matrix(empirical)
 
   # Constrained theoretical matrices for complete patterns
   c3 <- countTheoBivariateC3(empirical)  # D1..D4
@@ -259,5 +329,11 @@ completePattern <- function(empirical){
   best <- which.min(aic_vals)
   pattern <- labels[best]
 
-  list(aic = aic, pattern = pattern)
+  out <- list(
+    aic = aic,
+    pattern = pattern,
+    call = match.call()
+  )
+  class(out) <- c("dyadic_pattern", "list")
+  out
 }
