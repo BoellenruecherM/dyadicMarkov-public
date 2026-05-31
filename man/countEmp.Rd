@@ -14,7 +14,8 @@ countEmp(chainFM, chainSM, states)
 \item{states}{A single integer >= 2 giving the number of states.}
 }
 \value{
-An integer matrix with class \code{c("dyadic_counts", "matrix", "array")},
+An integer matrix with class
+\code{c("dyadic_counts", "matrix", "array")},
 with \eqn{states^2} rows and \code{states} columns. It remains usable as an
 ordinary matrix.
 }

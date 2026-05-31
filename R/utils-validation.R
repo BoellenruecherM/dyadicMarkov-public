@@ -65,13 +65,17 @@
 #' @param chainSM Vector of states for the second member.
 #' @param states Integer number of categorical states.
 #'
-#' @return Invisibly returns `TRUE` if validation succeeds; otherwise raises an error.
+#' @return Invisibly returns `TRUE` if validation succeeds;
+#'   otherwise raises an error.
 #' @noRd
 .validate_univariate_chains <- function(chainFM, chainSM, states) {
   n <- length(chainFM)
 
   if (!is.numeric(chainFM) || !is.numeric(chainSM)) {
-    stop("chain values must be numeric vectors of integer-coded states.", call. = FALSE)
+    stop(
+      "chain values must be numeric vectors of integer-coded states.",
+      call. = FALSE
+    )
   }
   if (n != length(chainSM)) {
     stop("chainFM and chainSM must have the same length.", call. = FALSE)
@@ -82,7 +86,7 @@
   if (anyNA(chainFM) || anyNA(chainSM)) {
     stop("chains must not contain NA.", call. = FALSE)
   }
-  if (any(!is.finite(chainFM)) || any(!is.finite(chainSM))) {
+  if (!all(is.finite(chainFM)) || !all(is.finite(chainSM))) {
     stop("chains must contain finite integer-coded states.", call. = FALSE)
   }
 
@@ -101,19 +105,25 @@
 
 #' Validate empirical transition count matrix
 #'
-#' Internal helper for validating univariate empirical transition count matrices.
+#' Internal helper for validating univariate empirical transition
+#' count matrices.
 #'
 #' @param empirical Empirical transition count matrix.
 #'
-#' @return Invisibly returns `TRUE` if validation succeeds; otherwise raises an error.
+#' @return Invisibly returns `TRUE` if validation succeeds;
+#'   otherwise raises an error.
 #' @noRd
 .validate_empirical_matrix <- function(empirical) {
   if (!is.matrix(empirical)) {
     stop("empirical transition count input must be a matrix.", call. = FALSE)
   }
   if (!is.numeric(empirical) || anyNA(empirical) ||
-      any(!is.finite(empirical)) || any(empirical < 0)) {
-    stop("empirical transition count input must contain finite non-negative counts with no NA.", call. = FALSE)
+      !all(is.finite(empirical)) || any(empirical < 0)) {
+    stop(
+      "empirical transition count input must contain finite non-negative ",
+      "counts with no NA.",
+      call. = FALSE
+    )
   }
 
   states <- ncol(empirical)
@@ -134,18 +144,26 @@
 #'
 #' @param empirical Empirical bivariate transition count matrix.
 #'
-#' @return Invisibly returns `TRUE` if validation succeeds; otherwise raises an error.
+#' @return Invisibly returns `TRUE` if validation succeeds;
+#'   otherwise raises an error.
 #' @noRd
 .validate_bivariate_empirical_matrix <- function(empirical) {
-  if (!is.matrix(empirical) || nrow(empirical) != 16L || ncol(empirical) != 2L) {
+  if (!is.matrix(empirical) ||
+      nrow(empirical) != 16L ||
+      ncol(empirical) != 2L) {
     stop(
-      "bivariate functions currently support states = 2 only (empirical must be a 16x2 matrix).",
+      "bivariate functions currently support states = 2 only ",
+      "(empirical must be a 16x2 matrix).",
       call. = FALSE
     )
   }
   if (!is.numeric(empirical) || anyNA(empirical) ||
-      any(!is.finite(empirical)) || any(empirical < 0)) {
-    stop("bivariate empirical matrix must contain finite non-negative counts with no NA.", call. = FALSE)
+      !all(is.finite(empirical)) || any(empirical < 0)) {
+    stop(
+      "bivariate empirical matrix must contain finite non-negative ",
+      "counts with no NA.",
+      call. = FALSE
+    )
   }
 
   invisible(TRUE)

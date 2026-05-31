@@ -44,8 +44,8 @@ test_that("empirical count functions return dyadic_counts matrices", {
 
   expect_s3_class(counts, "dyadic_counts")
   expect_true(is.matrix(counts))
-  expect_equal(unclass(counts), expected_counts)
-  expect_equal(dim(counts), c(4L, 2L))
+  expect_identical(unclass(counts), expected_counts)
+  expect_identical(dim(counts), c(4L, 2L))
 
   chainFM_V1 <- c(1L, 2L, 1L)
   chainSM_V1 <- c(1L, 1L, 2L)
@@ -61,6 +61,6 @@ test_that("empirical count functions return dyadic_counts matrices", {
 
   expect_s3_class(bivar_counts, "dyadic_counts")
   expect_true(is.matrix(bivar_counts))
-  expect_equal(unclass(bivar_counts), expected_bivar_counts)
-  expect_equal(dim(bivar_counts), c(16L, 2L))
+  expect_identical(unclass(bivar_counts), expected_bivar_counts)
+  expect_identical(dim(bivar_counts), c(16L, 2L))
 })

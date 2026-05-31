@@ -1,7 +1,6 @@
 Package: dyadicMarkov
 Type: Package
-Title: Pattern Identification for Dyadic Sequences Using Transition
-        Matrices
+Title: Pattern Identification for Dyadic Sequences Using Transition Matrices
 Version: 0.1.1
 Authors@R: c(
   person("Mattia", "Böllenrücher", email = "mattia.boellenruecher@student.unisg.ch", role = c("aut", "cre", "cph")),
@@ -14,17 +13,14 @@ BugReports: https://github.com/BoellenruecherM/dyadicMarkov-public/issues
 Encoding: UTF-8
 Language: en-US
 Depends: R (>= 4.1.0)
-Imports: stats
-Suggests: testthat (>= 3.0.0), knitr, rmarkdown
+Imports:
+    stats
+Suggests:
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
 VignetteBuilder: knitr
-Roxygen: list(markdown = TRUE, roclets = c("namespace", "rd",
-        "srr::srr_stats_roclet"))
+Roxygen: list(markdown = TRUE, roclets = c("namespace", "rd", "srr::srr_stats_roclet"))
 RoxygenNote: 7.3.3
 Config/testthat/edition: 3
 LazyData: true
-NeedsCompilation: no
-Packaged: 2026-05-31 11:33:08 UTC; bolle
-Author: Mattia Böllenrücher [aut, cre, cph],
-  Mégane Bollenrücher [aut],
-  Jean-Philippe Antonietti [aut]
-Maintainer: Mattia Böllenrücher <mattia.boellenruecher@student.unisg.ch>

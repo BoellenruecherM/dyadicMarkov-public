@@ -1,3 +1,103 @@
+# Validate that bivariate counting currently uses binary states.
+.validate_bivariate_states <- function(states) {
+  ok_states <- !missing(states) &&
+    is.numeric(states) &&
+    length(states) == 1L &&
+    is.finite(states) &&
+    states == floor(states) &&
+    states == 2L
+
+  if (!ok_states) {
+    stop(
+      "bivariate functions currently support states = 2 only.",
+      call. = FALSE
+    )
+  }
+
+  2L
+}
+
+
+# Validate that all bivariate chains are numeric.
+.validate_bivariate_chain_types <- function(chains) {
+  is_num <- vapply(chains, is.numeric, logical(1))
+
+  if (!all(is_num)) {
+    stop("chain values must be numeric integers in {1, 2}.", call. = FALSE)
+  }
+
+  invisible(chains)
+}
+
+
+# Validate that bivariate chains do not contain missing values.
+.validate_bivariate_chain_missing <- function(chains) {
+  has_na <- vapply(chains, anyNA, logical(1))
+
+  if (any(has_na)) {
+    stop("bivariate chains must not contain NA.", call. = FALSE)
+  }
+
+  invisible(chains)
+}
+
+
+# Validate that bivariate chains contain finite numeric values.
+.validate_bivariate_chain_finite <- function(chains) {
+  finite <- vapply(
+    chains,
+    function(x) all(is.finite(x)),
+    logical(1)
+  )
+
+  if (!all(finite)) {
+    stop(
+      "bivariate chains must contain finite integer-coded states.",
+      call. = FALSE
+    )
+  }
+
+  invisible(chains)
+}
+
+
+# Validate that all bivariate chains have a common usable length.
+.validate_bivariate_chain_lengths <- function(chains) {
+  lengths <- vapply(chains, length, integer(1))
+
+  if (length(unique(lengths)) != 1L) {
+    stop("chains must have the same length.", call. = FALSE)
+  }
+
+  n <- lengths[[1L]]
+
+  if (n < 2L) {
+    stop("bivariate chains must have length >= 2.", call. = FALSE)
+  }
+
+  n
+}
+
+
+# Validate that bivariate chains use integer-coded states in {1, 2}.
+.validate_bivariate_chain_values <- function(chains) {
+  bad_chain <- function(x) {
+    any(x != as.integer(x)) || any(x < 1L | x > 2L)
+  }
+
+  bad <- vapply(chains, bad_chain, logical(1))
+
+  if (any(bad)) {
+    stop(
+      "with states = 2, chain values must be integers in {1, 2}.",
+      call. = FALSE
+    )
+  }
+
+  invisible(chains)
+}
+
+
 #' Empirical transition counts for bivariate dyadic sequences
 #'
 #' Computes empirical transition counts for bivariate categorical dyadic
@@ -25,68 +125,33 @@
 #' chainSM_V1 <- c(2L, 1L, 2L, 1L, 1L, 2L)
 #' chainFM_V2 <- c(1L, 1L, 2L, 2L, 1L, 2L)
 #' chainSM_V2 <- c(2L, 2L, 1L, 1L, 2L, 1L)
-#' emp <- countEmpBivariate(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2, states = 2L)
+#' emp <- countEmpBivariate(
+#'   chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2,
+#'   states = 2L
+#' )
 #' dim(emp)
 #' @export
-countEmpBivariate <- function(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2, states = 2L) {
+countEmpBivariate <- function(
+  chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2,
+  states = 2L
+) {
 
-  # Bivariate theory currently implemented for states = 2 only
-  ok_states <- !missing(states) &&
-    is.numeric(states) &&
-    length(states) == 1L &&
-    is.finite(states) &&
-    states == floor(states) &&
-    states == 2L
+  states <- .validate_bivariate_states(states)
 
-  if (!ok_states) {
-    stop("bivariate functions currently support states = 2 only.", call. = FALSE)
-  }
+  chains <- list(
+    chainFM_V1 = chainFM_V1,
+    chainSM_V1 = chainSM_V1,
+    chainFM_V2 = chainFM_V2,
+    chainSM_V2 = chainSM_V2
+  )
 
-  states <- 2L
+  .validate_bivariate_chain_types(chains)
+  .validate_bivariate_chain_missing(chains)
+  .validate_bivariate_chain_finite(chains)
 
-  # Chain values must be numeric before integer/range checks
-  if (!is.numeric(chainFM_V1) || !is.numeric(chainSM_V1) ||
-      !is.numeric(chainFM_V2) || !is.numeric(chainSM_V2)) {
-    stop("chain values must be numeric integers in {1, 2}.", call. = FALSE)
-  }
+  n <- .validate_bivariate_chain_lengths(chains)
 
-  # No missing values allowed
-  if (anyNA(chainFM_V1) || anyNA(chainSM_V1) ||
-      anyNA(chainFM_V2) || anyNA(chainSM_V2)) {
-    stop("bivariate chains must not contain NA.", call. = FALSE)
-  }
-
-  # No undefined numeric values allowed
-  if (any(!is.finite(c(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2)))) {
-    stop("bivariate chains must contain finite integer-coded states.", call. = FALSE)
-  }
-
-  # All four sequences must have the same length and allow at least one transition
-  n <- length(chainFM_V1)
-
-  if (n != length(chainSM_V1) ||
-      n != length(chainFM_V2) ||
-      n != length(chainSM_V2)) {
-    stop("chains must have the same length.", call. = FALSE)
-  }
-
-  if (n < 2L) {
-    stop("bivariate chains must have length >= 2.", call. = FALSE)
-  }
-
-  # With states = 2, values must be in {1, 2} and integer-like
-  bad <- any(chainFM_V1 != as.integer(chainFM_V1)) ||
-    any(chainSM_V1 != as.integer(chainSM_V1)) ||
-    any(chainFM_V2 != as.integer(chainFM_V2)) ||
-    any(chainSM_V2 != as.integer(chainSM_V2)) ||
-    any(chainFM_V1 < 1L | chainFM_V1 > 2L) ||
-    any(chainSM_V1 < 1L | chainSM_V1 > 2L) ||
-    any(chainFM_V2 < 1L | chainFM_V2 > 2L) ||
-    any(chainSM_V2 < 1L | chainSM_V2 > 2L)
-
-  if (bad) {
-    stop("with states = 2, chain values must be integers in {1, 2}.", call. = FALSE)
-  }
+  .validate_bivariate_chain_values(chains)
 
   # Number of transitions and next FM state for variable 1 (columns)
   chainCount <- n - 1L
@@ -139,7 +204,10 @@ countEmpBivariate <- function(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2, st
 #' chainSM_V1 <- c(2L, 1L, 2L, 1L, 1L, 2L)
 #' chainFM_V2 <- c(1L, 1L, 2L, 2L, 1L, 2L)
 #' chainSM_V2 <- c(2L, 2L, 1L, 1L, 2L, 1L)
-#' emp <- countEmpBivariate(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2, states = 2L)
+#' emp <- countEmpBivariate(
+#'   chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2,
+#'   states = 2L
+#' )
 #' bivariateCase(emp, alpha = 0.05)
 #' @export
 bivariateCase <- function(empirical, alpha = 0.05) {
@@ -203,7 +271,10 @@ bivariateCase <- function(empirical, alpha = 0.05) {
 #' chainSM_V1 <- c(2L, 1L, 2L, 1L, 1L, 2L)
 #' chainFM_V2 <- c(1L, 1L, 2L, 2L, 1L, 2L)
 #' chainSM_V2 <- c(2L, 2L, 1L, 1L, 2L, 1L)
-#' emp <- countEmpBivariate(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2, states = 2L)
+#' emp <- countEmpBivariate(
+#'   chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2,
+#'   states = 2L
+#' )
 #' partialPattern(emp)
 #' @export
 partialPattern <- function(empirical) {
@@ -275,7 +346,10 @@ partialPattern <- function(empirical) {
 #' chainSM_V1 <- c(2L, 1L, 2L, 1L, 1L, 2L)
 #' chainFM_V2 <- c(1L, 1L, 2L, 2L, 1L, 2L)
 #' chainSM_V2 <- c(2L, 2L, 1L, 1L, 2L, 1L)
-#' emp <- countEmpBivariate(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2, states = 2L)
+#' emp <- countEmpBivariate(
+#'   chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2,
+#'   states = 2L
+#' )
 #' completePattern(emp)
 #' @export
 completePattern <- function(empirical) {

@@ -18,13 +18,13 @@ print.dyadic_pattern <- function(x, ...) {
   .cat_line("Dyadic interaction pattern")
 
   if ("pattern" %in% names(x)) {
-    .cat_line("Pattern: ", paste(x[["pattern"]], collapse = ", "))
+    .cat_line("Pattern: ", paste0(x[["pattern"]], collapse = ", "))
   }
   if ("alpha" %in% names(x)) {
-    .cat_line("Alpha: ", paste(x[["alpha"]], collapse = ", "))
+    .cat_line("Alpha: ", paste0(x[["alpha"]], collapse = ", "))
   }
   if ("states" %in% names(x)) {
-    .cat_line("States: ", paste(x[["states"]], collapse = ", "))
+    .cat_line("States: ", paste0(x[["states"]], collapse = ", "))
   }
 
   invisible(x)
@@ -37,10 +37,10 @@ print.dyadic_case <- function(x, ...) {
   .cat_line("Bivariate dyadic case")
 
   if ("case" %in% names(x)) {
-    .cat_line("Case: ", paste(x[["case"]], collapse = ", "))
+    .cat_line("Case: ", paste0(x[["case"]], collapse = ", "))
   }
   if ("alpha" %in% names(x)) {
-    .cat_line("Alpha: ", paste(x[["alpha"]], collapse = ", "))
+    .cat_line("Alpha: ", paste0(x[["alpha"]], collapse = ", "))
   }
 
   invisible(x)

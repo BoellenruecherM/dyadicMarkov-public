@@ -6,8 +6,8 @@ test_that("countEmp returns expected shape and nonnegative counts", {
 
   expect_true(is.matrix(emp))
   expect_true(all(emp >= 0))
-  expect_equal(ncol(emp), 2L)
-  expect_equal(nrow(emp), 2L^2)
+  expect_identical(ncol(emp), 2L)
+  expect_identical(nrow(emp), 4L)
 })
 
 test_that("mleEstimation returns valid probabilities", {
@@ -51,8 +51,8 @@ test_that("bivariate pipeline runs for states=2 (exported API only)", {
   )
 
   expect_true(is.matrix(emp))
-  expect_equal(ncol(emp), states)
-  expect_equal(nrow(emp), states^4)
+  expect_identical(ncol(emp), states)
+  expect_identical(nrow(emp), as.integer(states^4))
 
   res_case <- dyadicMarkov::bivariateCase(empirical = emp, alpha = 0.05)
   expect_true(is.list(res_case))

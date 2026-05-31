@@ -14,9 +14,9 @@ GitHub Actions:
 
 Win-Builder:
 
-- R-release
-- R-oldrelease
-- R-devel
+- R-release: Status OK
+- R-oldrelease: Status OK
+- R-devel: Status OK
 
 ## R CMD check results
 

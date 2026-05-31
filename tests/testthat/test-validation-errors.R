@@ -104,6 +104,15 @@ test_that("bivariate validation errors are explicit", {
 
   expect_error(
     dyadicMarkov::countEmpBivariate(
+      c("1", "2"), c(1L, 2L), c(1L, 2L), c(1L, 2L),
+      states = 2L
+    ),
+    "chain values must be numeric integers in {1, 2}.",
+    fixed = TRUE
+  )
+
+  expect_error(
+    dyadicMarkov::countEmpBivariate(
       c(1L, Inf), c(1L, 2L), c(1L, 2L), c(1L, 2L), states = 2L
     ),
     "bivariate chains must contain finite integer-coded states.",
@@ -151,7 +160,7 @@ test_that("all-identical valid chains produce expected counts and probabilities"
   expected_counts <- matrix(0L, nrow = 4L, ncol = 2L)
   expected_counts[1L, 1L] <- 4L
 
-  expect_equal(unclass(counts), expected_counts)
+  expect_identical(unclass(counts), expected_counts)
 
   probs <- dyadicMarkov::mleEstimation(counts)
 

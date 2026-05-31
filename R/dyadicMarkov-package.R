@@ -1,4 +1,5 @@
-#' dyadicMarkov: Pattern Identification for Dyadic Sequences Using Transition Matrices
+#' dyadicMarkov: Pattern Identification for Dyadic Sequences Using
+#' Transition Matrices
 #'
 #' The dyadicMarkov package provides tools for analyzing categorical dyadic
 #' sequences using transition matrices. It supports the computation of empirical
@@ -15,8 +16,10 @@
 #' A dyadic sequence records the categorical states of two interacting
 #' individuals over time. Empirical transition counts summarize transitions from
 #' previous dyadic states to subsequent states of the first member. Transition
-#' probabilities are estimated by normalizing each row of the empirical transition
-#' count matrix. Patterns of interaction are identified by comparing unrestricted and
+#' probabilities are estimated by normalizing each row of the empirical
+#' transition
+#' count matrix. Patterns of interaction are identified by comparing
+#' unrestricted and
 #' restricted transition structures based on actor and partner effects.
 #'
 #' @section Lifecycle statement:

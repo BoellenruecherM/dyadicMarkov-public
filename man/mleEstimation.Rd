@@ -10,7 +10,8 @@ mleEstimation(empirical)
 \item{empirical}{An empirical count matrix.}
 }
 \value{
-A numeric matrix with class \code{c("dyadic_mle", "matrix", "array")}
+A numeric matrix with class
+\code{c("dyadic_mle", "matrix", "array")}
 containing estimated transition probabilities with the same dimensions as
 \code{empirical}. It remains usable as an ordinary matrix.
 }

@@ -35,6 +35,9 @@ chainFM_V1 <- c(1L, 2L, 1L, 2L, 2L, 1L)
 chainSM_V1 <- c(2L, 1L, 2L, 1L, 1L, 2L)
 chainFM_V2 <- c(1L, 1L, 2L, 2L, 1L, 2L)
 chainSM_V2 <- c(2L, 2L, 1L, 1L, 2L, 1L)
-emp <- countEmpBivariate(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2, states = 2L)
+emp <- countEmpBivariate(
+  chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2,
+  states = 2L
+)
 bivariateCase(emp, alpha = 0.05)
 }

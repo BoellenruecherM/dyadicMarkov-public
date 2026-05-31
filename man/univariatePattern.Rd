@@ -24,7 +24,8 @@ A list with class \code{c("dyadic_pattern", "list")} containing two
 }
 \description{
 Computes empirical transition counts, estimates transition probabilities by
-maximum likelihood, and performs likelihood-ratio tests against the actor-only
+maximum likelihood, and performs likelihood-ratio tests against the
+actor-only
 and partner-only constrained models to identify the univariate pattern of
 interaction.
 }
