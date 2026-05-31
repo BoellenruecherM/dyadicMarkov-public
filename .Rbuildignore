@@ -29,3 +29,4 @@
 ^tests/testthat/test-legacy-chapter2\.R$
 ^tests/testthat/test-legacy-chapter3\.R$
 ^README_TESTING\.md$
+^CONTRIBUTING[.]md$
