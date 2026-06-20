@@ -57,7 +57,7 @@ articles:
 
 home:
   sidebar:
-    structure: [links, license, citation, authors, runiverse]
+    structure: [links, license, community, citation, authors, runiverse]
     components:
       runiverse:
         title: R-universe
