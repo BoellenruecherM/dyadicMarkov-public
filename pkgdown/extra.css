@@ -48,7 +48,7 @@ max-width: 185px !important;
 
 /* Keep homepage overview readable without making it too narrow */
 .template-home h2#overview + p {
-  padding-right: 120px !important;
+  padding-right: 70px !important;;
 }
 
 /* ============================================================
