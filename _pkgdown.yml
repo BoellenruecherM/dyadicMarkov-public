@@ -63,3 +63,6 @@ home:
         title: R-universe
         text: |
           [![r-universe](https://boellenruecherm.r-universe.dev/badges/dyadicMarkov)](https://boellenruecherm.r-universe.dev/dyadicMarkov)
+authors:
+  sidebar:
+    after: "[More about authors...](authors.html)"
