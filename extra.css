@@ -84,6 +84,7 @@ height: auto !important;
 }
 
 /* Hide redundant full-license link in pkgdown sidebar */
-aside .license p:first-of-type {
+aside li:has(a[href="LICENSE.html"]),
+aside li:has(a[href$="/LICENSE.html"]) {
   display: none !important;
 }
