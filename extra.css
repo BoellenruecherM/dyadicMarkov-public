@@ -46,9 +46,9 @@ width: 185px !important;
 max-width: 185px !important;
 }
 
-/* Prevent homepage overview text from running underneath the large logo */
+/* Keep homepage overview readable without making it too narrow */
 .template-home h2#overview + p {
-padding-right: 220px !important;
+  padding-right: 120px !important;
 }
 
 /* ============================================================
