@@ -43,9 +43,9 @@
 /* Homepage logo: larger than other pages, but lifted above the content */
 .template-home .page-header img.logo,
 .template-home .page-header img[src*="logo"] {
-  top: -1.35rem !important;
-  width: 190px !important;
-  max-width: 190px !important;
+  top: -2.8rem !important;
+  width: 185px !important;
+  max-width: 185px !important;
 }
 
 
