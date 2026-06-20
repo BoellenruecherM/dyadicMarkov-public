@@ -85,19 +85,19 @@ Cambridge University Press.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://boellenruecherm.github.io/dyadicMarkov-public/}
   \item \url{https://github.com/BoellenruecherM/dyadicMarkov-public}
+  \item \url{https://boellenruecherm.github.io/dyadicMarkov-public/}
   \item Report bugs at \url{https://github.com/BoellenruecherM/dyadicMarkov-public/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Mattia Böllenrücher \email{mattia.boellenruecher@student.unisg.ch} [copyright holder]
+\strong{Maintainer}: Mattia Böllenrücher \email{mattia.boellenruecher@student.unisg.ch} (\href{https://orcid.org/0009-0004-4149-4745}{ORCID}) [copyright holder]
 
 Authors:
 \itemize{
-  \item Mégane Bollenrücher
-  \item Jean-Philippe Antonietti
+  \item Mégane Bollenrücher (\href{https://orcid.org/0000-0002-9035-8799}{ORCID})
+  \item Jean-Philippe Antonietti (\href{https://orcid.org/0000-0003-0117-4769}{ORCID})
 }
 
 }
