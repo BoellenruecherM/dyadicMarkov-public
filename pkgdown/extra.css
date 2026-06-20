@@ -1,83 +1,84 @@
 /* ============================================================
-   General pkgdown page header control
-   ============================================================ */
+General pkgdown page header control
+============================================================ */
 
 .page-header {
-  position: relative !important;
-  border-bottom: 1px solid #dee2e6 !important;
-  padding-bottom: 0.35rem !important;
-  margin-bottom: 1.25rem !important;
+position: relative !important;
+border-bottom: 1px solid #dee2e6 !important;
+padding-bottom: 0.25rem !important;
+margin-bottom: 1.15rem !important;
 }
 
-/* Do not let the logo determine the vertical height of the header */
+/* Logo should not push the horizontal line downward */
 .page-header img.logo,
 .page-header img[src*="logo"] {
-  position: absolute !important;
-  right: 1rem !important;
-  height: auto !important;
-  max-height: none !important;
+position: absolute !important;
+right: 0.25rem !important;
+height: auto !important;
+max-height: none !important;
 }
 
-/* Leave space on the right so title/source text does not collide with logo */
+/* Leave room for the logo inside the header */
 .page-header h1,
 .page-header p {
-  padding-right: 190px !important;
+padding-right: 190px !important;
 }
 
-
 /* ============================================================
-   Homepage
-   ============================================================ */
+Homepage
+============================================================ */
 
 .template-home .page-header {
-  min-height: 64px !important;
-  padding-bottom: 0.25rem !important;
-  margin-bottom: 1rem !important;
+min-height: 56px !important;
+padding-bottom: 0.15rem !important;
+margin-bottom: 1rem !important;
 }
 
-/* Homepage title */
 .template-home .page-header h1 {
-  margin-bottom: 0 !important;
+margin-bottom: 0 !important;
 }
 
-/* Homepage logo: larger than other pages, but lifted above the content */
+/* Homepage logo: larger than other pages */
 .template-home .page-header img.logo,
 .template-home .page-header img[src*="logo"] {
-  top: -2.8rem !important;
-  width: 185px !important;
-  max-width: 185px !important;
+top: -2.6rem !important;
+width: 185px !important;
+max-width: 185px !important;
 }
 
+/* Prevent homepage overview text from running underneath the large logo */
+.template-home h2#overview + p {
+padding-right: 220px !important;
+}
 
 /* ============================================================
-   Reference / article / other pages
-   ============================================================ */
+Reference / article / other pages
+============================================================ */
 
 body:not(.template-home) .page-header {
-  min-height: 58px !important;
-  padding-bottom: 0.25rem !important;
-  margin-bottom: 1.15rem !important;
+min-height: 58px !important;
+padding-bottom: 0.2rem !important;
+margin-bottom: 1.1rem !important;
 }
 
-/* Non-homepage logo: keep it smaller than homepage, but visible */
+/* Non-homepage logo: smaller than homepage, but still visible */
 body:not(.template-home) .page-header img.logo,
 body:not(.template-home) .page-header img[src*="logo"] {
-  top: -0.45rem !important;
-  width: 145px !important;
-  max-width: 145px !important;
+top: -0.45rem !important;
+width: 145px !important;
+max-width: 145px !important;
 }
 
-
 /* ============================================================
-   Navbar logo, if pkgdown ever uses one there
-   ============================================================ */
+Navbar logo, if pkgdown ever uses one there
+============================================================ */
 
 .navbar img.logo,
 .navbar img[src*="logo"],
 .navbar-brand img.logo,
 .navbar-brand img[src*="logo"] {
-  position: static !important;
-  width: 36px !important;
-  max-height: 36px !important;
-  height: auto !important;
+position: static !important;
+width: 36px !important;
+max-height: 36px !important;
+height: auto !important;
 }
