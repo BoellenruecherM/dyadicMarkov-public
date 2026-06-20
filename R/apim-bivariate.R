@@ -1,3 +1,30 @@
+#' Construct bivariate dyadic transition dimnames
+#'
+#' Internal helper used for bivariate empirical count matrices.
+#'
+#' @param states Number of categorical states.
+#'
+#' @return A list suitable for use as matrix dimnames.
+#' @noRd
+.dyadic_bivariate_dimnames <- function(states) {
+  grid <- expand.grid(
+    second_partner = seq_len(states),
+    second_focal = seq_len(states),
+    main_partner = seq_len(states),
+    main_focal = seq_len(states)
+  )
+
+  rows <- paste0(
+    "mainF", grid$main_focal,
+    "_mainP", grid$main_partner,
+    "_secondF", grid$second_focal,
+    "_secondP", grid$second_partner
+  )
+
+  list(rows, paste0("next_", seq_len(states)))
+}
+
+
 # Validate that bivariate counting currently uses binary states.
 .validate_bivariate_states <- function(states) {
   ok_states <- !missing(states) &&
@@ -175,6 +202,7 @@ countEmpBivariate <- function(
 
   tab <- tabulate(idx, nbins = nrow_out * states)
   count <- matrix(tab, nrow = nrow_out, ncol = states)
+  dimnames(count) <- .dyadic_bivariate_dimnames(states)
 
   class(count) <- c("dyadic_counts", "matrix", "array")
   count
@@ -188,6 +216,8 @@ countEmpBivariate <- function(
 #' against constrained bivariate structures.
 #'
 #' @param empirical An empirical bivariate count matrix with 16 rows and 2
+#' @srrstats {EA3.1} The package provides standardized comparison of restricted univariate and bivariate transition structures that would otherwise require manual construction of theoretical transition matrices and separate test statistics.
+#' @srrstats {EA3.0} The package automates extraction and reporting of dyadic transition counts, MLE transition probabilities, likelihood-ratio comparisons, AIC comparisons, and selected interaction patterns.
 #'   columns, as returned by \code{\link{countEmpBivariate}}.
 #' @param alpha A single number in (0, 1) giving the significance level.
 #'   Default is 0.05.

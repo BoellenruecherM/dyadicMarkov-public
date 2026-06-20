@@ -21,7 +21,7 @@ test_that("mleEstimation recovers known transition probabilities within toleranc
 
   recovered <- dyadicMarkov::mleEstimation(empirical)
 
-  expect_equal(unclass(recovered), expected, tolerance = 1e-12)
+  expect_equal(unname(unclass(recovered)), expected, tolerance = 1e-12)
   expect_true(all(is.finite(recovered)))
   expect_true(all(abs(rowSums(recovered) - 1) < 1e-12))
 })

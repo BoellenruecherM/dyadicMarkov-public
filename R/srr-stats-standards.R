@@ -56,5 +56,22 @@ NULL
 #' @srrstatsNA {G5.0} Not applicable because no external standard reference data set exists for the package specific dyadic categorical transition matrix methods implemented in dyadicMarkov; correctness is instead tested using hand constructed data with known properties.
 #' @srrstatsNA {G5.4b} Not applicable because dyadicMarkov is not a new implementation of an existing external software method; the package implements a package specific dyadic transition matrix workflow.
 #' @srrstatsNA {G5.4c} Not applicable because the shipped correctness tests use hand computed expected values and exported example data rather than relying on external published output snapshots.
+#' @srrstatsNA {EA2.0} dyadicMarkov does not accept standard tabular data requiring extensive filtering or joins, so an index column system is not applicable.
+#' @srrstatsNA {EA2.1} Not applicable because dyadicMarkov does not use index columns for table filtering or joining operations.
+#' @srrstatsNA {EA2.2} Not applicable because dyadicMarkov does not use index columns or table join workflows.
+#' @srrstatsNA {EA2.2a} Not applicable because no index-column class system is used or required.
+#' @srrstatsNA {EA2.2b} Not applicable because no index-column attribute is used or required.
+#' @srrstatsNA {EA2.3} dyadicMarkov does not perform table join operations.
+#' @srrstatsNA {EA2.4} dyadicMarkov does not accept multi-tabular input.
+#' @srrstatsNA {EA2.5} Not applicable because dyadicMarkov does not accept multi-tabular input or use index columns.
+#' @srrstatsNA {EA5.0} dyadicMarkov does not currently implement graphical output functions as part of the package API.
+#' @srrstatsNA {EA5.0a} Not applicable because dyadicMarkov does not currently implement graphical output functions.
+#' @srrstatsNA {EA5.0b} Not applicable because dyadicMarkov does not currently implement graphical output functions or default colour schemes.
+#' @srrstatsNA {EA5.1} Not applicable because dyadicMarkov does not specify typefaces in graphical output.
+#' @srrstatsNA {EA5.4} Not applicable because dyadicMarkov does not currently implement graphical output functions.
+#' @srrstatsNA {EA5.5} Not applicable because dyadicMarkov does not currently implement graphical output functions with axes or units.
+#' @srrstatsNA {EA5.6} Not applicable because dyadicMarkov does not bundle dynamic visualization libraries.
+#' @srrstatsNA {EA6.0d} dyadicMarkov does not return data.frame-type tabular objects as primary statistical outputs.
+#' @srrstatsNA {EA6.1} Not applicable because dyadicMarkov does not currently implement graphical output functions.
 #' @noRd
 NULL

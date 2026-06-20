@@ -1,0 +1,56 @@
+url: https://boellenruecherm.github.io/dyadicMarkov-public/
+
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [github]
+  components:
+    intro:
+      text: Get started
+      href: articles/dyadicMarkov-introduction.html
+    articles:
+      text: Articles
+      menu:
+      - text: Introduction
+        href: articles/dyadicMarkov-introduction.html
+      - text: Univariate workflow
+        href: articles/univariate-workflow.html
+      - text: Bivariate workflow
+        href: articles/bivariate-workflow.html
+    github:
+      icon: fab fa-github
+      href: https://github.com/BoellenruecherM/dyadicMarkov-public
+      aria-label: GitHub
+
+reference:
+- title: Empirical transition matrices
+  contents:
+  - countEmp
+  - countEmpBivariate
+
+- title: Transition probability estimation
+  contents:
+  - mleEstimation
+
+- title: Pattern identification
+  contents:
+  - univariatePattern
+  - bivariateCase
+  - partialPattern
+  - completePattern
+
+- title: Example data
+  contents:
+  - dyadic_univariate_example
+  - dyadic_bivariate_example
+
+articles:
+- title: Articles
+  navbar: ~
+  contents:
+  - dyadicMarkov-introduction
+  - univariate-workflow
+  - bivariate-workflow

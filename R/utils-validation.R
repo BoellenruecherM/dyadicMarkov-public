@@ -21,6 +21,7 @@
 #' @srrstats {G2.4a} The states argument is explicitly validated and converted with as.integer() after checking that it is a single finite integer-like value.
 #' @srrstats {G2.6} One-dimensional chain inputs are pre-processed through validation helpers that check type, length, missingness, integer coding, and supported state ranges before empirical transition counts are computed.
 #' @srrstats {G2.8} The package uses validation and preprocessing routines to ensure that analytical routines receive standardized inputs: integer-coded state vectors for counting functions and numeric empirical transition count matrices for estimation and testing functions.
+#' @srrstats {EA2.6} Validation tests demonstrate that vector inputs are checked for length, missing values, finite integer-coded states, and admissible state ranges before analytic routines are applied.
 #' @noRd
 .validate_alpha <- function(alpha) {
   if (!(is.numeric(alpha) && length(alpha) == 1L &&

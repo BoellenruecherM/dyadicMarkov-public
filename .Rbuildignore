@@ -2,3 +2,10 @@
 ^cran-comments\.md$
 ^CONTRIBUTING\.md$
 ^README\.Rmd$
+^_pkgdown\.yml$
+^pkgdown$
+^docs$
+^\.gitignore$
+^\.gitattributes$
+^.*\.Rproj$
+^\.Rproj\.user$

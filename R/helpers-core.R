@@ -1,3 +1,43 @@
+#' Construct generic dyadic matrix dimnames
+#'
+#' Internal helper used for empirical count and MLE matrices.
+#'
+#' @param nrow Number of matrix rows.
+#' @param ncol Number of matrix columns.
+#'
+#' @return A list suitable for use as matrix dimnames.
+#' @noRd
+.dyadic_generic_dimnames <- function(nrow, ncol) {
+  list(
+    paste0("previous_", seq_len(nrow)),
+    paste0("next_", seq_len(ncol))
+  )
+}
+
+
+#' Construct univariate dyadic transition dimnames
+#'
+#' Internal helper used for univariate empirical count matrices.
+#'
+#' @param states Number of categorical states.
+#'
+#' @return A list suitable for use as matrix dimnames.
+#' @noRd
+.dyadic_univariate_dimnames <- function(states) {
+  rows <- unlist(
+    lapply(
+      seq_len(states),
+      function(focal) {
+        paste0("focal_", focal, "_partner_", seq_len(states))
+      }
+    ),
+    use.names = FALSE
+  )
+
+  list(rows, paste0("next_", seq_len(states)))
+}
+
+
 #' Compute a chi-squared statistic
 #'
 #' Internal helper used to compare empirical and theoretical transition
@@ -79,7 +119,7 @@ countEmp <- function(chainFM, chainSM, states) {
   # count occurrences and reshape to matrix
   tab <- tabulate(idx, nbins = nrow_out * states)
   count <- matrix(tab, nrow = nrow_out, ncol = states)
-  dimnames(count) <- NULL
+  dimnames(count) <- .dyadic_univariate_dimnames(states)
 
   # internal consistency check
   if (sum(count) != n_trans) {
@@ -198,6 +238,14 @@ mleEstimation <- function(empirical) {
   nz <- rs != 0
   if (any(nz)) {
     estimate[nz, ] <- empirical[nz, , drop = FALSE] / rs[nz]
+  }
+
+  dimnames(estimate) <- dimnames(empirical)
+  if (is.null(dimnames(estimate))) {
+    dimnames(estimate) <- .dyadic_generic_dimnames(
+      nrow(estimate),
+      ncol(estimate)
+    )
   }
 
   class(estimate) <- c("dyadic_mle", "matrix", "array")

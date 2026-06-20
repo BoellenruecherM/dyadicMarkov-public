@@ -160,7 +160,8 @@ test_that("all-identical valid chains produce expected counts and probabilities"
   expected_counts <- matrix(0L, nrow = 4L, ncol = 2L)
   expected_counts[1L, 1L] <- 4L
 
-  expect_identical(unclass(counts), expected_counts)
+  expect_identical(unname(unclass(counts)), expected_counts)
+  expect_false(is.null(dimnames(counts)))
 
   probs <- dyadicMarkov::mleEstimation(counts)
 
@@ -174,7 +175,8 @@ test_that("all-identical valid chains produce expected counts and probabilities"
     nrow = 4L, ncol = 2L, byrow = TRUE
   )
 
-  expect_equal(unclass(probs), expected_probs)
+  expect_equal(unname(unclass(probs)), expected_probs)
+  expect_false(is.null(dimnames(probs)))
   expect_true(all(is.finite(probs)))
   expect_true(all(abs(rowSums(probs) - 1) < 1e-10))
 })
