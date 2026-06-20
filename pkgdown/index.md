@@ -36,6 +36,4 @@ Bollenrücher, M., Darwiche, J., & Antonietti, J.-P. (2024).
 The Quantitative Methods for Psychology, 20(1), 17-32.
 DOI: [10.20982/tqmp.20.1.p017](https://doi.org/10.20982/tqmp.20.1.p017)
 
-Bollenrücher, M., Antonietti, J.-P., & Darwiche, J. (2026).
-*Bivariate dyadic patterns in categorical sequences: A Markovian approach within the Longitudinal Actor-Partner Interdependence Model*.
-DOI: [10.23668/psycharchives.22174](https://doi.org/10.23668/psycharchives.22174)
+Böllenrücher, M., Darwiche, J., & Antonietti, J.-P. (in press). *Bivariate dyadic patterns analysis using longitudinal actor-partner interdependence model and Markov chains for single-case* [Author Accepted Manuscript]. Quantitative and Computational Methods in Behavioral Sciences. DOI: [10.23668/psycharchives.22174](https://doi.org/10.23668/psycharchives.22174)
