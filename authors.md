@@ -3,10 +3,12 @@
 ## Authors
 
 - **Mattia Böllenrücher**. Author, maintainer, copyright holder.
+  [](https://orcid.org/0009-0004-4149-4745)
 
 - **Mégane Bollenrücher**. Author.
 
 - **Jean-Philippe Antonietti**. Author.
+  [](https://orcid.org/0000-0003-0117-4769)
 
 ## Citation
 
