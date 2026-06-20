@@ -11,7 +11,7 @@ Authors@R: c(
          comment = c(ORCID = "0000-0003-0117-4769")))
 Description: Provides methods for analyzing categorical dyadic sequences using transition matrices within the Longitudinal Actor-Partner Interdependence Model and Markov-chain framework. The package supports empirical transition counts, maximum likelihood estimation of transition probabilities, and identification of univariate and bivariate patterns of interaction in dyadic sequences.
 License: MIT + file LICENSE
-URL: https://boellenruecherm.github.io/dyadicMarkov-public/, https://github.com/BoellenruecherM/dyadicMarkov-public
+URL: https://github.com/BoellenruecherM/dyadicMarkov-public, https://boellenruecherm.github.io/dyadicMarkov-public/ 
 BugReports: https://github.com/BoellenruecherM/dyadicMarkov-public/issues
 Encoding: UTF-8
 Language: en-US
