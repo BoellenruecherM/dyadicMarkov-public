@@ -1,3 +1,5 @@
+# dyadicMarkov
+
 ## Overview
 
 `dyadicMarkov` provides methods for analyzing categorical dyadic
