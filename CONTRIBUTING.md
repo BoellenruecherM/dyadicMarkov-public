@@ -79,8 +79,6 @@ easier to review and accept.
 
 ## Code of conduct
 
-## Code of conduct
-
 Please note that this project follows the [rOpenSci Code of
 Conduct](https://ropensci.org/code-of-conduct/). By contributing to this
 project, you agree to abide by its terms.
