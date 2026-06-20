@@ -16,10 +16,6 @@ Then load the package with:
 
     library(dyadicMarkov)
 
-The official CRAN page is available here:
-
-<https://cran.r-project.org/package=dyadicMarkov>
-
 ## Methodological background
 
 The methodological foundation of `dyadicMarkov` is based on research on dyadic sequences, the Longitudinal Actor-Partner Interdependence Model, and Markov chains.
