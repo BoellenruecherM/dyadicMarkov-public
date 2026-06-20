@@ -22,6 +22,22 @@ You can install the released version of `dyadicMarkov` from CRAN:
 install.packages("dyadicMarkov")
 ```
 
+You can install the development version from R-universe:
+
+``` R
+install.packages(
+  "dyadicMarkov",
+  repos = c("https://boellenruecherm.r-universe.dev", "https://cloud.r-project.org")
+)
+```
+
+Alternatively, you can install the development version from GitHub:
+
+``` R
+# install.packages("pak")
+pak::pak("BoellenruecherM/dyadicMarkov-public")
+```
+
 Then load the package with:
 
 ``` R
