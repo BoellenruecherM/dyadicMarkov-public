@@ -1,99 +1,70 @@
 /* ============================================================
-   Homepage header
-   Goal:
-   - larger logo on the homepage
-   - horizontal line directly below the title
-   - logo does not push the line downward
+   General pkgdown page header control
    ============================================================ */
 
-.template-home .page-header {
+.page-header {
   position: relative !important;
-  padding-bottom: 0.15rem !important;
-  margin-bottom: 1rem !important;
+  border-bottom: 1px solid #dee2e6 !important;
+  padding-bottom: 0.35rem !important;
+  margin-bottom: 1.25rem !important;
 }
 
-/* Keep the homepage title/header row compact */
-.template-home .page-header .row {
-  position: relative !important;
-  min-height: 64px !important;
-  align-items: flex-start !important;
-}
-
-/* Main title area: leave space on the right for the logo */
-.template-home .page-header .row > div:not(:has(img[src*="logo"])) {
-  max-width: calc(100% - 230px) !important;
-}
-
-/* Homepage logo container: take it out of the normal layout */
-.template-home .page-header .row > div:has(img[src*="logo"]) {
+/* Do not let the logo determine the vertical height of the header */
+.page-header img.logo,
+.page-header img[src*="logo"] {
   position: absolute !important;
-  right: 0 !important;
-  top: -1.1rem !important;
-  width: 220px !important;
-  max-width: 220px !important;
-  padding: 0 !important;
-  text-align: right !important;
-}
-
-/* Homepage logo image */
-.template-home .page-header img[src*="logo"],
-.template-home .page-header img.logo {
-  width: 205px !important;
-  max-width: 205px !important;
+  right: 1rem !important;
   height: auto !important;
   max-height: none !important;
 }
 
-/* Homepage title spacing */
-.template-home .page-header h1 {
-  margin-bottom: 0 !important;
+/* Leave space on the right so title/source text does not collide with logo */
+.page-header h1,
+.page-header p {
+  padding-right: 190px !important;
 }
 
 
 /* ============================================================
-   Non-homepage headers: reference/articles/news
-   Goal:
-   - keep logo at current size
-   - move line upward
-   - logo does not push the line downward
+   Homepage
+   ============================================================ */
+
+.template-home .page-header {
+  min-height: 64px !important;
+  padding-bottom: 0.25rem !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Homepage title */
+.template-home .page-header h1 {
+  margin-bottom: 0 !important;
+}
+
+/* Homepage logo: bigger */
+.template-home .page-header img.logo,
+.template-home .page-header img[src*="logo"] {
+  top: -0.65rem !important;
+  width: 210px !important;
+  max-width: 210px !important;
+}
+
+
+/* ============================================================
+   Reference / article / other pages
    ============================================================ */
 
 body:not(.template-home) .page-header {
-  position: relative !important;
-  padding-bottom: 0.15rem !important;
-  margin-bottom: 1.1rem !important;
+  min-height: 58px !important;
+  padding-bottom: 0.25rem !important;
+  margin-bottom: 1.15rem !important;
 }
 
-/* Compact non-homepage header row */
-body:not(.template-home) .page-header .row {
-  position: relative !important;
-  min-height: 68px !important;
-  align-items: flex-start !important;
-}
-
-/* Leave room for logo on non-home pages */
-body:not(.template-home) .page-header .row > div:not(:has(img[src*="logo"])) {
-  max-width: calc(100% - 170px) !important;
-}
-
-/* Non-homepage logo container */
-body:not(.template-home) .page-header .row > div:has(img[src*="logo"]) {
-  position: absolute !important;
-  right: 0 !important;
-  top: -0.55rem !important;
-  width: 155px !important;
-  max-width: 155px !important;
-  padding: 0 !important;
-  text-align: right !important;
-}
-
-/* Non-homepage logo image */
-body:not(.template-home) .page-header img[src*="logo"],
-body:not(.template-home) .page-header img.logo {
-  width: 135px !important;
-  max-width: 135px !important;
-  height: auto !important;
-  max-height: none !important;
+/* Non-homepage logo: keep it smaller than homepage, but visible */
+body:not(.template-home) .page-header img.logo,
+body:not(.template-home) .page-header img[src*="logo"] {
+  top: -0.45rem !important;
+  width: 145px !important;
+  max-width: 145px !important;
 }
 
 
@@ -101,8 +72,11 @@ body:not(.template-home) .page-header img.logo {
    Navbar logo, if pkgdown ever uses one there
    ============================================================ */
 
+.navbar img.logo,
 .navbar img[src*="logo"],
+.navbar-brand img.logo,
 .navbar-brand img[src*="logo"] {
+  position: static !important;
   width: 36px !important;
   max-height: 36px !important;
   height: auto !important;
