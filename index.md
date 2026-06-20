@@ -4,7 +4,7 @@
 
 `dyadicMarkov` provides methods for analyzing categorical dyadic
 sequences using transition matrices within the Longitudinal
-Actor-Partner Interdependence Model (L-APIM) and Markov-chain framework.
+Actor-Partner Interdependence Model (L‑APIM) and Markov-chain framework.
 The package supports empirical transition counts, maximum likelihood
 estimation of transition probabilities, and identification of univariate
 and bivariate patterns of interaction in dyadic sequences.
