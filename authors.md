@@ -6,6 +6,7 @@
   [](https://orcid.org/0009-0004-4149-4745)
 
 - **Mégane Bollenrücher**. Author.
+  [](https://orcid.org/0000-0002-9035-8799)
 
 - **Jean-Philippe Antonietti**. Author.
   [](https://orcid.org/0000-0003-0117-4769)
