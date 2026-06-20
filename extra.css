@@ -1,0 +1,24 @@
+/* Homepage logo: larger, controlled size */
+.template-home img[src*="logo.png"] {
+  width: 170px !important;
+  max-width: 170px !important;
+  height: auto !important;
+}
+
+/* Reduce vertical space below the homepage title/header */
+.template-home .page-header {
+  padding-bottom: 0.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.template-home .page-header h1 {
+  margin-bottom: 0.25rem !important;
+}
+
+/* Navbar / non-homepage logo: prevent excessive shrinking */
+.navbar img[src*="logo.png"],
+.navbar-brand img[src*="logo.png"] {
+  width: 36px !important;
+  max-height: 36px !important;
+  height: auto !important;
+}
