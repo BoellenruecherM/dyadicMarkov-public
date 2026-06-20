@@ -75,9 +75,9 @@ Methods for the Behavioral Sciences*. Cambridge University Press.
 
 Useful links:
 
-- <https://boellenruecherm.github.io/dyadicMarkov-public/>
-
 - <https://github.com/BoellenruecherM/dyadicMarkov-public>
+
+- <https://boellenruecherm.github.io/dyadicMarkov-public/>
 
 - Report bugs at
   <https://github.com/BoellenruecherM/dyadicMarkov-public/issues>
@@ -85,10 +85,12 @@ Useful links:
 ## Author
 
 **Maintainer**: Mattia Böllenrücher
-<mattia.boellenruecher@student.unisg.ch> \[copyright holder\]
+<mattia.boellenruecher@student.unisg.ch>
+([ORCID](https://orcid.org/0009-0004-4149-4745)) \[copyright holder\]
 
 Authors:
 
-- Mégane Bollenrücher
+- Mégane Bollenrücher ([ORCID](https://orcid.org/0000-0002-9035-8799))
 
 - Jean-Philippe Antonietti
+  ([ORCID](https://orcid.org/0000-0003-0117-4769))
