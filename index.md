@@ -28,10 +28,6 @@ Then load the package with:
 library(dyadicMarkov)
 ```
 
-The official CRAN page is available here:
-
-<https://cran.r-project.org/package=dyadicMarkov>
-
 ## Methodological background
 
 The methodological foundation of `dyadicMarkov` is based on research on
