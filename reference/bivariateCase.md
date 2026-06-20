@@ -14,7 +14,9 @@ bivariateCase(empirical, alpha = 0.05)
 
 - empirical:
 
-  An empirical bivariate count matrix with 16 rows and 2
+  An empirical bivariate count matrix with 16 rows and 2 columns, as
+  returned by
+  [`countEmpBivariate`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/countEmpBivariate.md).
 
 - alpha:
 
