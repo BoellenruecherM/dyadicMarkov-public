@@ -47,3 +47,8 @@ The Quantitative Methods for Psychology, 20(1), 17-32.
 DOI: [10.20982/tqmp.20.1.p017](https://doi.org/10.20982/tqmp.20.1.p017)
 
 Böllenrücher, M., Darwiche, J., & Antonietti, J.-P. (in press). *Bivariate dyadic patterns analysis using longitudinal actor-partner interdependence model and Markov chains for single-case* [Author Accepted Manuscript]. Quantitative and Computational Methods in Behavioral Sciences. DOI: [10.23668/psycharchives.22174](https://doi.org/10.23668/psycharchives.22174)
+
+---
+
+Please note that this project follows the [rOpenSci Code of Conduct](https://ropensci.org/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
+
