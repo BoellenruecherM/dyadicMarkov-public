@@ -54,3 +54,12 @@ articles:
   - dyadicMarkov-introduction
   - univariate-workflow
   - bivariate-workflow
+
+home:
+  sidebar:
+    structure: [links, license, citation, authors, runiverse]
+    components:
+      runiverse:
+        title: R-universe
+        text: |
+          [![r-universe](https://boellenruecherm.r-universe.dev/badges/dyadicMarkov)](https://boellenruecherm.r-universe.dev/dyadicMarkov)
