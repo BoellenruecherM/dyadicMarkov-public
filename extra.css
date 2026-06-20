@@ -1,27 +1,27 @@
-/* Homepage header: compact title area with floating logo */
+/* Homepage header: compact title area, with independent floating logo */
 .template-home .page-header {
   position: relative !important;
-  padding-bottom: 0.4rem !important;
+  padding-bottom: 0.25rem !important;
   margin-bottom: 1rem !important;
-  min-height: 78px !important;
+  min-height: 58px !important;
 }
 
 /* Homepage title spacing */
 .template-home .page-header h1 {
-  margin-bottom: 0.1rem !important;
+  margin-bottom: 0 !important;
 }
 
-/* Homepage logo */
+/* Homepage logo: larger than on other pages */
 .template-home .page-header img[src*="logo.png"] {
   position: absolute !important;
   right: 1rem !important;
-  top: -0.2rem !important;
-  width: 160px !important;
-  max-width: 160px !important;
+  top: -0.4rem !important;
+  width: 185px !important;
+  max-width: 185px !important;
   height: auto !important;
 }
 
-/* Logo on article/reference pages: larger than before, smaller than homepage */
+/* Logo on article/reference pages: keep current size */
 body:not(.template-home) .page-header img[src*="logo.png"] {
   width: 135px !important;
   max-width: 135px !important;
