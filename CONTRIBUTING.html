@@ -38,27 +38,60 @@
 
 <div id="contributing-to-dyadicmarkov" class="section level1">
 
-<p>Thank you for your interest in contributing to dyadicMarkov.</p>
+<p>Thank you for your interest in contributing to <code>dyadicMarkov</code>.</p>
+<p><code>dyadicMarkov</code> is an R package for identifying interaction patterns in categorical dyadic sequences using transition matrices. Contributions are welcome, including bug reports, documentation improvements, examples, tests, and carefully discussed feature proposals.</p>
 <div class="section level2">
 <h2 id="reporting-issues">Reporting issues<a class="anchor" aria-label="anchor" href="#reporting-issues"></a></h2>
 <p>Please report bugs, documentation issues, or feature requests through the GitHub issue tracker:</p>
 <p><a href="https://github.com/BoellenruecherM/dyadicMarkov-public/issues" class="external-link uri">https://github.com/BoellenruecherM/dyadicMarkov-public/issues</a></p>
-<p>When reporting a bug, please include a minimal reproducible example, the expected result, the observed result, and your R session information.</p>
+<p>When reporting a bug, please include:</p>
+<ul><li>a minimal reproducible example;</li>
+<li>the expected result;</li>
+<li>the observed result;</li>
+<li>the version of <code>dyadicMarkov</code> you are using;</li>
+<li>your R session information, for example from <code><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo()</a></code>.</li>
+</ul><p>For questions about possible extensions or larger changes, please open an issue before starting substantial work. This helps avoid duplicate work and makes sure the proposed change fits the scope of the package.</p>
+</div>
+<div class="section level2">
+<h2 id="fixing-typos-and-documentation">Fixing typos and documentation<a class="anchor" aria-label="anchor" href="#fixing-typos-and-documentation"></a></h2>
+<p>Small documentation fixes, typo corrections, and improvements to examples are very welcome.</p>
+<p>If you edit function documentation, please edit the source <code>.R</code> file containing the roxygen2 comments rather than the generated <code>.Rd</code> file. The <code>.Rd</code> files are generated from the roxygen2 documentation.</p>
 </div>
 <div class="section level2">
 <h2 id="pull-requests">Pull requests<a class="anchor" aria-label="anchor" href="#pull-requests"></a></h2>
-<p>Pull requests are welcome. Before submitting a pull request, please open an issue to discuss substantial changes.</p>
-<p>Please make sure that:</p>
+<p>Pull requests are welcome. For substantial changes, please open an issue first to discuss the proposed contribution.</p>
+<p>A typical contribution workflow is:</p>
+<ol style="list-style-type: decimal"><li>Fork the repository.</li>
+<li>Clone your fork locally.</li>
+<li>Create a new branch for your change.</li>
+<li>Make your changes.</li>
+<li>Add or update tests when package behavior changes.</li>
+<li>Update documentation when user-facing behavior changes.</li>
+<li>Run the package checks locally.</li>
+<li>Submit a pull request.</li>
+</ol><p>Before submitting a pull request, please make sure that:</p>
 <ul><li>the package can be installed successfully;</li>
 <li>
 <code>devtools::test()</code> passes;</li>
 <li>
 <code>devtools::check()</code> passes without errors, warnings, or notes;</li>
-<li>new functionality is documented and tested.</li>
+<li>new functionality is documented;</li>
+<li>new functionality is covered by tests where appropriate;</li>
+<li>user-facing changes are mentioned in <code>NEWS.md</code>.</li>
 </ul></div>
 <div class="section level2">
+<h2 id="code-style">Code style<a class="anchor" aria-label="anchor" href="#code-style"></a></h2>
+<p>Please follow the general tidyverse style guide for R code. In particular:</p>
+<ul><li>use clear and descriptive object names;</li>
+<li>use <code>snake_case</code> for function and variable names;</li>
+<li>avoid unnecessary changes to unrelated files;</li>
+<li>avoid restyling code that is not part of the pull request.</li>
+</ul><p>The package uses roxygen2 with Markdown syntax for documentation and testthat for unit tests.</p>
+<p>Contributions that include clear documentation and relevant tests are easier to review and accept.</p>
+</div>
+<div class="section level2">
 <h2 id="code-of-conduct">Code of conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a></h2>
-<p>Contributors are expected to communicate respectfully and constructively.</p>
+<p>Please note that the <code>dyadicMarkov</code> project is released with a Contributor Code of Conduct. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
 
