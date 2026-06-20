@@ -2,53 +2,53 @@
 
 Local checks:
 
-- Windows 11 x64, R 4.5.2
+* Windows 11 x64, R 4.5.2
 
-GitHub Actions:
+Local final tarball check:
 
-- macOS latest, R-release
-- Windows latest, R-release
-- Ubuntu latest, R-devel
-- Ubuntu latest, R-release
-- Ubuntu latest, R-oldrel-1
+* Windows 11 x64, R 4.5.2, R CMD check --no-manual --as-cran dyadicMarkov_0.1.1.tar.gz: Status OK
 
 Win-Builder:
 
-- R-release: Status OK
-- R-oldrelease: Status OK
-- R-devel: Status OK
+* R-release, R 4.6.0: Status OK
+* R-oldrelease, R 4.5.3: Status OK
+* R-devel, R Under development: Status OK
+
+R-hub / GitHub Actions:
+
+* Linux, R-devel: Status OK
+* Windows, R-devel: Status OK
 
 ## R CMD check results
 
-Local `devtools::check(clean = TRUE, manual = TRUE, args = "--as-cran")`:
+Local devtools::check using --as-cran and compact vignettes:
 
-- 0 errors
-- 0 warnings
-- 0 notes
+* 0 errors
+* 0 warnings
+* 0 notes
 
-Local `devtools::check_built(..., args = "--as-cran")` on the built tarball:
+Local R CMD check --no-manual --as-cran on the final built tarball:
 
-- 0 errors
-- 0 warnings
-- 0 notes
+* Status OK
 
 Win-Builder:
 
-- R-release: Status OK
-- R-oldrelease: Status OK
-- R-devel: Status OK
+* R-release: Status OK
+* R-oldrelease: Status OK
+* R-devel: Status OK
 
-GitHub Actions:
+R-hub / GitHub Actions:
 
-- All configured jobs passed.
+* Linux, R-devel: Status OK
+* Windows, R-devel: Status OK
 
 ## rOpenSci statistical software standards
 
-The package documents compliance with the applicable rOpenSci statistical software standards using `srr`.
+The package documents compliance with the applicable rOpenSci statistical software standards using srr.
 
-- `srr::srr_stats_pre_submit(path = ".", quiet = FALSE)` passed.
-- 36 standards are documented as complied with.
-- 32 standards are documented as not applicable.
+* srr::srr_stats_pre_submit() passed.
+* 53 standards are documented as complied with.
+* 49 standards are documented as not applicable.
 
 ## Downstream dependencies
 

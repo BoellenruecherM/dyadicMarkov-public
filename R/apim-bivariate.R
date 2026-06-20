@@ -216,9 +216,9 @@ countEmpBivariate <- function(
 #' against constrained bivariate structures.
 #'
 #' @param empirical An empirical bivariate count matrix with 16 rows and 2
+#'   columns, as returned by \code{\link{countEmpBivariate}}.
 #' @srrstats {EA3.1} The package provides standardized comparison of restricted univariate and bivariate transition structures that would otherwise require manual construction of theoretical transition matrices and separate test statistics.
 #' @srrstats {EA3.0} The package automates extraction and reporting of dyadic transition counts, MLE transition probabilities, likelihood-ratio comparisons, AIC comparisons, and selected interaction patterns.
-#'   columns, as returned by \code{\link{countEmpBivariate}}.
 #' @param alpha A single number in (0, 1) giving the significance level.
 #'   Default is 0.05.
 #' @details The returned case corresponds to the global approach of the
