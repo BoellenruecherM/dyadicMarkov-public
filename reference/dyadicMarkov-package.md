@@ -1,4 +1,4 @@
-# dyadicMarkov: Pattern Identification for Dyadic Sequences Using Transition Matrices
+# dyadicMarkov: Pattern Estimation and Identification for Dyadic Sequences Using Transition Matrices in R
 
 The dyadicMarkov package provides tools for analyzing categorical dyadic
 sequences using transition matrices in the Longitudinal Actor-Partner

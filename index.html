@@ -68,7 +68,21 @@
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <p><code>dyadicMarkov</code> provides methods for analyzing categorical dyadic sequences using transition matrices within the Longitudinal Actor-Partner Interdependence Model (L‑APIM) and Markov-chain framework. The package supports empirical transition counts, maximum likelihood estimation of transition probabilities, and identification of univariate and bivariate patterns of interaction in dyadic sequences.</p>
-<p>The package is designed for single-case dyadic sequence analysis, where two members of a dyad are observed repeatedly over time. It allows researchers to describe the temporal dynamics of each member while accounting for the possible influence of their partner.</p>
+<p>The package is designed for settings in which two members of a dyad are observed repeatedly over time. Examples include daily diary data, coded interaction sequences, repeated binary responses, and intensive longitudinal designs in which researchers want to describe how each member’s next state relates to their own previous state and to their partner’s previous state.</p>
+<p>The core question addressed by the package is whether the observed transition structure is best described by an actor-partner, actor-only, partner-only, independence, partial bivariate, or complete bivariate pattern, depending on the workflow used.</p>
+</div>
+<div class="section level2">
+<h2 id="when-to-use-this-package">When to use this package<a class="anchor" aria-label="anchor" href="#when-to-use-this-package"></a>
+</h2>
+<p>Use <code>dyadicMarkov</code> when:</p>
+<ul>
+<li>two members of one dyad are observed repeatedly over ordered measurement occasions;</li>
+<li>the observed states are categorical and coded as integers;</li>
+<li>the analysis focuses on transition structures rather than continuous outcomes;</li>
+<li>the research question concerns temporal dependence, dyadic dependence, or both;</li>
+<li>the goal is to estimate transition probabilities and identify interpretable interaction patterns.</li>
+</ul>
+<p>The univariate workflow analyzes one categorical variable observed for two dyad members. The bivariate workflow analyzes two categorical variables observed for both members. The current bivariate implementation supports binary variables (<code>states = 2</code>). With two binary variables observed for two members, the previous state is described by four binary components, producing a bivariate empirical count matrix with 16 rows and 2 columns.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -87,16 +101,28 @@
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">library</span>(dyadicMarkov)</span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="example-data">Example data<a class="anchor" aria-label="anchor" href="#example-data"></a>
+</h2>
+<p>The package includes small synthetic datasets that illustrate the required input structure and the package workflow. They are not intended to represent a substantive empirical study. They are used to show how ordered categorical dyadic sequences are transformed into transition count matrices and then into pattern-identification results.</p>
+<p>For complete examples, see the workflow vignettes:</p>
+<ul>
+<li><a href="articles/dyadicMarkov-introduction.html">Introduction to dyadicMarkov</a></li>
+<li><a href="articles/univariate-workflow.html">Univariate dyadic workflow</a></li>
+<li><a href="articles/bivariate-workflow.html">Bivariate dyadic workflow</a></li>
+</ul>
+</div>
+<div class="section level2">
 <h2 id="methodological-background">Methodological background<a class="anchor" aria-label="anchor" href="#methodological-background"></a>
 </h2>
-<p>The methodological foundation of <code>dyadicMarkov</code> is based on research on dyadic sequences, the Longitudinal Actor-Partner Interdependence Model, and Markov chains.</p>
-<p>The 2023 article introduces the use of Markov chains for modeling categorical longitudinal dyadic data in a single-case perspective. The 2024 article extends the approach to the identification, visualization, and clustering of similar behaviors in samples of dyads. The bivariate extension is documented in related work by Bollenrücher, Antonietti, and Darwiche.</p>
+<p>The methodological foundation of <code>dyadicMarkov</code> is based on research on categorical dyadic sequences, the Longitudinal Actor-Partner Interdependence Model, and Markov chains.</p>
+<p>The 2023 article introduces the use of Markov chains for modeling categorical longitudinal dyadic data in a single-case perspective. The 2024 article extends the approach to the identification, visualization, and clustering of similar behaviors in samples of dyads. The bivariate extension is documented in related work by Bollenrücher, Darwiche, and Antonietti.</p>
+<p>The visualization and clustering methodology is part of the methodological background of the project. It is not currently part of the exported package API.</p>
 <div class="section level3">
 <h3 id="related-papers">Related papers<a class="anchor" aria-label="anchor" href="#related-papers"></a>
 </h3>
-<p>Bollenrücher, M., Darwiche, J., &amp; Antonietti, J.-P. (2023). <em>Dyadic pattern analysis using longitudinal Actor-Partner Interdependence Model with Markov chains for unique case analysis</em>. The Quantitative Methods for Psychology, 19(3), 230-245. DOI: <a href="https://doi.org/10.20982/tqmp.19.3.p230" class="external-link">10.20982/tqmp.19.3.p230</a></p>
+<p>Bollenrücher, M., Darwiche, J., &amp; Antonietti, J.-P. (2023). <em>Dyadic pattern analysis using longitudinal Actor-Partner Interdependence Model with Markov chains for unique case analysis</em>. The Quantitative Methods for Psychology, 19(3), 230-243. DOI: <a href="https://doi.org/10.20982/tqmp.19.3.p230" class="external-link">10.20982/tqmp.19.3.p230</a></p>
 <p>Bollenrücher, M., Darwiche, J., &amp; Antonietti, J.-P. (2024). <em>Methodology for identification, visualization, and clustering of similar behaviors in dyadic sequences analyzed through the longitudinal Actor-Partner Interdependence Model with Markov chains</em>. The Quantitative Methods for Psychology, 20(1), 17-32. DOI: <a href="https://doi.org/10.20982/tqmp.20.1.p017" class="external-link">10.20982/tqmp.20.1.p017</a></p>
-<p>Böllenrücher, M., Darwiche, J., &amp; Antonietti, J.-P. (in press). <em>Bivariate dyadic patterns analysis using longitudinal actor-partner interdependence model and Markov chains for single-case</em> [Author Accepted Manuscript]. Quantitative and Computational Methods in Behavioral Sciences. DOI: <a href="https://doi.org/10.23668/psycharchives.22174" class="external-link">10.23668/psycharchives.22174</a></p>
+<p>Bollenrücher, M., Darwiche, J., &amp; Antonietti, J.-P. (in press). <em>Bivariate dyadic patterns analysis using longitudinal Actor-Partner Interdependence Model and Markov chains for single-case</em>. Quantitative and Computational Methods in Behavioral Sciences. DOI: <a href="https://doi.org/10.23668/psycharchives.22174" class="external-link">10.23668/psycharchives.22174</a></p>
 <hr>
 <p>Please note that this project follows the <a href="https://ropensci.org/code-of-conduct/" class="external-link">rOpenSci Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>

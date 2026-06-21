@@ -67,7 +67,9 @@ Please follow the general tidyverse style guide for R code. In
 particular:
 
 - use clear and descriptive object names;
-- use `snake_case` for function and variable names;
+- use descriptive names that are consistent with the surrounding code;
+  do not rename existing exported functions solely for style
+  consistency;
 - avoid unnecessary changes to unrelated files;
 - avoid restyling code that is not part of the pull request.
 
