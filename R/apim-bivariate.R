@@ -8,17 +8,17 @@
 #' @noRd
 .dyadic_bivariate_dimnames <- function(states) {
   grid <- expand.grid(
-    second_partner = seq_len(states),
-    second_focal = seq_len(states),
-    main_partner = seq_len(states),
-    main_focal = seq_len(states)
+    second_second = seq_len(states),
+    second_first = seq_len(states),
+    main_second = seq_len(states),
+    main_first = seq_len(states)
   )
 
   rows <- paste0(
-    "mainF", grid$main_focal,
-    "_mainP", grid$main_partner,
-    "_secondF", grid$second_focal,
-    "_secondP", grid$second_partner
+    "mainFM", grid$main_first,
+    "_mainSM", grid$main_second,
+    "_secondFM", grid$second_first,
+    "_secondSM", grid$second_second
   )
 
   list(rows, paste0("next_", seq_len(states)))

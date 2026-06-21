@@ -87,7 +87,7 @@ test_that("matrix-like dyadic objects have formatted print and summary methods",
   probs_print <- capture.output(print(probs, digits = 2L))
 
   expect_true(any(grepl("next_1", counts_print, fixed = TRUE)))
-  expect_true(any(grepl("focal_1_partner_1", counts_print, fixed = TRUE)))
+  expect_true(any(grepl("FM1_SM1", counts_print, fixed = TRUE)))
   expect_true(any(grepl("next_1", probs_print, fixed = TRUE)))
   expect_true(any(grepl("0.50", probs_print, fixed = TRUE)))
 

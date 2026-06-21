@@ -27,8 +27,8 @@
   rows <- unlist(
     lapply(
       seq_len(states),
-      function(focal) {
-        paste0("focal_", focal, "_partner_", seq_len(states))
+      function(first_member) {
+        paste0("FM", first_member, "_SM", seq_len(states))
       }
     ),
     use.names = FALSE

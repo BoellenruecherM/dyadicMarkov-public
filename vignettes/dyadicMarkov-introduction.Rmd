@@ -1,6 +1,5 @@
 ---
 title: "Introduction to dyadicMarkov"
-bibliography: references.bib
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to dyadicMarkov}
@@ -16,13 +15,13 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
 `dyadicMarkov` implements an R workflow for identifying patterns of interaction in categorical dyadic sequences using transition matrices. The package is designed for situations in which one or two categorical variables are observed repeatedly for both members of one dyad, so that the analysis accounts for both temporal dependence and dyadic dependence.
 
-The methodological background is developed in a sequence of papers on dyadic pattern analysis with the Longitudinal Actor-Partner Interdependence Model (L-APIM) and Markov chains. The univariate single-case method is described in @bollen2023, the extension to visualization and clustering of similar dyadic behaviors is described in @bollen2024, and the bivariate single-case method is described in @bollen2026. The visualization and clustering methodology of @bollen2024 is methodological background; it is not currently part of the exported package API.
+`dyadicMarkov` is based on three methodological papers on dyadic pattern analysis with the Longitudinal Actor-Partner Interdependence Model (L-APIM) and Markov chains. The univariate single-case method is described by Bollenrücher, Darwiche, and Antonietti (2023). The extension to visualization and clustering of similar dyadic behaviors is described by Bollenrücher, Darwiche, and Antonietti (2024). The bivariate single-case method is described by Böllenrücher, Darwiche, and Antonietti (in press). The visualization and clustering methodology of Bollenrücher, Darwiche, and Antonietti (2024) is methodological background; it is not currently part of the exported package API.
 
 ## Data structure
 
-The package works with categorical dyadic sequences. In the univariate case, one categorical variable is observed over time for two members of a dyad. For each function call, the first member is the focal individual whose next state is modeled, and the second member supplies the partner sequence. The roles can be reversed to analyze the other member.
+The package works with categorical dyadic sequences. In the univariate case, one categorical variable is observed over time for two members of a dyad. For each function call, the first member is the member whose next state is modeled, and the second member supplies the partner sequence. The roles can be reversed to analyze the other member.
 
-In the bivariate case, two categorical variables are observed over time for both members of the dyad. The current implementation of the bivariate workflow supports binary variables (`states = 2`). This leads to a bivariate empirical count matrix with 16 rows and 2 columns: the 16 rows represent the four binary lagged components: focal member on the main variable, partner member on the main variable, focal member on the second variable and partner member on the second variable. The 2 columns represent the possible next states of the focal member on the main variable.
+In the bivariate case, two categorical variables are observed over time for both members of the dyad. The current implementation of the bivariate workflow supports binary variables (`states = 2`). This leads to a bivariate empirical count matrix with 16 rows and 2 columns: the 16 rows represent the four binary lagged components: the first member on the main variable, the second member on the main variable, the first member on the second variable and the second member on the second variable. The 2 columns represent the possible next states of the first member on the main variable.
 
 ## Estimation and identification
 
@@ -34,17 +33,17 @@ In the univariate workflow, the relevant patterns are actor-partner, actor-only,
 
 The user-facing workflow is organized around seven exported functions:
 
-- `countEmp()` computes empirical transition counts for one focal sequence in a univariate dyadic sequence.
+- `countEmp()` computes empirical transition counts for the first member sequence in a univariate dyadic sequence.
 - `mleEstimation()` estimates transition probabilities from empirical count matrices.
 - `univariatePattern()` identifies the univariate interaction pattern.
-- `countEmpBivariate()` computes empirical transition counts for one focal sequence in a bivariate dyadic sequence.
-- `bivariateCase()` identifies the global dependence case for the focal sequence.
+- `countEmpBivariate()` computes empirical transition counts for the first member sequence in a bivariate dyadic sequence.
+- `bivariateCase()` identifies the global dependence case for the member sequence analyzed.
 - `partialPattern()` selects a local pattern for a partial bivariate case.
 - `completePattern()` selects a local pattern for a complete bivariate case.
 
 ## Assumptions and current scope
 
-The workflow assumes categorical states coded as integers from 1 to `states`, equal chain lengths, observations collected at fixed intervals, and a first-order homogeneous transition process. Inputs containing `NA` are rejected; missing observations are not deleted or imputed automatically because they break the construction of transition pairs.
+The workflow assumes categorical states coded as integers from 1 to `states`, equal chain lengths, ordered repeated observations, and a first-order homogeneous transition process. Inputs containing `NA` are rejected; missing observations are not deleted or imputed automatically because they break the construction of transition pairs.
 
 The bivariate functions currently support the binary-state case. With two binary variables observed for two members, the previous state is described by four binary components, producing 2^4 = 16 previous-state combinations. Generalizing this workflow beyond `states = 2` would require extending the bivariate restriction structures and their implementation.
 
@@ -53,3 +52,9 @@ The bivariate functions currently support the binary-state case. With two binary
 This introduction explains the scope and structure of the package. The univariate workflow vignette shows the use of `countEmp()`, `mleEstimation()` and `univariatePattern()`. The bivariate workflow vignette shows the use of `countEmpBivariate()`, `bivariateCase()`, `partialPattern()` and `completePattern()`.
 
 ## References
+
+Bollenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti. 2023. "Dyadic Pattern Analysis Using Longitudinal Actor-Partner Interdependence Model with Markov Chains for Unique Case Analysis." *The Quantitative Methods for Psychology* 19 (3): 230-43. https://doi.org/10.20982/tqmp.19.3.p230.
+
+Bollenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti. 2024. "Methodology for Identification, Visualization, and Clustering of Similar Behaviors in Dyadic Sequences Analyzed Through the Longitudinal Actor-Partner Interdependence Model with Markov Chains." *The Quantitative Methods for Psychology* 20 (1): 17-32. https://doi.org/10.20982/tqmp.20.1.p017.
+
+Böllenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti. in press. "Bivariate Dyadic Patterns Analysis Using Longitudinal Actor-Partner Interdependence Model and Markov Chains for Single-Case." *Quantitative and Computational Methods in Behavioral Sciences*, in press. https://doi.org/10.23668/psycharchives.22174.

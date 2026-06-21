@@ -17,8 +17,8 @@ test_that("countEmp returns exact counts on a tiny hand-constructed chain", {
 
   expect_identical(unname(unclass(got)), exp)
   expect_identical(rownames(got), c(
-    "focal_1_partner_1", "focal_1_partner_2",
-    "focal_2_partner_1", "focal_2_partner_2"
+    "FM1_SM1", "FM1_SM2",
+    "FM2_SM1", "FM2_SM2"
   ))
   expect_identical(colnames(got), c("next_1", "next_2"))
 })
