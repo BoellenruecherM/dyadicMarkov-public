@@ -90,8 +90,8 @@ illustrate the required input structure and the package workflow.</p>
 <p>The univariate example contains one categorical variable for the
 first member (<code>FM</code>) and the second member (<code>SM</code>)
 of a dyad. Each row corresponds to one measurement occasion. In the
-first analysis, <code>FM</code> is the focal sequence and
-<code>SM</code> is the partner sequence.</p>
+first analysis, <code>FM</code> is the first member sequence analyzed
+and <code>SM</code> is the second member sequence.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"dyadic_univariate_example"</span>, package <span class="op">=</span> <span class="st">"dyadicMarkov"</span><span class="op">)</span></span>
 <span></span>
@@ -238,17 +238,17 @@ to its components.</p>
 <h2 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a>
 </h2>
 <p>In this example, the selected pattern is <code>PM (A3)</code>. This
-indicates that the previous state of the partner is retained in the
-restricted structure, whereas the previous state of the focal individual
+indicates that the previous state of the second member is retained in
+the restricted structure, whereas the previous state of the first member
 is not retained. In the terminology of the univariate method, this
 corresponds to a partner-only pattern.</p>
 <p>The result should be interpreted as a pattern description for the
-focal sequence analyzed by the function. The function call above uses
-<code>FM</code> as the focal sequence and <code>SM</code> as the partner
-sequence. Reversing the two arguments analyzes the sequence from the
-perspective of the second member. Thus, describing both members of a
-dyad requires two calls, and each returned pattern is specific to the
-focal sequence.</p>
+member sequence analyzed by the function. The function call above
+analyzes <code>FM</code> as the first member sequence and
+<code>SM</code> as the second member sequence. Reversing the two
+arguments analyzes the sequence from the perspective of the second
+member. Thus, describing both members of a dyad requires two calls, and
+each returned pattern is specific to the member sequence analyzed.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pat_uni_reverse</span> <span class="op">&lt;-</span> <span class="fu">dyadicMarkov</span><span class="fu">::</span><span class="fu"><a href="../reference/univariatePattern.html">univariatePattern</a></span><span class="op">(</span></span>
 <span>  chainFM <span class="op">=</span> <span class="va">dyadic_univariate_example</span><span class="op">$</span><span class="va">SM</span>,</span>

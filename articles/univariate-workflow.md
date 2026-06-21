@@ -20,7 +20,8 @@ required input structure and the package workflow.
 The univariate example contains one categorical variable for the first
 member (`FM`) and the second member (`SM`) of a dyad. Each row
 corresponds to one measurement occasion. In the first analysis, `FM` is
-the focal sequence and `SM` is the partner sequence.
+the first member sequence analyzed and `SM` is the second member
+sequence.
 
 ``` r
 
@@ -192,17 +193,18 @@ to its components.
 ## Interpretation
 
 In this example, the selected pattern is `PM (A3)`. This indicates that
-the previous state of the partner is retained in the restricted
-structure, whereas the previous state of the focal individual is not
+the previous state of the second member is retained in the restricted
+structure, whereas the previous state of the first member is not
 retained. In the terminology of the univariate method, this corresponds
 to a partner-only pattern.
 
-The result should be interpreted as a pattern description for the focal
-sequence analyzed by the function. The function call above uses `FM` as
-the focal sequence and `SM` as the partner sequence. Reversing the two
-arguments analyzes the sequence from the perspective of the second
-member. Thus, describing both members of a dyad requires two calls, and
-each returned pattern is specific to the focal sequence.
+The result should be interpreted as a pattern description for the member
+sequence analyzed by the function. The function call above analyzes `FM`
+as the first member sequence and `SM` as the second member sequence.
+Reversing the two arguments analyzes the sequence from the perspective
+of the second member. Thus, describing both members of a dyad requires
+two calls, and each returned pattern is specific to the member sequence
+analyzed.
 
 ``` r
 

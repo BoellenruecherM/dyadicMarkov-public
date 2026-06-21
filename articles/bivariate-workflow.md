@@ -98,9 +98,9 @@ dim(emp_bi)
 The function
 [`bivariateCase()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/bivariateCase.md)
 performs the global step of the bivariate method. It applies the package
-chi-squared comparisons to classify the focal sequence dependence
-structure as a trivial, univariate, partial bivariate or complete
-bivariate case.
+chi-squared comparisons to classify the dependence structure of the
+member sequence analyzed as a trivial, univariate, partial bivariate or
+complete bivariate case.
 
 ``` r
 
@@ -173,16 +173,17 @@ In this example, the selected complete bivariate pattern is `D2`,
 labelled by the package as complete actor on the main, actor-partner on
 the second.
 
-## Reassigning the focal and main roles
+## Reassigning member and main-variable roles
 
-The previous analysis used `FM_V1` as the focal sequence, `V1` as the
-main variable and `V2` as the second variable. In the bivariate method,
-these are analysis roles rather than fixed identities. To describe the
-dyad more completely, the roles can be reassigned so that each
-member-variable sequence is analyzed in turn.
+The previous analysis used `FM_V1` as the member-variable sequence
+analyzed, `V1` as the main variable and `V2` as the second variable. In
+the bivariate method, these are analysis roles rather than fixed
+identities. To describe the dyad more completely, the roles can be
+reassigned so that each member-variable sequence is analyzed in turn.
 
 The same data set gives different branches of the global-and-local
-procedure depending on the focal sequence and the main variable.
+procedure depending on the member-variable sequence analyzed and the
+main variable.
 
 ``` r
 
@@ -216,11 +217,11 @@ analyze_bivariate <- function(label, fm_v1, sm_v1, fm_v2, sm_v2) {
 d <- dyadic_bivariate_example
 
 analyze_bivariate(
-  "FM_V1 as focal sequence, V1 as main variable",
+  "FM_V1 as analyzed sequence, V1 as main variable",
   d$FM_V1, d$SM_V1, d$FM_V2, d$SM_V2
 )
 #> 
-#> FM_V1 as focal sequence, V1 as main variable
+#> FM_V1 as analyzed sequence, V1 as main variable
 #> Bivariate dyadic case
 #> Case: complete
 #> Alpha: 0.05
@@ -228,11 +229,11 @@ analyze_bivariate(
 #> Pattern: complete actor on the main, actor partner on the second (D2)
 
 analyze_bivariate(
-  "SM_V1 as focal sequence, V1 as main variable",
+  "SM_V1 as analyzed sequence, V1 as main variable",
   d$SM_V1, d$FM_V1, d$SM_V2, d$FM_V2
 )
 #> 
-#> SM_V1 as focal sequence, V1 as main variable
+#> SM_V1 as analyzed sequence, V1 as main variable
 #> Bivariate dyadic case
 #> Case: complete
 #> Alpha: 0.05
@@ -240,11 +241,11 @@ analyze_bivariate(
 #> Pattern: complete actor partner on the main, partner on the second (D3)
 
 analyze_bivariate(
-  "FM_V2 as focal sequence, V2 as main variable",
+  "FM_V2 as analyzed sequence, V2 as main variable",
   d$FM_V2, d$SM_V2, d$FM_V1, d$SM_V1
 )
 #> 
-#> FM_V2 as focal sequence, V2 as main variable
+#> FM_V2 as analyzed sequence, V2 as main variable
 #> Bivariate dyadic case
 #> Case: partial
 #> Alpha: 0.05
@@ -252,11 +253,11 @@ analyze_bivariate(
 #> Pattern: partial actor (B2)
 
 analyze_bivariate(
-  "SM_V2 as focal sequence, V2 as main variable",
+  "SM_V2 as analyzed sequence, V2 as main variable",
   d$SM_V2, d$FM_V2, d$SM_V1, d$FM_V1
 )
 #> 
-#> SM_V2 as focal sequence, V2 as main variable
+#> SM_V2 as analyzed sequence, V2 as main variable
 #> Bivariate dyadic case
 #> Case: univariate
 #> Alpha: 0.05
@@ -267,7 +268,7 @@ analyze_bivariate(
 ```
 
 For this example, the four role assignments illustrate three branches of
-the procedure: complete bivariate cases for the two `V1` focal
+the procedure: complete bivariate cases for the two `V1` member-variable
 sequences, a partial bivariate case for `FM_V2`, and a univariate case
 for `SM_V2`. The partial branch is therefore demonstrated with the same
 bivariate example data rather than with an artificial seeded example.
@@ -279,8 +280,8 @@ The global and local steps should be read together. If
 returns `trivial`, no subsequent local pattern is selected. If it
 returns `univariate`, the bivariate workflow returns to
 [`univariatePattern()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/univariatePattern.md)
-using the focal and partner sequences of the current main variable. If
-it returns `partial`, the local step is
+using the first- and second-member sequences of the current main
+variable. If it returns `partial`, the local step is
 [`partialPattern()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/partialPattern.md).
 If it returns `complete`, the local step is
 [`completePattern()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/completePattern.md).

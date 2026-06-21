@@ -160,8 +160,8 @@ variable.</p>
 </h2>
 <p>The function <code><a href="../reference/bivariateCase.html">bivariateCase()</a></code> performs the global step of
 the bivariate method. It applies the package chi-squared comparisons to
-classify the focal sequence dependence structure as a trivial,
-univariate, partial bivariate or complete bivariate case.</p>
+classify the dependence structure of the member sequence analyzed as a
+trivial, univariate, partial bivariate or complete bivariate case.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">case_bi</span> <span class="op">&lt;-</span> <span class="fu">dyadicMarkov</span><span class="fu">::</span><span class="fu"><a href="../reference/bivariateCase.html">bivariateCase</a></span><span class="op">(</span><span class="va">emp_bi</span>, alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
 <span></span>
@@ -227,16 +227,17 @@ the selected pattern.</p>
 actor-partner on the second.</p>
 </div>
 <div class="section level2">
-<h2 id="reassigning-the-focal-and-main-roles">Reassigning the focal and main roles<a class="anchor" aria-label="anchor" href="#reassigning-the-focal-and-main-roles"></a>
+<h2 id="reassigning-member-and-main-variable-roles">Reassigning member and main-variable roles<a class="anchor" aria-label="anchor" href="#reassigning-member-and-main-variable-roles"></a>
 </h2>
-<p>The previous analysis used <code>FM_V1</code> as the focal sequence,
-<code>V1</code> as the main variable and <code>V2</code> as the second
-variable. In the bivariate method, these are analysis roles rather than
-fixed identities. To describe the dyad more completely, the roles can be
-reassigned so that each member-variable sequence is analyzed in
-turn.</p>
+<p>The previous analysis used <code>FM_V1</code> as the member-variable
+sequence analyzed, <code>V1</code> as the main variable and
+<code>V2</code> as the second variable. In the bivariate method, these
+are analysis roles rather than fixed identities. To describe the dyad
+more completely, the roles can be reassigned so that each
+member-variable sequence is analyzed in turn.</p>
 <p>The same data set gives different branches of the global-and-local
-procedure depending on the focal sequence and the main variable.</p>
+procedure depending on the member-variable sequence analyzed and the
+main variable.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">analyze_bivariate</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">label</span>, <span class="va">fm_v1</span>, <span class="va">sm_v1</span>, <span class="va">fm_v2</span>, <span class="va">sm_v2</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">emp</span> <span class="op">&lt;-</span> <span class="fu">dyadicMarkov</span><span class="fu">::</span><span class="fu"><a href="../reference/countEmpBivariate.html">countEmpBivariate</a></span><span class="op">(</span></span>
@@ -268,11 +269,11 @@ procedure depending on the focal sequence and the main variable.</p>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">dyadic_bivariate_example</span></span>
 <span></span>
 <span><span class="fu">analyze_bivariate</span><span class="op">(</span></span>
-<span>  <span class="st">"FM_V1 as focal sequence, V1 as main variable"</span>,</span>
+<span>  <span class="st">"FM_V1 as analyzed sequence, V1 as main variable"</span>,</span>
 <span>  <span class="va">d</span><span class="op">$</span><span class="va">FM_V1</span>, <span class="va">d</span><span class="op">$</span><span class="va">SM_V1</span>, <span class="va">d</span><span class="op">$</span><span class="va">FM_V2</span>, <span class="va">d</span><span class="op">$</span><span class="va">SM_V2</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; FM_V1 as focal sequence, V1 as main variable</span></span>
+<span><span class="co">#&gt; FM_V1 as analyzed sequence, V1 as main variable</span></span>
 <span><span class="co">#&gt; Bivariate dyadic case</span></span>
 <span><span class="co">#&gt; Case: complete</span></span>
 <span><span class="co">#&gt; Alpha: 0.05</span></span>
@@ -280,11 +281,11 @@ procedure depending on the focal sequence and the main variable.</p>
 <span><span class="co">#&gt; Pattern: complete actor on the main, actor partner on the second (D2)</span></span>
 <span></span>
 <span><span class="fu">analyze_bivariate</span><span class="op">(</span></span>
-<span>  <span class="st">"SM_V1 as focal sequence, V1 as main variable"</span>,</span>
+<span>  <span class="st">"SM_V1 as analyzed sequence, V1 as main variable"</span>,</span>
 <span>  <span class="va">d</span><span class="op">$</span><span class="va">SM_V1</span>, <span class="va">d</span><span class="op">$</span><span class="va">FM_V1</span>, <span class="va">d</span><span class="op">$</span><span class="va">SM_V2</span>, <span class="va">d</span><span class="op">$</span><span class="va">FM_V2</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; SM_V1 as focal sequence, V1 as main variable</span></span>
+<span><span class="co">#&gt; SM_V1 as analyzed sequence, V1 as main variable</span></span>
 <span><span class="co">#&gt; Bivariate dyadic case</span></span>
 <span><span class="co">#&gt; Case: complete</span></span>
 <span><span class="co">#&gt; Alpha: 0.05</span></span>
@@ -292,11 +293,11 @@ procedure depending on the focal sequence and the main variable.</p>
 <span><span class="co">#&gt; Pattern: complete actor partner on the main, partner on the second (D3)</span></span>
 <span></span>
 <span><span class="fu">analyze_bivariate</span><span class="op">(</span></span>
-<span>  <span class="st">"FM_V2 as focal sequence, V2 as main variable"</span>,</span>
+<span>  <span class="st">"FM_V2 as analyzed sequence, V2 as main variable"</span>,</span>
 <span>  <span class="va">d</span><span class="op">$</span><span class="va">FM_V2</span>, <span class="va">d</span><span class="op">$</span><span class="va">SM_V2</span>, <span class="va">d</span><span class="op">$</span><span class="va">FM_V1</span>, <span class="va">d</span><span class="op">$</span><span class="va">SM_V1</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; FM_V2 as focal sequence, V2 as main variable</span></span>
+<span><span class="co">#&gt; FM_V2 as analyzed sequence, V2 as main variable</span></span>
 <span><span class="co">#&gt; Bivariate dyadic case</span></span>
 <span><span class="co">#&gt; Case: partial</span></span>
 <span><span class="co">#&gt; Alpha: 0.05</span></span>
@@ -304,11 +305,11 @@ procedure depending on the focal sequence and the main variable.</p>
 <span><span class="co">#&gt; Pattern: partial actor (B2)</span></span>
 <span></span>
 <span><span class="fu">analyze_bivariate</span><span class="op">(</span></span>
-<span>  <span class="st">"SM_V2 as focal sequence, V2 as main variable"</span>,</span>
+<span>  <span class="st">"SM_V2 as analyzed sequence, V2 as main variable"</span>,</span>
 <span>  <span class="va">d</span><span class="op">$</span><span class="va">SM_V2</span>, <span class="va">d</span><span class="op">$</span><span class="va">FM_V2</span>, <span class="va">d</span><span class="op">$</span><span class="va">SM_V1</span>, <span class="va">d</span><span class="op">$</span><span class="va">FM_V1</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; SM_V2 as focal sequence, V2 as main variable</span></span>
+<span><span class="co">#&gt; SM_V2 as analyzed sequence, V2 as main variable</span></span>
 <span><span class="co">#&gt; Bivariate dyadic case</span></span>
 <span><span class="co">#&gt; Case: univariate</span></span>
 <span><span class="co">#&gt; Alpha: 0.05</span></span>
@@ -318,10 +319,10 @@ procedure depending on the focal sequence and the main variable.</p>
 <span><span class="co">#&gt; States: 2</span></span></code></pre></div>
 <p>For this example, the four role assignments illustrate three branches
 of the procedure: complete bivariate cases for the two <code>V1</code>
-focal sequences, a partial bivariate case for <code>FM_V2</code>, and a
-univariate case for <code>SM_V2</code>. The partial branch is therefore
-demonstrated with the same bivariate example data rather than with an
-artificial seeded example.</p>
+member-variable sequences, a partial bivariate case for
+<code>FM_V2</code>, and a univariate case for <code>SM_V2</code>. The
+partial branch is therefore demonstrated with the same bivariate example
+data rather than with an artificial seeded example.</p>
 </div>
 <div class="section level2">
 <h2 id="reading-the-global-and-local-steps-together">Reading the global and local steps together<a class="anchor" aria-label="anchor" href="#reading-the-global-and-local-steps-together"></a>
@@ -330,10 +331,10 @@ artificial seeded example.</p>
 <code><a href="../reference/bivariateCase.html">bivariateCase()</a></code> returns <code>trivial</code>, no subsequent
 local pattern is selected. If it returns <code>univariate</code>, the
 bivariate workflow returns to <code><a href="../reference/univariatePattern.html">univariatePattern()</a></code> using the
-focal and partner sequences of the current main variable. If it returns
-<code>partial</code>, the local step is <code><a href="../reference/partialPattern.html">partialPattern()</a></code>.
-If it returns <code>complete</code>, the local step is
-<code><a href="../reference/completePattern.html">completePattern()</a></code>.</p>
+first- and second-member sequences of the current main variable. If it
+returns <code>partial</code>, the local step is
+<code><a href="../reference/partialPattern.html">partialPattern()</a></code>. If it returns <code>complete</code>, the
+local step is <code><a href="../reference/completePattern.html">completePattern()</a></code>.</p>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

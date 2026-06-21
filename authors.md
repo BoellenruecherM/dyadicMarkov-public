@@ -17,12 +17,12 @@ Source:
 [`DESCRIPTION`](https://github.com/BoellenruecherM/dyadicMarkov-public/blob/main/DESCRIPTION)
 
 Böllenrücher M, Bollenrücher M, Antonietti J (2026). *dyadicMarkov:
-Pattern Identification for Dyadic Sequences Using Transition Matrices*.
-R package version 0.1.1,
+Pattern Estimation and Identification for Dyadic Sequences Using
+Transition Matrices in R*. R package version 0.1.1,
 <https://github.com/BoellenruecherM/dyadicMarkov-public>.
 
     @Manual{,
-      title = {dyadicMarkov: Pattern Identification for Dyadic Sequences Using Transition Matrices},
+      title = {dyadicMarkov: Pattern Estimation and Identification for Dyadic Sequences Using Transition Matrices in R},
       author = {Mattia Böllenrücher and Mégane Bollenrücher and Jean-Philippe Antonietti},
       year = {2026},
       note = {R package version 0.1.1},
