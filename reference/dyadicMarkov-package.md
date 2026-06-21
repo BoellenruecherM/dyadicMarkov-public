@@ -18,9 +18,9 @@ probability matrices, and identified patterns of interaction.
 
 A dyadic sequence records the categorical states of two interacting
 individuals over time. Empirical transition counts summarize transitions
-from previous dyadic states to subsequent states of the focal member.
-Transition probabilities are estimated by normalizing each row of the
-empirical transition count matrix. Patterns of interaction are
+from previous dyadic states to subsequent states of the member sequence
+analyzed. Transition probabilities are estimated by normalizing each row
+of the empirical transition count matrix. Patterns of interaction are
 identified by comparing unrestricted and restricted transition
 structures based on actor and partner effects.
 
@@ -35,7 +35,7 @@ functions are intended to remain stable across minor releases.
 The method models categorical dyadic sequences with Markov chains in the
 Longitudinal Actor-Partner Interdependence Model (L-APIM) framework. It
 uses transition matrices to represent how previous dyadic states are
-related to the current state of the focal member.
+related to the current state of the member sequence analyzed.
 
 ## Algorithmic contribution
 

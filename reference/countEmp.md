@@ -44,9 +44,9 @@ of the first member at the next time point, \\FM\_{t+1}\\.
 chainFM <- c(1L, 2L, 1L, 2L, 2L, 1L)
 chainSM <- c(2L, 1L, 2L, 1L, 1L, 2L)
 countEmp(chainFM, chainSM, states = 2L)
-#>                   next_1 next_2
-#> focal_1_partner_1 0      0     
-#> focal_1_partner_2 0      2     
-#> focal_2_partner_1 2      1     
-#> focal_2_partner_2 0      0     
+#>         next_1 next_2
+#> FM1_SM1 0      0     
+#> FM1_SM2 0      2     
+#> FM2_SM1 2      1     
+#> FM2_SM2 0      0     
 ```

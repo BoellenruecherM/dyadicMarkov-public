@@ -70,11 +70,11 @@ emp_uni <- dyadicMarkov::countEmp(
 )
 
 emp_uni
-#>                   next_1 next_2
-#> focal_1_partner_1 26     4     
-#> focal_1_partner_2 5      14    
-#> focal_2_partner_1 12     5     
-#> focal_2_partner_2 7      16
+#>         next_1 next_2
+#> FM1_SM1 26     4     
+#> FM1_SM2 5      14    
+#> FM2_SM1 12     5     
+#> FM2_SM2 7      16
 class(emp_uni)
 #> [1] "dyadic_counts" "matrix"        "array"
 ```
@@ -86,8 +86,8 @@ The resulting object keeps ordinary matrix behavior.
 dim(emp_uni)
 #> [1] 4 2
 rowSums(emp_uni)
-#> focal_1_partner_1 focal_1_partner_2 focal_2_partner_1 focal_2_partner_2 
-#>                30                19                17                23
+#> FM1_SM1 FM1_SM2 FM2_SM1 FM2_SM2 
+#>      30      19      17      23
 ```
 
 ## Maximum-likelihood transition probabilities
@@ -105,14 +105,14 @@ convention.
 fit_uni <- dyadicMarkov::mleEstimation(emp_uni)
 
 round(fit_uni, 3)
-#>                   next_1 next_2
-#> focal_1_partner_1 0.867  0.133 
-#> focal_1_partner_2 0.263  0.737 
-#> focal_2_partner_1 0.706  0.294 
-#> focal_2_partner_2 0.304  0.696
+#>         next_1 next_2
+#> FM1_SM1 0.867  0.133 
+#> FM1_SM2 0.263  0.737 
+#> FM2_SM1 0.706  0.294 
+#> FM2_SM2 0.304  0.696
 rowSums(fit_uni)
-#> focal_1_partner_1 focal_1_partner_2 focal_2_partner_1 focal_2_partner_2 
-#>                 1                 1                 1                 1
+#> FM1_SM1 FM1_SM2 FM2_SM1 FM2_SM2 
+#>       1       1       1       1
 class(fit_uni)
 #> [1] "dyadic_mle" "matrix"     "array"
 ```

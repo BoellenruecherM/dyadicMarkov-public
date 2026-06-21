@@ -133,11 +133,11 @@ point, <code>FM_{t+1}</code>.</p>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">emp_uni</span></span>
-<span><span class="co">#&gt;                   next_1 next_2</span></span>
-<span><span class="co">#&gt; focal_1_partner_1 26     4     </span></span>
-<span><span class="co">#&gt; focal_1_partner_2 5      14    </span></span>
-<span><span class="co">#&gt; focal_2_partner_1 12     5     </span></span>
-<span><span class="co">#&gt; focal_2_partner_2 7      16</span></span>
+<span><span class="co">#&gt;         next_1 next_2</span></span>
+<span><span class="co">#&gt; FM1_SM1 26     4     </span></span>
+<span><span class="co">#&gt; FM1_SM2 5      14    </span></span>
+<span><span class="co">#&gt; FM2_SM1 12     5     </span></span>
+<span><span class="co">#&gt; FM2_SM2 7      16</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">emp_uni</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "dyadic_counts" "matrix"        "array"</span></span></code></pre></div>
 <p>The resulting object keeps ordinary matrix behavior.</p>
@@ -145,8 +145,8 @@ point, <code>FM_{t+1}</code>.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">emp_uni</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 4 2</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">emp_uni</span><span class="op">)</span></span>
-<span><span class="co">#&gt; focal_1_partner_1 focal_1_partner_2 focal_2_partner_1 focal_2_partner_2 </span></span>
-<span><span class="co">#&gt;                30                19                17                23</span></span></code></pre></div>
+<span><span class="co">#&gt; FM1_SM1 FM1_SM2 FM2_SM1 FM2_SM2 </span></span>
+<span><span class="co">#&gt;      30      19      17      23</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="maximum-likelihood-transition-probabilities">Maximum-likelihood transition probabilities<a class="anchor" aria-label="anchor" href="#maximum-likelihood-transition-probabilities"></a>
@@ -160,14 +160,14 @@ uniform row as an implementation convention.</p>
 <code class="sourceCode R"><span><span class="va">fit_uni</span> <span class="op">&lt;-</span> <span class="fu">dyadicMarkov</span><span class="fu">::</span><span class="fu"><a href="../reference/mleEstimation.html">mleEstimation</a></span><span class="op">(</span><span class="va">emp_uni</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">fit_uni</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                   next_1 next_2</span></span>
-<span><span class="co">#&gt; focal_1_partner_1 0.867  0.133 </span></span>
-<span><span class="co">#&gt; focal_1_partner_2 0.263  0.737 </span></span>
-<span><span class="co">#&gt; focal_2_partner_1 0.706  0.294 </span></span>
-<span><span class="co">#&gt; focal_2_partner_2 0.304  0.696</span></span>
+<span><span class="co">#&gt;         next_1 next_2</span></span>
+<span><span class="co">#&gt; FM1_SM1 0.867  0.133 </span></span>
+<span><span class="co">#&gt; FM1_SM2 0.263  0.737 </span></span>
+<span><span class="co">#&gt; FM2_SM1 0.706  0.294 </span></span>
+<span><span class="co">#&gt; FM2_SM2 0.304  0.696</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">fit_uni</span><span class="op">)</span></span>
-<span><span class="co">#&gt; focal_1_partner_1 focal_1_partner_2 focal_2_partner_1 focal_2_partner_2 </span></span>
-<span><span class="co">#&gt;                 1                 1                 1                 1</span></span>
+<span><span class="co">#&gt; FM1_SM1 FM1_SM2 FM2_SM1 FM2_SM2 </span></span>
+<span><span class="co">#&gt;       1       1       1       1</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">fit_uni</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "dyadic_mle" "matrix"     "array"</span></span></code></pre></div>
 <p>The estimated transition matrix summarizes the empirical transition

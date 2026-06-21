@@ -9,34 +9,34 @@ variables are observed repeatedly for both members of one dyad, so that
 the analysis accounts for both temporal dependence and dyadic
 dependence.
 
-The methodological background is developed in a sequence of papers on
-dyadic pattern analysis with the Longitudinal Actor-Partner
-Interdependence Model (L-APIM) and Markov chains. The univariate
-single-case method is described in Bollenrücher et al. (2023), the
+`dyadicMarkov` is based on three methodological papers on dyadic pattern
+analysis with the Longitudinal Actor-Partner Interdependence Model
+(L-APIM) and Markov chains. The univariate single-case method is
+described by Bollenrücher, Darwiche, and Antonietti (2023). The
 extension to visualization and clustering of similar dyadic behaviors is
-described in Bollenrücher et al. (2024), and the bivariate single-case
-method is described in Böllenrücher et al. (in press). The visualization
-and clustering methodology of Bollenrücher et al. (2024) is
-methodological background; it is not currently part of the exported
-package API.
+described by Bollenrücher, Darwiche, and Antonietti (2024). The
+bivariate single-case method is described by Böllenrücher, Darwiche, and
+Antonietti (in press). The visualization and clustering methodology of
+Bollenrücher, Darwiche, and Antonietti (2024) is methodological
+background; it is not currently part of the exported package API.
 
 ## Data structure
 
 The package works with categorical dyadic sequences. In the univariate
 case, one categorical variable is observed over time for two members of
-a dyad. For each function call, the first member is the focal individual
-whose next state is modeled, and the second member supplies the partner
+a dyad. For each function call, the first member is the member whose
+next state is modeled, and the second member supplies the partner
 sequence. The roles can be reversed to analyze the other member.
 
 In the bivariate case, two categorical variables are observed over time
 for both members of the dyad. The current implementation of the
 bivariate workflow supports binary variables (`states = 2`). This leads
 to a bivariate empirical count matrix with 16 rows and 2 columns: the 16
-rows represent the four binary lagged components: focal member on the
-main variable, partner member on the main variable, focal member on the
-second variable and partner member on the second variable. The 2 columns
-represent the possible next states of the focal member on the main
-variable.
+rows represent the four binary lagged components: the first member on
+the main variable, the second member on the main variable, the first
+member on the second variable and the second member on the second
+variable. The 2 columns represent the possible next states of the first
+member on the main variable.
 
 ## Estimation and identification
 
@@ -64,17 +64,18 @@ respectively.
 The user-facing workflow is organized around seven exported functions:
 
 - [`countEmp()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/countEmp.md)
-  computes empirical transition counts for one focal sequence in a
-  univariate dyadic sequence.
+  computes empirical transition counts for the first member sequence in
+  a univariate dyadic sequence.
 - [`mleEstimation()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/mleEstimation.md)
   estimates transition probabilities from empirical count matrices.
 - [`univariatePattern()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/univariatePattern.md)
   identifies the univariate interaction pattern.
 - [`countEmpBivariate()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/countEmpBivariate.md)
-  computes empirical transition counts for one focal sequence in a
-  bivariate dyadic sequence.
+  computes empirical transition counts for the first member sequence in
+  a bivariate dyadic sequence.
 - [`bivariateCase()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/bivariateCase.md)
-  identifies the global dependence case for the focal sequence.
+  identifies the global dependence case for the member sequence
+  analyzed.
 - [`partialPattern()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/partialPattern.md)
   selects a local pattern for a partial bivariate case.
 - [`completePattern()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/completePattern.md)
@@ -83,11 +84,10 @@ The user-facing workflow is organized around seven exported functions:
 ## Assumptions and current scope
 
 The workflow assumes categorical states coded as integers from 1 to
-`states`, equal chain lengths, observations collected at fixed
-intervals, and a first-order homogeneous transition process. Inputs
-containing `NA` are rejected; missing observations are not deleted or
-imputed automatically because they break the construction of transition
-pairs.
+`states`, equal chain lengths, ordered repeated observations, and a
+first-order homogeneous transition process. Inputs containing `NA` are
+rejected; missing observations are not deleted or imputed automatically
+because they break the construction of transition pairs.
 
 The bivariate functions currently support the binary-state case. With
 two binary variables observed for two members, the previous state is
@@ -116,18 +116,18 @@ and
 Bollenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti.
 2023. “Dyadic Pattern Analysis Using Longitudinal Actor-Partner
 Interdependence Model with Markov Chains for Unique Case Analysis.” *The
-Quantitative Methods for Psychology* 19 (3): 230–43.
+Quantitative Methods for Psychology* 19 (3): 230-43.
 <https://doi.org/10.20982/tqmp.19.3.p230>.
 
 Bollenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti.
 2024. “Methodology for Identification, Visualization, and Clustering of
 Similar Behaviors in Dyadic Sequences Analyzed Through the Longitudinal
 Actor-Partner Interdependence Model with Markov Chains.” *The
-Quantitative Methods for Psychology* 20 (1): 17–32.
+Quantitative Methods for Psychology* 20 (1): 17-32.
 <https://doi.org/10.20982/tqmp.20.1.p017>.
 
 Böllenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti. in
 press. “Bivariate Dyadic Patterns Analysis Using Longitudinal
 Actor-Partner Interdependence Model and Markov Chains for Single-Case.”
-*Quantitative and Computational Methods in Behavioral Sciences*, ahead
-of print, in press. <https://doi.org/10.23668/psycharchives.22174>.
+*Quantitative and Computational Methods in Behavioral Sciences*, in
+press. <https://doi.org/10.23668/psycharchives.22174>.

@@ -70,23 +70,23 @@ emp_bi <- dyadicMarkov::countEmpBivariate(
 )
 
 emp_bi
-#>                                 next_1 next_2
-#> mainF1_mainP1_secondF1_secondP1 7      0     
-#> mainF1_mainP1_secondF1_secondP2 0      2     
-#> mainF1_mainP1_secondF2_secondP1 0      0     
-#> mainF1_mainP1_secondF2_secondP2 1      0     
-#> mainF1_mainP2_secondF1_secondP1 0      1     
-#> mainF1_mainP2_secondF1_secondP2 0      1     
-#> mainF1_mainP2_secondF2_secondP1 2      0     
-#> mainF1_mainP2_secondF2_secondP2 0      2     
-#> mainF2_mainP1_secondF1_secondP1 0      0     
-#> mainF2_mainP1_secondF1_secondP2 2      1     
-#> mainF2_mainP1_secondF2_secondP1 1      1     
-#> mainF2_mainP1_secondF2_secondP2 0      3     
-#> mainF2_mainP2_secondF1_secondP1 1      1     
-#> mainF2_mainP2_secondF1_secondP2 1      4     
-#> mainF2_mainP2_secondF2_secondP1 1      5     
-#> mainF2_mainP2_secondF2_secondP2 0      52
+#>                                     next_1 next_2
+#> mainFM1_mainSM1_secondFM1_secondSM1 7      0     
+#> mainFM1_mainSM1_secondFM1_secondSM2 0      2     
+#> mainFM1_mainSM1_secondFM2_secondSM1 0      0     
+#> mainFM1_mainSM1_secondFM2_secondSM2 1      0     
+#> mainFM1_mainSM2_secondFM1_secondSM1 0      1     
+#> mainFM1_mainSM2_secondFM1_secondSM2 0      1     
+#> mainFM1_mainSM2_secondFM2_secondSM1 2      0     
+#> mainFM1_mainSM2_secondFM2_secondSM2 0      2     
+#> mainFM2_mainSM1_secondFM1_secondSM1 0      0     
+#> mainFM2_mainSM1_secondFM1_secondSM2 2      1     
+#> mainFM2_mainSM1_secondFM2_secondSM1 1      1     
+#> mainFM2_mainSM1_secondFM2_secondSM2 0      3     
+#> mainFM2_mainSM2_secondFM1_secondSM1 1      1     
+#> mainFM2_mainSM2_secondFM1_secondSM2 1      4     
+#> mainFM2_mainSM2_secondFM2_secondSM1 1      5     
+#> mainFM2_mainSM2_secondFM2_secondSM2 0      52
 class(emp_bi)
 #> [1] "dyadic_counts" "matrix"        "array"
 dim(emp_bi)
