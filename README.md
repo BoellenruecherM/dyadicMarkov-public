@@ -148,4 +148,4 @@ citation("dyadicMarkov")
 
 ## License
 
-This package is released under the license specified in the `LICENSE` file.
+This package is licensed under the MIT License. See [LICENSE.md](LICENSE.md) for details.
