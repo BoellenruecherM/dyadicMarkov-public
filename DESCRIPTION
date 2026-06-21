@@ -1,6 +1,6 @@
 Package: dyadicMarkov
 Type: Package
-Title: Pattern Identification for Dyadic Sequences Using Transition Matrices
+Title: Pattern Estimation and Identification for Dyadic Sequences Using Transition Matrices in R
 Version: 0.1.1
 Authors@R: c(
   person("Mattia", "Böllenrücher", email = "mattia.boellenruecher@student.unisg.ch", role = c("aut", "cre", "cph"),

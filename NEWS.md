@@ -1,5 +1,6 @@
 # dyadicMarkov 0.1.1
 
+* Updated package wording and metadata for the CRAN submission.
 * Added S3 classes and print/summary support for pattern and case identification results.
 * Added S3 classes for empirical count matrices and MLE transition probability matrices while preserving
   ordinary matrix behavior.
