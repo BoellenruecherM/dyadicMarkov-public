@@ -18,6 +18,10 @@ This vignette shows the bivariate workflow implemented in `dyadicMarkov`. In the
 
 The current bivariate functions support `states = 2`. With two binary variables observed for two members, the previous state is described by four binary components. The empirical bivariate count matrix therefore has 16 rows and 2 columns.
 
+Although the data are synthetic, the four columns can be read like real repeated observations from a dyad. For example, `V1` could represent one coded behavior or response, and `V2` could represent a second coded behavior or response observed at the same measurement occasions. The columns `FM_V1` and `SM_V1` then describe the two members on the main variable, while `FM_V2` and `SM_V2` describe the same two members on the second variable.
+
+The 16 rows arise because the previous state combines four binary lagged components: first member on `V1`, second member on `V1`, first member on `V2`, and second member on `V2`. With two possible states for each component, this gives \(2^4 = 16\) previous-state combinations. The 2 columns represent the possible next states of the member sequence analyzed on the current main variable.
+
 ## Data
 
 The example data set `dyadic_bivariate_example` contains two categorical variables for the first member and the second member of a dyad. Each row corresponds to one measurement occasion.
