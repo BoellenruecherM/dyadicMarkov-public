@@ -15,6 +15,15 @@ The example uses the data set `dyadic_univariate_example` included in
 the package. The data are synthetic and are used only to illustrate the
 required input structure and the package workflow.
 
+Although the data are synthetic, the two columns can be read like real
+ordered observations from a dyad. For example, `FM` and `SM` could
+represent two partners, a parent and child, a therapist and client, or
+any two interacting members observed at repeated occasions. The integer
+states represent coded categories of a behavior or response. In a binary
+application, state 1 and state 2 could represent absence and presence of
+a coded behavior, two interaction states, or two response categories
+defined by the researcher.
+
 ## Data
 
 The univariate example contains one categorical variable for the first

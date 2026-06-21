@@ -20,6 +20,31 @@ Antonietti (in press). The visualization and clustering methodology of
 Bollenrücher, Darwiche, and Antonietti (2024) is methodological
 background; it is not currently part of the exported package API.
 
+## Real-world use cases
+
+The package is intended for ordered categorical observations collected
+from two members of a dyad. In practice, such sequences may arise from
+coded interaction data, daily diary studies, repeated binary responses,
+or intensive longitudinal designs. For example, researchers may code
+whether each partner shows a given behavior at each measurement
+occasion, whether a parent and child are in one of several interaction
+states, or whether two individuals report the presence or absence of a
+response across repeated observations.
+
+The package does not estimate a general-purpose time-series forecasting
+model. Instead, it summarizes how the next state of the member sequence
+analyzed is associated with its own previous state and with the previous
+state of the partner. The resulting pattern labels help describe whether
+the observed transitions are better characterized by actor dependence,
+partner dependence, actor-partner dependence, independence, or, in the
+bivariate workflow, by partial or complete bivariate dependence
+structures.
+
+The example datasets included in the package are synthetic. They are
+used to make the required input structure reproducible and easy to
+inspect. They should be read as small stand-ins for real ordered dyadic
+sequences, not as substantive empirical datasets.
+
 ## Data structure
 
 The package works with categorical dyadic sequences. In the univariate

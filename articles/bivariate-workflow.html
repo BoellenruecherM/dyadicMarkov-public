@@ -82,6 +82,21 @@ bivariate method follows the global-and-local procedure described in
 two binary variables observed for two members, the previous state is
 described by four binary components. The empirical bivariate count
 matrix therefore has 16 rows and 2 columns.</p>
+<p>Although the data are synthetic, the four columns can be read like
+real repeated observations from a dyad. For example, <code>V1</code>
+could represent one coded behavior or response, and <code>V2</code>
+could represent a second coded behavior or response observed at the same
+measurement occasions. The columns <code>FM_V1</code> and
+<code>SM_V1</code> then describe the two members on the main variable,
+while <code>FM_V2</code> and <code>SM_V2</code> describe the same two
+members on the second variable.</p>
+<p>The 16 rows arise because the previous state combines four binary
+lagged components: first member on <code>V1</code>, second member on
+<code>V1</code>, first member on <code>V2</code>, and second member on
+<code>V2</code>. With two possible states for each component, this gives
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>4</mn></msup><mo>=</mo><mn>16</mn></mrow><annotation encoding="application/x-tex">2^4 = 16</annotation></semantics></math>
+previous-state combinations. The 2 columns represent the possible next
+states of the member sequence analyzed on the current main variable.</p>
 </div>
 <div class="section level2">
 <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
