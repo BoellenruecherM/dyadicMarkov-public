@@ -2,6 +2,8 @@
 
 ## dyadicMarkov 0.1.1
 
+CRAN release: 2026-06-21
+
 - Updated package wording and metadata for the CRAN submission.
 - Added S3 classes and print/summary support for pattern and case
   identification results.
