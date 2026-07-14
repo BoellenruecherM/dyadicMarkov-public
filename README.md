@@ -7,7 +7,7 @@
     <td style="vertical-align: middle; padding-right: 14px;">Pattern Estimation and Identification<br>for Dyadic Sequences<br>Using Transition Matrices in R</td>
     <td>
       <a href="https://CRAN.R-project.org/package=dyadicMarkov"><img src="https://www.r-pkg.org/badges/version-ago/dyadicMarkov" alt="CRAN version and release age"></a><br>
-      <a href="https://cran.r-project.org/web/checks/check_results_dyadicMarkov.html"><img src="https://badges.cranchecks.info/summary/dyadicMarkov.svg" alt="CRAN checks"></a><br>
+      <a href="https://cran.r-project.org/web/checks/check_results_dyadicMarkov.html"><img src="https://badges.cranchecks.info/worst/dyadicMarkov.svg" alt="CRAN checks"></a><br>
       <a href="https://boellenruecherm.r-universe.dev/dyadicMarkov"><img src="https://boellenruecherm.r-universe.dev/dyadicMarkov/badges/version" alt="R-universe version"></a><br>
       <a href="https://boellenruecherm.r-universe.dev/dyadicMarkov"><img src="https://boellenruecherm.r-universe.dev/dyadicMarkov/badges/checks" alt="R-universe checks"></a><br>
       <a href="https://www.r-pkg.org/pkg/dyadicMarkov"><img src="https://cranlogs.r-pkg.org/badges/last-month/dyadicMarkov?color=blue" alt="CRAN downloads last month"></a><br>
