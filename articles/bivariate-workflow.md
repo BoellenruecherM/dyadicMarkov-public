@@ -24,7 +24,7 @@ second variable.
 The 16 rows arise because the previous state combines four binary lagged
 components: first member on `V1`, second member on `V1`, first member on
 `V2`, and second member on `V2`. With two possible states for each
-component, this gives $`2^4 = 16`$ previous-state combinations. The 2
+component, this gives \\2^4 = 16\\ previous-state combinations. The 2
 columns represent the possible next states of the member sequence
 analyzed on the current main variable.
 

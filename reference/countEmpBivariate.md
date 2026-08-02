@@ -35,11 +35,11 @@ ordinary matrix.
 ## Details
 
 The bivariate counter currently supports `states = 2` only. Rows
-represent the previous dyadic states of variable 1 and variable 2. The
-implementation uses the row mapping
-`states^2 * (states * (FM_V1,t - 1) + (SM_V1,t - 1)) +`
-`states * (FM_V2,t - 1) + (SM_V2,t - 1) + 1`. Columns correspond to the
-state of the first member on variable 1 at the next time point,
+represent the previous dyadic states of variable 1 and variable 2.
+Writing \\K\\ for the number of states, the row index at time \\t\\ is
+\$\$r_t = 1 + K^2 \[K(FM\_{V1,t} - 1) + (SM\_{V1,t} - 1)\] +
+K(FM\_{V2,t} - 1) + (SM\_{V2,t} - 1)\$\$ Columns correspond to the state
+of the first member on variable 1 at the next time point,
 \\FM\_{V1,t+1}\\.
 
 ## Examples
