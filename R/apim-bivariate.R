@@ -139,9 +139,9 @@
 #'   Default is 2.
 #' @details The bivariate counter currently supports \code{states = 2} only.
 #'   Rows represent the previous dyadic states of variable 1 and variable 2.
-#'   The implementation uses the row mapping
-#'   \code{states^2 * (states * (FM_V1,t - 1) + (SM_V1,t - 1)) +}
-#'   \code{states * (FM_V2,t - 1) + (SM_V2,t - 1) + 1}. Columns correspond to
+#'   Writing \eqn{K} for the number of states, the row index at time \eqn{t} is
+#'   \deqn{r_t = 1 + K^2 [K(FM_{V1,t} - 1) + (SM_{V1,t} - 1)] + K(FM_{V2,t} - 1) + (SM_{V2,t} - 1)}{r_t = 1 + K^2 * (K * (FM_V1,t - 1) + (SM_V1,t - 1)) + K * (FM_V2,t - 1) + (SM_V2,t - 1)}
+#'   Columns correspond to
 #'   the state of the first member on variable 1 at the next time point,
 #'   \eqn{FM_{V1,t+1}}.
 #' @returns An integer matrix with class
