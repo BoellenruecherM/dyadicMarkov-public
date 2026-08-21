@@ -88,3 +88,28 @@ aside li:has(a[href="LICENSE.html"]),
 aside li:has(a[href$="/LICENSE.html"]) {
   display: none !important;
 }
+
+/* ============================================================
+Small screens
+============================================================ */
+
+@media (max-width: 767.98px) {
+  .page-header h1,
+  .page-header p {
+    padding-right: 90px !important;
+  }
+
+  .template-home .page-header img.logo,
+  .template-home .page-header img[src*="logo"],
+  body:not(.template-home) .page-header img.logo,
+  body:not(.template-home) .page-header img[src*="logo"] {
+    top: 0 !important;
+    right: 0 !important;
+    width: 80px !important;
+    max-width: 80px !important;
+  }
+
+  .template-home h2#overview + p {
+    padding-right: 0 !important;
+  }
+}

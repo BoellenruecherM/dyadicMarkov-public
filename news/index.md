@@ -1,6 +1,8 @@
 # Changelog
 
-## dyadicMarkov 0.1.2
+## dyadicMarkov 0.1.2 (2026-08-21)
+
+CRAN release: 2026-08-21
 
 - Clarified that the univariate pattern-identification procedure is an
   LRT procedure evaluated using Pearson’s chi-squared statistic, while
@@ -23,7 +25,7 @@
 - Made the manual simulated-parity script stop when a comparison fails.
 - Declared `srr` as a development/documentation dependency.
 
-## dyadicMarkov 0.1.1
+## dyadicMarkov 0.1.1 (2026-06-21)
 
 CRAN release: 2026-06-21
 
@@ -46,7 +48,7 @@ CRAN release: 2026-06-21
 - Improved bivariate count validation coverage for unsupported and
   malformed inputs.
 
-## dyadicMarkov 0.1.0
+## dyadicMarkov 0.1.0 (2026-03-16)
 
 CRAN release: 2026-03-16
 
