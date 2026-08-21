@@ -25,7 +25,16 @@
 }
 
 
-# Validate that bivariate counting currently uses binary states.
+#' Validate binary bivariate state count
+#'
+#' Internal helper that validates the current binary-state requirement for
+#' bivariate functions.
+#'
+#' @param states Number of categorical states.
+#'
+#' @return The integer value `2L` when validation succeeds; otherwise raises
+#'   an error.
+#' @noRd
 .validate_bivariate_states <- function(states) {
   ok_states <- !missing(states) &&
     is.numeric(states) &&
@@ -45,7 +54,15 @@
 }
 
 
-# Validate that all bivariate chains are numeric.
+#' Validate bivariate chain types
+#'
+#' Internal helper that checks whether all bivariate chain inputs are numeric.
+#'
+#' @param chains List of bivariate chain vectors.
+#'
+#' @return Invisibly returns `chains` when validation succeeds; otherwise raises
+#'   an error.
+#' @noRd
 .validate_bivariate_chain_types <- function(chains) {
   is_num <- vapply(chains, is.numeric, logical(1))
 
@@ -57,7 +74,16 @@
 }
 
 
-# Validate that bivariate chains do not contain missing values.
+#' Validate missing values in bivariate chains
+#'
+#' Internal helper that checks whether bivariate chain inputs contain missing
+#' values.
+#'
+#' @param chains List of bivariate chain vectors.
+#'
+#' @return Invisibly returns `chains` when validation succeeds; otherwise raises
+#'   an error.
+#' @noRd
 .validate_bivariate_chain_missing <- function(chains) {
   has_na <- vapply(chains, anyNA, logical(1))
 
@@ -69,7 +95,15 @@
 }
 
 
-# Validate that bivariate chains contain finite numeric values.
+#' Validate finite values in bivariate chains
+#'
+#' Internal helper that checks whether all bivariate chain values are finite.
+#'
+#' @param chains List of bivariate chain vectors.
+#'
+#' @return Invisibly returns `chains` when validation succeeds; otherwise raises
+#'   an error.
+#' @noRd
 .validate_bivariate_chain_finite <- function(chains) {
   finite <- vapply(
     chains,
@@ -88,7 +122,16 @@
 }
 
 
-# Validate that all bivariate chains have a common usable length.
+#' Validate bivariate chain lengths
+#'
+#' Internal helper that checks whether all bivariate chains have the same
+#' length and contain at least two observations.
+#'
+#' @param chains List of bivariate chain vectors.
+#'
+#' @return The common chain length when validation succeeds; otherwise raises
+#'   an error.
+#' @noRd
 .validate_bivariate_chain_lengths <- function(chains) {
   lengths <- vapply(chains, length, integer(1))
 
@@ -106,7 +149,16 @@
 }
 
 
-# Validate that bivariate chains use integer-coded states in {1, 2}.
+#' Validate bivariate chain values
+#'
+#' Internal helper that checks whether bivariate chain values are integer coded
+#' and belong to the supported binary state set \code{1, 2}.
+#'
+#' @param chains List of bivariate chain vectors.
+#'
+#' @return Invisibly returns `chains` when validation succeeds; otherwise raises
+#'   an error.
+#' @noRd
 .validate_bivariate_chain_values <- function(chains) {
   bad_chain <- function(x) {
     any(x != as.integer(x)) || any(x < 1L | x > 2L)
@@ -212,19 +264,27 @@ countEmpBivariate <- function(
 #' Bivariate case identification for dyadic Markov chains
 #'
 #' Identifies the bivariate case as \code{"trivial"}, \code{"univariate"},
-#' \code{"partial"}, or \code{"complete"} using two likelihood-ratio tests
-#' against constrained bivariate structures.
+#' \code{"partial"}, or \code{"complete"} using two chi-squared tests
+#' against constrained binary bivariate structures.
 #'
 #' @param empirical An empirical bivariate count matrix with 16 rows and 2
 #'   columns, as returned by \code{\link{countEmpBivariate}}.
 #' @srrstats {EA3.1} The package provides standardized comparison of restricted univariate and bivariate transition structures that would otherwise require manual construction of theoretical transition matrices and separate test statistics.
-#' @srrstats {EA3.0} The package automates extraction and reporting of dyadic transition counts, MLE transition probabilities, likelihood-ratio comparisons, AIC comparisons, and selected interaction patterns.
+#' @srrstats {EA3.0} The package automates extraction and reporting of dyadic transition counts, MLE transition probabilities, univariate LRT comparisons, global bivariate chi-squared comparisons, local bivariate G-squared/AIC comparisons, and selected interaction patterns.
 #' @param alpha A single number in (0, 1) giving the significance level.
 #'   Default is 0.05.
 #' @details The returned case corresponds to the global approach of the
-#'   bivariate method. It determines whether the sequence analyzed is treated
-#'   as trivial, univariate, partial bivariate, or complete bivariate before
-#'   the local identification of the pattern of interaction.
+#'   binary bivariate method. The scientific method treats the global
+#'   comparisons as nested-model comparisons within a likelihood-ratio test
+#'   (LRT) framework. \code{bivariateCase()} implements the two chi-squared
+#'   tests for the A1 and B1 comparisons. dyadicMarkov evaluates these tests
+#'   using Pearson's chi-squared statistic,
+#'   \deqn{X^2 = \sum_{ij} (O_{ij} - E_{ij})^2 / E_{ij},}{X^2 = sum((O - E)^2 / E),}
+#'   where \eqn{O} and \eqn{E} are the empirical and theoretical transition
+#'   counts. A global comparison is treated as rejected when
+#'   \eqn{p \leq \alpha}. The result determines whether the sequence analyzed is
+#'   treated as trivial, univariate, partial bivariate, or complete bivariate before the
+#'   separate local AIC-based identification of the pattern of interaction.
 #' @returns A list with class \code{c("dyadic_case", "list")} containing
 #'   components \code{testUnivariate}, \code{testPartial}, \code{case}, and
 #'   metadata fields \code{alpha} and \code{call}. It remains usable as an
@@ -251,7 +311,8 @@ bivariateCase <- function(empirical, alpha = 0.05) {
   theoA1 <- g[[1]]
   theoB1 <- g[[2]]
 
-  # Two likelihood-ratio tests used for case identification
+  # Two chi-squared tests for global case identification, evaluated with
+  # Pearson's chi-squared statistic within the nested-model/LRT framework
   testUnivariate <- bivariateTest(population = theoA1, empirical = empirical)
   testPartial    <- bivariateTest(population = theoB1, empirical = empirical)
 
@@ -263,9 +324,9 @@ bivariateCase <- function(empirical, alpha = 0.05) {
     case <- NA_character_
   } else if (pA1 > alpha && pB1 > alpha) {
     case <- "trivial"
-  } else if (pA1 > alpha && pB1 < alpha) {
+  } else if (pA1 > alpha && pB1 <= alpha) {
     case <- "univariate"
-  } else if (pA1 < alpha && pB1 > alpha) {
+  } else if (pA1 <= alpha && pB1 > alpha) {
     case <- "partial"
   } else {
     case <- "complete"
@@ -290,8 +351,12 @@ bivariateCase <- function(empirical, alpha = 0.05) {
 #'
 #' @param empirical An empirical bivariate count matrix with 16 rows and 2
 #'   columns, as returned by \code{\link{countEmpBivariate}}.
-#' @details Conditional on the partial bivariate case, AIC is used to select
-#'   among the B1, B2, and B3 structures.
+#' @details Conditional on the partial bivariate case, the G-squared deviance is
+#'   computed for each B1, B2, and B3 candidate before calculating
+#'   \deqn{AIC = G^2 + 2k,}{AIC = G^2 + 2k,}
+#'   where
+#'   \deqn{G^2 = 2 \sum_{ij} O_{ij} \log(O_{ij} / E_{ij}).}{G^2 = 2 * sum(O * log(O / E)).}
+#'   The candidate with the smallest AIC is selected.
 #' @returns A list with class \code{c("dyadic_pattern", "list")} containing
 #'   components \code{aic} (a data frame with candidate patterns and AIC
 #'   values), \code{pattern} (the selected pattern label), and \code{call}. It
@@ -321,17 +386,17 @@ partialPattern <- function(empirical) {
 
   # AIC values for each candidate pattern (k differs by constraint structure)
   aic_vals <- c(
-    "partial actor partner (B1)" = aicBivariate(
+    "partial actor-partner (B1)" = aicBivariate(
       population = theoB1,
       empirical = empirical,
       test = "duo"
     ),
-    "partial actor (B2)" = aicBivariate(
+    "partial actor only (B2)" = aicBivariate(
       population = theoB2,
       empirical = empirical,
       test = "single"
     ),
-    "partial partner (B3)" = aicBivariate(
+    "partial partner only (B3)" = aicBivariate(
       population = theoB3,
       empirical = empirical,
       test = "single"
@@ -365,8 +430,12 @@ partialPattern <- function(empirical) {
 #'
 #' @param empirical An empirical bivariate count matrix with 16 rows and 2
 #'   columns, as returned by \code{\link{countEmpBivariate}}.
-#' @details Conditional on the complete bivariate case, AIC is used to select
-#'   among the C, D1--D4, and E1--E4 structures.
+#' @details Conditional on the complete bivariate case, the G-squared deviance
+#'   is computed for each C, D1--D4, and E1--E4 candidate before calculating
+#'   \deqn{AIC = G^2 + 2k,}{AIC = G^2 + 2k,}
+#'   where
+#'   \deqn{G^2 = 2 \sum_{ij} O_{ij} \log(O_{ij} / E_{ij}).}{G^2 = 2 * sum(O * log(O / E)).}
+#'   The candidate with the smallest AIC is selected.
 #' @returns A list with class \code{c("dyadic_pattern", "list")} containing
 #'   components \code{aic} (a data frame with columns \code{pattern},
 #'   \code{matrix}, and \code{aic}), \code{pattern} (the selected pattern
@@ -408,15 +477,15 @@ completePattern <- function(empirical) {
 
   # Human-readable labels (in the same order as pops/ks)
   labels <- c(
-    "complete actor partner on both (C)",
-    "complete partner on the main, actor partner on the second (D1)",
-    "complete actor on the main, actor partner on the second (D2)",
-    "complete actor partner on the main, partner on the second (D3)",
-    "complete actor partner on the main, actor on the second (D4)",
-    "complete partner on both (E1)",
-    "complete partner on the main, actor on the second (E2)",
-    "complete actor on the main, partner on the second (E3)",
-    "complete actor on both (E4)"
+    "complete actor-partner (C)",
+    "partner only on the main, actor-partner on the second (D1)",
+    "actor only on the main, actor-partner on the second (D2)",
+    "actor-partner on the main, partner only on the second (D3)",
+    "actor-partner on the main, actor only on the second (D4)",
+    "complete partner only (E1)",
+    "partner only on the main, actor only on the second (E2)",
+    "actor only on the main, partner only on the second (E3)",
+    "complete actor only (E4)"
   )
 
   codes <- names(ks)

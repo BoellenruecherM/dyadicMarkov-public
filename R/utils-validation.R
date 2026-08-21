@@ -166,6 +166,11 @@
       call. = FALSE
     )
   }
-
+  if (sum(empirical) == 0) {
+    stop(
+      "bivariate empirical matrix must contain at least one observed transition.",
+      call. = FALSE
+    )
+  }
   invisible(TRUE)
 }

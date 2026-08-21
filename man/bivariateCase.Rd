@@ -21,14 +21,22 @@ ordinary list.
 }
 \description{
 Identifies the bivariate case as \code{"trivial"}, \code{"univariate"},
-\code{"partial"}, or \code{"complete"} using two likelihood-ratio tests
-against constrained bivariate structures.
+\code{"partial"}, or \code{"complete"} using two chi-squared tests
+against constrained binary bivariate structures.
 }
 \details{
 The returned case corresponds to the global approach of the
-bivariate method. It determines whether the sequence analyzed is treated
-as trivial, univariate, partial bivariate, or complete bivariate before
-the local identification of the pattern of interaction.
+binary bivariate method. The scientific method treats the global
+comparisons as nested-model comparisons within a likelihood-ratio test
+(LRT) framework. \code{bivariateCase()} implements the two chi-squared
+tests for the A1 and B1 comparisons. dyadicMarkov evaluates these tests
+using Pearson's chi-squared statistic,
+\deqn{X^2 = \sum_{ij} (O_{ij} - E_{ij})^2 / E_{ij},}{X^2 = sum((O - E)^2 / E),}
+where \eqn{O} and \eqn{E} are the empirical and theoretical transition
+counts. A global comparison is treated as rejected when
+\eqn{p \leq \alpha}. The result determines whether the sequence analyzed is
+treated as trivial, univariate, partial bivariate, or complete bivariate before the
+separate local AIC-based identification of the pattern of interaction.
 }
 \examples{
 chainFM_V1 <- c(1L, 2L, 1L, 2L, 2L, 1L)

@@ -74,6 +74,28 @@
 }
 
 
+#' Check empirical transition-count total
+#'
+#' Internal consistency helper that verifies that empirical transition counts
+#' sum to the expected number of observed transitions.
+#'
+#' @param count Empirical transition count matrix.
+#' @param n_trans Expected number of observed transitions.
+#'
+#' @return Invisibly returns `TRUE` when the totals agree; otherwise raises an
+#'   internal consistency error.
+#' @noRd
+.check_empirical_count_total <- function(count, n_trans) {
+  if (sum(count) != n_trans) {
+    stop(
+      "internal error: empirical counts do not sum to the number of transitions."
+    )
+  }
+
+  invisible(TRUE)
+}
+
+
 #' Empirical transition counts for univariate dyadic sequences
 #'
 #' Computes empirical transition counts for the sequences of the first and
@@ -122,18 +144,23 @@ countEmp <- function(chainFM, chainSM, states) {
   dimnames(count) <- .dyadic_univariate_dimnames(states)
 
   # internal consistency check
-  if (sum(count) != n_trans) {
-    stop(
-      "internal error: empirical counts do not sum to the number of transitions."
-    )
-  }
+  .check_empirical_count_total(count, n_trans)
 
   class(count) <- c("dyadic_counts", "matrix", "array")
   count
 }
 
 
-# Validate that MLE input is supplied as a matrix.
+#' Validate MLE matrix input
+#'
+#' Internal helper that checks whether the empirical transition counts supplied
+#' to MLE estimation are stored in a matrix.
+#'
+#' @param empirical Empirical transition count matrix.
+#'
+#' @return Invisibly returns `empirical` when validation succeeds; otherwise
+#'   raises an error.
+#' @noRd
 .validate_mle_matrix_input <- function(empirical) {
   if (!is.matrix(empirical)) {
     stop("empirical must be a matrix.", call. = FALSE)
@@ -143,7 +170,16 @@ countEmp <- function(chainFM, chainSM, states) {
 }
 
 
-# Validate that the MLE input matrix has usable dimensions.
+#' Validate MLE matrix dimensions
+#'
+#' Internal helper that checks whether the empirical transition count matrix
+#' has at least one row and at least two columns.
+#'
+#' @param empirical Empirical transition count matrix.
+#'
+#' @return Invisibly returns `empirical` when validation succeeds; otherwise
+#'   raises an error.
+#' @noRd
 .validate_mle_matrix_dimensions <- function(empirical) {
   if (nrow(empirical) < 1L || ncol(empirical) < 2L) {
     stop(
@@ -156,30 +192,21 @@ countEmp <- function(chainFM, chainSM, states) {
 }
 
 
-# Validate that MLE counts are numeric, finite, observed, and non-negative.
+#' Validate MLE count values
+#'
+#' Internal helper that checks whether empirical transition counts are numeric,
+#' finite, non-negative, and contain no missing values.
+#'
+#' @param empirical Empirical transition count matrix.
+#'
+#' @return Invisibly returns `empirical` when validation succeeds; otherwise
+#'   raises an error.
+#' @noRd
 .validate_mle_count_values <- function(empirical) {
-  if (!is.numeric(empirical)) {
-    stop(
-      "empirical must contain finite non-negative counts with no NA.",
-      call. = FALSE
-    )
-  }
-
-  if (anyNA(empirical)) {
-    stop(
-      "empirical must contain finite non-negative counts with no NA.",
-      call. = FALSE
-    )
-  }
-
-  if (!all(is.finite(empirical))) {
-    stop(
-      "empirical must contain finite non-negative counts with no NA.",
-      call. = FALSE
-    )
-  }
-
-  if (any(empirical < 0)) {
+  if (!is.numeric(empirical) ||
+      anyNA(empirical) ||
+      !all(is.finite(empirical)) ||
+      any(empirical < 0)) {
     stop(
       "empirical must contain finite non-negative counts with no NA.",
       call. = FALSE
@@ -190,7 +217,16 @@ countEmp <- function(chainFM, chainSM, states) {
 }
 
 
-# Validate all MLE empirical count matrix requirements.
+#' Validate MLE empirical count matrix
+#'
+#' Internal helper that applies all validation checks required for empirical
+#' transition count matrices supplied to MLE estimation.
+#'
+#' @param empirical Empirical transition count matrix.
+#'
+#' @return Invisibly returns `empirical` when all validation checks succeed;
+#'   otherwise raises an error.
+#' @noRd
 .validate_mle_empirical <- function(empirical) {
   .validate_mle_matrix_input(empirical)
   .validate_mle_matrix_dimensions(empirical)
@@ -296,10 +332,11 @@ countTheo <- function(empirical, pattern = c("AM", "PM")) {
 }
 
 
-#' Run a local likelihood ratio test
+#' Run a local likelihood-ratio comparison
 #'
 #' Internal helper for comparing empirical and theoretical transition
-#' count matrices.
+#' count matrices. dyadicMarkov evaluates this scientific LRT comparison using
+#' Pearson's chi-squared statistic.
 #'
 #' @param population Theoretical transition count matrix.
 #' @param empirical Empirical transition count matrix.
@@ -308,8 +345,7 @@ countTheo <- function(empirical, pattern = c("AM", "PM")) {
 #' @noRd
 lrtLocal <- function(population, empirical) {
 
-  # Pearson chi-square distance between observed (empirical)
-  # and expected (population)
+  # Pearson's chi-squared statistic used to evaluate the LRT comparison
   khi2 <- .chisquaredDist(population = population, empirical = empirical)
 
   # Degrees of freedom for the local approach test
@@ -323,7 +359,7 @@ lrtLocal <- function(population, empirical) {
   }
 
   .make_htest(
-    method = "Chi-squared test",
+    method = "Pearson's chi-squared test",
     dataName = "Observed vs Estimated",
     alternative = "The unrestricted model fits the data better",
     statistic = khi2,
@@ -521,11 +557,12 @@ countTheoBivariateC2 <- function(empirical) {
 }
 
 
-# Chi-squared test for a constrained bivariate structure (states = 2 for now)
-#' Run a bivariate likelihood ratio test
+# Chi-squared test for a constrained binary bivariate structure
+#' Run a bivariate chi-squared test
 #'
 #' Internal helper for testing empirical bivariate counts against
-#' a restricted theoretical matrix.
+#' a restricted theoretical matrix. dyadicMarkov evaluates this comparison
+#' using Pearson's chi-squared statistic.
 #'
 #' @param population Theoretical bivariate transition count matrix.
 #' @param empirical Empirical bivariate transition count matrix.
@@ -534,8 +571,8 @@ countTheoBivariateC2 <- function(empirical) {
 #' @noRd
 bivariateTest <- function(population, empirical) {
 
-  # Pearson chi-square distance between observed (empirical)
-  # and expected (population)
+  # Pearson's chi-squared statistic computed from observed (empirical)
+  # and expected (population) counts
   khi2 <- .chisquaredDist(population = population, empirical = empirical)
 
   # Degrees of freedom: currently derived for states = 2 (16x2 counts)
@@ -645,6 +682,18 @@ bivariateTest <- function(population, empirical) {
 }
 
 
+#' Compute AIC for a bivariate candidate model
+#'
+#' Internal helper that computes the bivariate candidate-model AIC from the
+#' G-squared deviance and the model-specific number of free parameters.
+#'
+#' @param population Theoretical bivariate transition count matrix.
+#' @param empirical Empirical bivariate transition count matrix.
+#' @param test Character string specifying the candidate model type.
+#'
+#' @return Numeric AIC value, or `Inf` when a structural-zero conflict is
+#'   present.
+#' @noRd
 aicBivariate <- function(
   population, empirical,
   test = c("single", "duo", "triplet", "quadruplet")
@@ -727,8 +776,8 @@ aicBivariate <- function(
 
 #' Construct an htest object
 #'
-#' Internal helper for returning likelihood ratio test results
-#' in standard `htest` format.
+#' Internal helper for returning hypothesis-test results in standard `htest`
+#' format.
 #'
 #' @param method Character string describing the test method.
 #' @param dataName Character string naming the data.

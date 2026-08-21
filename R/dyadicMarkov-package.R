@@ -1,5 +1,5 @@
-#' dyadicMarkov: Pattern Estimation and Identification for Dyadic Sequences Using
-#' Transition Matrices in R
+#' dyadicMarkov: Pattern Estimation and Identification for Dyadic Sequences
+#' Using Transition Matrices in R
 #'
 #' The dyadicMarkov package provides tools for analyzing categorical dyadic
 #' sequences using transition matrices in the Longitudinal Actor-Partner
@@ -13,10 +13,26 @@
 #' are empirical count matrices, estimated transition probability matrices, and
 #' identified patterns of interaction.
 #'
+#' @section Supported state spaces:
+#' The univariate workflow supports any integer number of categorical states
+#' \eqn{S \ge 2}. The bivariate method is developed for two dichotomous variables
+#' and therefore supports \code{states = 2} only, producing 16-by-2 empirical
+#' count matrices. Bivariate support beyond two states would require additional
+#' mathematical and software development and is not implemented by this package.
+#'
+#' @section Comparison statistics:
+#' The univariate pattern-identification procedure is a likelihood-ratio test
+#' (LRT) procedure that dyadicMarkov evaluates using Pearson's chi-squared statistic. The
+#' global bivariate approach compares nested models within an LRT framework;
+#' \code{bivariateCase()} implements two chi-squared tests for the A1 and B1
+#' comparisons, evaluated using Pearson's chi-squared statistic. Local partial and complete
+#' bivariate pattern selection is separate: it computes the G-squared deviance
+#' and then \eqn{AIC = G^2 + 2k} for each candidate structure.
+#'
 #' @section Main terminology:
 #' A dyadic sequence records the categorical states of two interacting
 #' individuals over time. Empirical transition counts summarize transitions from
-#' previous dyadic states to subsequent states of the member sequence analyzed. Transition
+#' previous dyadic states to subsequent states of the analyzed sequence. Transition
 #' probabilities are estimated by normalizing each row of the empirical
 #' transition
 #' count matrix. Patterns of interaction are identified by comparing
@@ -32,7 +48,7 @@
 #' The method models categorical dyadic sequences with Markov chains in the
 #' Longitudinal Actor-Partner Interdependence Model (L-APIM) framework. It uses
 #' transition matrices to represent how previous dyadic states are related to
-#' the current state of the member sequence analyzed.
+#' the current state of the analyzed sequence.
 #'
 #' @section Algorithmic contribution:
 #' The package implements the main computational steps of the method: empirical
@@ -76,13 +92,10 @@
 #' categorical dyadic sequences.
 #' @srrstats {G1.2} The package-level documentation includes a lifecycle
 #' statement describing the current active-development status.
-#' @srrstats {G1.3} The package-level documentation defines the main
 #' @srrstats {EA1.3} Function-level documentation identifies the expected input structures for each exported function, including state vectors, empirical transition count matrices, and bivariate 16-by-2 count matrices.
 #' @srrstats {EA1.2} The vignettes describe the exploratory questions addressed by the package: empirical transition structure, transition probabilities, actor-partner restrictions, and dyadic pattern classification.
 #' @srrstats {EA1.1} The introduction vignette and function documentation identify the supported data as integer-coded categorical dyadic state sequences, with univariate and bivariate workflows.
 #' @srrstats {EA1.0} The package-level documentation and vignettes identify researchers analysing single-case categorical dyadic sequences as the target audience.
-#' statistical terminology used by dyadicMarkov, including dyadic sequence,
-#' empirical transition counts, transition probabilities, and patterns of
-#' interaction.
+#' @srrstats {G1.3} The package-level documentation defines the main statistical terminology used by dyadicMarkov, including dyadic sequence, empirical transition counts, transition probabilities, Pearson's chi-squared statistic, G-squared deviance, and patterns of interaction.
 #' @keywords internal
 "_PACKAGE"

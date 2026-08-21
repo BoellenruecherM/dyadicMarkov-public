@@ -7,12 +7,12 @@
 #' @srrstatsVerbose TRUE
 #'
 #' @srrstats {G1.4} All exported functions are documented using roxygen2, and devtools::document() generates the corresponding Rd files.
-#' @srrstats {G1.4a} All internal helper functions are documented with roxygen2 blocks and @noRd tags, including validation helpers, likelihood ratio helpers, AIC helpers, and S3 print helper functions.
-#' @srrstats {G3.0} Numeric equality checks are used only for integer coded categorical states and scalar integer validation. dyadicMarkov does not compare floating point statistical estimates for exact equality.
+#' @srrstats {G1.4a} All internal helper functions are documented with roxygen2 blocks and @noRd tags, including validation helpers, likelihood-ratio comparison helpers, bivariate chi-squared helpers, G-squared/AIC helpers, and S3 print helper functions.
+#' @srrstats {G3.0} Exact numeric equality is used only for integer-coded categorical states, integer validation, observed count totals, and structural-zero checks in transition-count matrices. dyadicMarkov does not compare floating-point statistical estimates for exact equality.
 #' @srrstats {G5.1} The package created example data sets are exported as package data and are used in shipped tests to verify their structure, state coding, and expected workflow classifications.
 #' @srrstats {G5.3} Shipped tests check that returned empirical counts and MLE probability matrices contain finite, non negative values and valid probabilities after row normalization.
-#' @srrstats {G5.4} Correctness tests use fixed hand constructed dyadic sequences and empirical count matrices with known outputs for countEmp(), countEmpBivariate(), and mleEstimation().
-#' @srrstats {G5.4a} Because the dyadic transition matrix method is package specific, implementation correctness is tested against hand computed cases, including exact univariate counts, exact bivariate counts, zero row MLE behavior, and all identical valid chains.
+#' @srrstats {G5.4} Correctness tests use fixed hand constructed dyadic sequences and empirical count matrices with known outputs for transition counting, estimation, Pearson chi-squared comparisons, and G-squared/AIC calculations.
+#' @srrstats {G5.4a} Because the dyadic transition matrix method is package specific, implementation correctness is tested against hand computed cases, including exact counts, zero row MLE behavior, deterministic Pearson statistics that differ from G-squared, and G-squared plus parameter-penalty AIC values.
 #' @srrstats {G5.6} Parameter recovery is tested for mleEstimation() using empirical transition count matrices with known probabilities obtained by row normalization.
 #' @srrstats {G5.6a} Parameter recovery tests compare recovered transition probabilities with known expected probabilities using an explicit numerical tolerance.
 #' @srrstats {G5.7} Scaling behaviour tests demonstrate that mleEstimation() returns stable transition probabilities when empirical transition counts are multiplied by a constant factor.

@@ -2,54 +2,48 @@
 
 Local checks:
 
-* Windows 11 x64, R 4.5.2
+* Windows 11 x64, R 4.6.1
 
-Local final tarball check:
+Remote Windows checks using win-builder:
 
-* Windows 11 x64, R 4.5.2, R CMD check --no-manual --as-cran dyadicMarkov_0.1.1.tar.gz: Status OK
-
-Win-Builder:
-
-* R-release, R 4.6.0: Status OK
-* R-oldrelease, R 4.5.3: Status OK
-* R-devel, R Under development: Status OK
-
-R-hub / GitHub Actions:
-
-* Linux, R-devel: Status OK
-* Windows, R-devel: Status OK
+* R-oldrelease 4.5.3
+* R-release 4.6.1
+* R-devel (2026-08-17 r90424)
 
 ## R CMD check results
 
-Local devtools::check using --as-cran and compact vignettes:
+Final source tarball:
+
+* File: dyadicMarkov_0.1.2.tar.gz
+* SHA256: D5A87A50C6273973F1D6019FC85F3C18857080AB7D59E568AF33BE5238B8CB35
+* Size: 59,111 bytes
+
+Local R CMD check --as-cran on the final source tarball:
 
 * 0 errors
 * 0 warnings
-* 0 notes
+* 1 note
 
-Local R CMD check --no-manual --as-cran on the final built tarball:
+The single NOTE reports the intentional maintainer email change from
+mattia.boellenruecher@student.unisg.ch to
+mboellenruec@student.ethz.ch.
 
-* Status OK
+Windows win-builder checks on the same final source tarball:
 
-Win-Builder:
+* R-oldrelease 4.5.3: 0 errors, 0 warnings, 1 note
+* R-release 4.6.1: 0 errors, 0 warnings, 1 note
+* R-devel (2026-08-17 r90424): 0 errors, 0 warnings, 1 note
 
-* R-release: Status OK
-* R-oldrelease: Status OK
-* R-devel: Status OK
-
-R-hub / GitHub Actions:
-
-* Linux, R-devel: Status OK
-* Windows, R-devel: Status OK
+In all three win-builder checks, the single NOTE is the same intentional
+maintainer email change.
 
 ## rOpenSci statistical software standards
 
-The package documents compliance with the applicable rOpenSci statistical software standards using srr.
+The package documents compliance with the applicable rOpenSci statistical
+software standards using srr.
+
+Final pre-submission check:
 
 * srr::srr_stats_pre_submit() passed.
 * 53 standards are documented as complied with.
 * 49 standards are documented as not applicable.
-
-## Downstream dependencies
-
-There are no downstream dependencies for this package.

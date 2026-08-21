@@ -21,8 +21,12 @@ Compares the partial bivariate patterns B1, B2, and B3 using AIC and returns
 the selected pattern.
 }
 \details{
-Conditional on the partial bivariate case, AIC is used to select
-among the B1, B2, and B3 structures.
+Conditional on the partial bivariate case, the G-squared deviance is
+computed for each B1, B2, and B3 candidate before calculating
+\deqn{AIC = G^2 + 2k,}{AIC = G^2 + 2k,}
+where
+\deqn{G^2 = 2 \sum_{ij} O_{ij} \log(O_{ij} / E_{ij}).}{G^2 = 2 * sum(O * log(O / E)).}
+The candidate with the smallest AIC is selected.
 }
 \examples{
 chainFM_V1 <- c(1L, 2L, 1L, 2L, 2L, 1L)

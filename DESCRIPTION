@@ -1,9 +1,9 @@
 Package: dyadicMarkov
 Type: Package
 Title: Pattern Estimation and Identification for Dyadic Sequences Using Transition Matrices in R
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(
-  person("Mattia", "Böllenrücher", email = "mattia.boellenruecher@student.unisg.ch", role = c("aut", "cre", "cph"),
+  person("Mattia", "Böllenrücher", email = "mboellenruec@student.ethz.ch", role = c("aut", "cre", "cph"),
          comment = c(ORCID = "0009-0004-4149-4745")),
   person("Mégane", "Bollenrücher", role = "aut",
          comment = c(ORCID = "0000-0002-9035-8799")),
@@ -21,9 +21,10 @@ Imports:
 Suggests:
     testthat (>= 3.0.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    srr
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE, roclets = c("namespace", "rd", "srr::srr_stats_roclet"))
-RoxygenNote: 7.3.3
 Config/testthat/edition: 3
 LazyData: true
+Config/roxygen2/version: 8.0.0

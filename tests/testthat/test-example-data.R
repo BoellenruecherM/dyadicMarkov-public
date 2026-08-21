@@ -50,6 +50,6 @@ test_that("example datasets reproduce expected workflow classifications", {
   complete_pattern <- dyadicMarkov::completePattern(bivariate_counts)
   expect_identical(
     complete_pattern$pattern,
-    "complete actor on the main, actor partner on the second (D2)"
+    "actor only on the main, actor-partner on the second (D2)"
   )
 })

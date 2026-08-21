@@ -4,8 +4,8 @@
 \name{dyadicMarkov-package}
 \alias{dyadicMarkov}
 \alias{dyadicMarkov-package}
-\title{dyadicMarkov: Pattern Estimation and Identification for Dyadic Sequences Using
-Transition Matrices in R}
+\title{dyadicMarkov: Pattern Estimation and Identification for Dyadic Sequences
+Using Transition Matrices in R}
 \description{
 The dyadicMarkov package provides tools for analyzing categorical dyadic
 sequences using transition matrices in the Longitudinal Actor-Partner
@@ -21,11 +21,31 @@ are empirical count matrices, estimated transition probability matrices, and
 identified patterns of interaction.
 }
 
+\section{Supported state spaces}{
+
+The univariate workflow supports any integer number of categorical states
+\eqn{S \ge 2}. The bivariate method is developed for two dichotomous variables
+and therefore supports \code{states = 2} only, producing 16-by-2 empirical
+count matrices. Bivariate support beyond two states would require additional
+mathematical and software development and is not implemented by this package.
+}
+
+\section{Comparison statistics}{
+
+The univariate pattern-identification procedure is a likelihood-ratio test
+(LRT) procedure that dyadicMarkov evaluates using Pearson's chi-squared statistic. The
+global bivariate approach compares nested models within an LRT framework;
+\code{bivariateCase()} implements two chi-squared tests for the A1 and B1
+comparisons, evaluated using Pearson's chi-squared statistic. Local partial and complete
+bivariate pattern selection is separate: it computes the G-squared deviance
+and then \eqn{AIC = G^2 + 2k} for each candidate structure.
+}
+
 \section{Main terminology}{
 
 A dyadic sequence records the categorical states of two interacting
 individuals over time. Empirical transition counts summarize transitions from
-previous dyadic states to subsequent states of the member sequence analyzed. Transition
+previous dyadic states to subsequent states of the analyzed sequence. Transition
 probabilities are estimated by normalizing each row of the empirical
 transition
 count matrix. Patterns of interaction are identified by comparing
@@ -45,7 +65,7 @@ functions are intended to remain stable across minor releases.
 The method models categorical dyadic sequences with Markov chains in the
 Longitudinal Actor-Partner Interdependence Model (L-APIM) framework. It uses
 transition matrices to represent how previous dyadic states are related to
-the current state of the member sequence analyzed.
+the current state of the analyzed sequence.
 }
 
 \section{Algorithmic contribution}{
@@ -92,10 +112,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Mattia Böllenrücher \email{mattia.boellenruecher@student.unisg.ch} (\href{https://orcid.org/0009-0004-4149-4745}{ORCID}) [copyright holder]
+\strong{Maintainer}: Mattia Böllenrücher \email{mboellenruec@student.ethz.ch} (\href{https://orcid.org/0009-0004-4149-4745}{ORCID}) [copyright holder]
 
 Authors:
 \itemize{
+  \item Mattia Böllenrücher \email{mboellenruec@student.ethz.ch} (\href{https://orcid.org/0009-0004-4149-4745}{ORCID}) [copyright holder]
   \item Mégane Bollenrücher (\href{https://orcid.org/0000-0002-9035-8799}{ORCID})
   \item Jean-Philippe Antonietti (\href{https://orcid.org/0000-0003-0117-4769}{ORCID})
 }

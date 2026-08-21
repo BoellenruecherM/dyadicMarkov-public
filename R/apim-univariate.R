@@ -2,16 +2,21 @@
 #'
 #' Computes empirical transition counts, estimates transition probabilities by
 #' maximum likelihood, and performs likelihood-ratio tests against the
-#' actor-only
-#' and partner-only constrained models to identify the univariate pattern of
-#' interaction.
+#' actor-only and partner-only constrained models to identify the univariate
+#' pattern of interaction.
 #'
 #' @param chainFM Vector of observed states for the first member (FM).
 #' @param chainSM Vector of observed states for the second member (SM).
 #' @param states A single integer >= 2 giving the number of states.
 #' @param alpha A single number in (0, 1) giving the significance level.
 #'   Default is 0.05.
-#' @details Pattern labels summarize which structure is retained by the tests:
+#' @details The nested full/restricted comparisons form the univariate
+#'   likelihood-ratio test (LRT) procedure. dyadicMarkov evaluates each LRT
+#'   comparison using Pearson's chi-squared statistic,
+#'   \deqn{X^2 = \sum_{ij} (O_{ij} - E_{ij})^2 / E_{ij},}{X^2 = sum((O - E)^2 / E),}
+#'   where \eqn{O} and \eqn{E} are the empirical and theoretical transition
+#'   counts. A comparison is treated as rejected when \eqn{p \leq \alpha}.
+#'   Pattern labels summarize which structure is retained by the tests:
 #'   \code{IM (A0)} denotes an independence pattern, \code{APM (A1)} an
 #'   actor-partner pattern, \code{AM (A2)} an actor-only pattern, and
 #'   \code{PM (A3)} a partner-only pattern.
@@ -39,7 +44,7 @@ univariatePattern <- function(chainFM, chainSM, states, alpha = 0.05) {
   theoAM <- countTheo(empirical = emp, pattern = "AM")
   theoPM <- countTheo(empirical = emp, pattern = "PM")
 
-  # Local likelihood-ratio tests against each constrained model
+  # Likelihood-ratio comparisons evaluated with Pearson's chi-squared statistic
   lrtAM <- lrtLocal(population = theoAM, empirical = emp)
   lrtPM <- lrtLocal(population = theoPM, empirical = emp)
 
@@ -51,9 +56,9 @@ univariatePattern <- function(chainFM, chainSM, states, alpha = 0.05) {
     type <- NA_character_
   } else if (pvalueAM > alpha && pvaluePM > alpha) {
     type <- "IM (A0)"
-  } else if (pvalueAM < alpha && pvaluePM > alpha) {
+  } else if (pvalueAM <= alpha && pvaluePM > alpha) {
     type <- "PM (A3)"
-  } else if (pvalueAM > alpha && pvaluePM < alpha) {
+  } else if (pvalueAM > alpha && pvaluePM <= alpha) {
     type <- "AM (A2)"
   } else {
     type <- "APM (A1)"
