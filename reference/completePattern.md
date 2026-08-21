@@ -26,8 +26,11 @@ an ordinary list.
 
 ## Details
 
-Conditional on the complete bivariate case, AIC is used to select among
-the C, D1–D4, and E1–E4 structures.
+Conditional on the complete bivariate case, the G-squared deviance is
+computed for each C, D1–D4, and E1–E4 candidate before calculating
+\$\$AIC = G^2 + 2k,\$\$ where \$\$G^2 = 2 \sum\_{ij} O\_{ij}
+\log(O\_{ij} / E\_{ij}).\$\$ The candidate with the smallest AIC is
+selected.
 
 ## Examples
 
@@ -42,5 +45,5 @@ emp <- countEmpBivariate(
 )
 completePattern(emp)
 #> Dyadic interaction pattern
-#> Pattern: complete partner on both (E1)
+#> Pattern: complete partner only (E1)
 ```

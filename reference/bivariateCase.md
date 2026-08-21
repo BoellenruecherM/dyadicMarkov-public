@@ -1,8 +1,8 @@
 # Bivariate case identification for dyadic Markov chains
 
 Identifies the bivariate case as `"trivial"`, `"univariate"`,
-`"partial"`, or `"complete"` using two likelihood-ratio tests against
-constrained bivariate structures.
+`"partial"`, or `"complete"` using two chi-squared tests against
+constrained binary bivariate structures.
 
 ## Usage
 
@@ -31,10 +31,18 @@ A list with class `c("dyadic_case", "list")` containing components
 
 ## Details
 
-The returned case corresponds to the global approach of the bivariate
-method. It determines whether the sequence analyzed is treated as
-trivial, univariate, partial bivariate, or complete bivariate before the
-local identification of the pattern of interaction.
+The returned case corresponds to the global approach of the binary
+bivariate method. The scientific method treats the global comparisons as
+nested-model comparisons within a likelihood-ratio test (LRT) framework.
+`bivariateCase()` implements the two chi-squared tests for the A1 and B1
+comparisons. dyadicMarkov evaluates these tests using Pearson's
+chi-squared statistic, \$\$X^2 = \sum\_{ij} (O\_{ij} - E\_{ij})^2 /
+E\_{ij},\$\$ where \\O\\ and \\E\\ are the empirical and theoretical
+transition counts. A global comparison is treated as rejected when \\p
+\leq \alpha\\. The result determines whether the sequence analyzed is
+treated as trivial, univariate, partial bivariate, or complete bivariate
+before the separate local AIC-based identification of the pattern of
+interaction.
 
 ## Examples
 

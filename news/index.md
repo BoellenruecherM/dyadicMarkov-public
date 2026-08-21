@@ -1,5 +1,28 @@
 # Changelog
 
+## dyadicMarkov 0.1.2
+
+- Clarified that the univariate pattern-identification procedure is an
+  LRT procedure evaluated using Pearson’s chi-squared statistic, while
+  the global bivariate nested-model/LRT framework implements two
+  chi-squared tests for A1 and B1, also evaluated using Pearson’s
+  chi-squared statistic.
+- Clarified that local bivariate pattern selection computes the
+  G-squared deviance before applying `AIC = G^2 + 2k`.
+- Corrected the univariate pattern-identification and global bivariate
+  case boundaries so that p-values equal to alpha are treated as
+  rejection (`p <= alpha`).
+- Documented that the univariate workflow supports multiple categorical
+  states, while the bivariate workflow is defined for two dichotomous
+  variables.
+- Added focused tests that distinguish Pearson’s chi-squared statistic
+  from G-squared and verify both partial and complete bivariate AIC
+  paths.
+- Updated the maintainer email address and package version for this
+  release.
+- Made the manual simulated-parity script stop when a comparison fails.
+- Declared `srr` as a development/documentation dependency.
+
 ## dyadicMarkov 0.1.1
 
 CRAN release: 2026-06-21

@@ -32,7 +32,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dyadicMarkov</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,9 +94,10 @@ real ordered observations from a dyad. For example, <code>FM</code> and
 <code>SM</code> could represent two partners, a parent and child, a
 therapist and client, or any two interacting members observed at
 repeated occasions. The integer states represent coded categories of a
-behavior or response. In a binary application, state 1 and state 2 could
-represent absence and presence of a coded behavior, two interaction
-states, or two response categories defined by the researcher.</p>
+behavior or response. In a binary application, <code>state 1</code> and
+<code>state 2</code> could represent absence and presence of a coded
+behavior, two interaction states, or two response categories defined by
+the researcher.</p>
 </div>
 <div class="section level2">
 <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
@@ -104,8 +105,8 @@ states, or two response categories defined by the researcher.</p>
 <p>The univariate example contains one categorical variable for the
 first member (<code>FM</code>) and the second member (<code>SM</code>)
 of a dyad. Each row corresponds to one measurement occasion. In the
-first analysis, <code>FM</code> is the first member sequence analyzed
-and <code>SM</code> is the second member sequence.</p>
+first analysis, the sequence of <code>FM</code>, the first member, is
+analyzed; <code>SM</code> is the second member or partner.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"dyadic_univariate_example"</span>, package <span class="op">=</span> <span class="st">"dyadicMarkov"</span><span class="op">)</span></span>
 <span></span>
@@ -190,12 +191,16 @@ structure of the observed dyadic sequence.</p>
 <div class="section level2">
 <h2 id="univariate-pattern-identification">Univariate pattern identification<a class="anchor" aria-label="anchor" href="#univariate-pattern-identification"></a>
 </h2>
-<p>The function <code><a href="../reference/univariatePattern.html">univariatePattern()</a></code> performs the univariate
-identification step. It compares the unrestricted actor-partner
-structure with actor-only and partner-only restricted structures through
-likelihood-ratio tests. The two test outcomes are then combined to
-classify the sequence as Actor-Partner, Actor-only, Partner-only or
-Independence.</p>
+<p>The univariate method uses the A-family matrix codes for its
+dependence patterns: A1 denotes actor-partner, A2 actor only, and A3
+partner only. The pattern nomenclature is summarized in Table 2 of <span class="citation">Böllenrücher et al. (in press)</span>.</p>
+<p>The function <code><a href="../reference/univariatePattern.html">univariatePattern()</a></code> implements the
+univariate Likelihood-Ratio Test (LRT) procedure. It compares the
+unrestricted actor-partner structure with actor-only and partner-only
+restricted structures. <code>dyadicMarkov</code> evaluates these
+comparisons using Pearson’s chi-squared statistic, <span class="math inline">\(X^2 = \sum (O-E)^2/E\)</span>. The two test
+outcomes are then combined to classify the sequence as actor-partner,
+actor only, partner only, or independence.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pat_uni</span> <span class="op">&lt;-</span> <span class="fu">dyadicMarkov</span><span class="fu">::</span><span class="fu"><a href="../reference/univariatePattern.html">univariatePattern</a></span><span class="op">(</span></span>
 <span>  chainFM <span class="op">=</span> <span class="va">dyadic_univariate_example</span><span class="op">$</span><span class="va">FM</span>,</span>
@@ -257,12 +262,12 @@ the restricted structure, whereas the previous state of the first member
 is not retained. In the terminology of the univariate method, this
 corresponds to a partner-only pattern.</p>
 <p>The result should be interpreted as a pattern description for the
-member sequence analyzed by the function. The function call above
-analyzes <code>FM</code> as the first member sequence and
-<code>SM</code> as the second member sequence. Reversing the two
-arguments analyzes the sequence from the perspective of the second
-member. Thus, describing both members of a dyad requires two calls, and
-each returned pattern is specific to the member sequence analyzed.</p>
+analyzed sequence. The function call above analyzes the sequence of
+<code>FM</code>, the first member, with <code>SM</code> as the second
+member or partner. Reversing the two arguments analyzes the sequence
+from the perspective of the second member. Thus, describing both members
+of a dyad requires two calls, and each returned pattern is specific to
+the analyzed sequence.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pat_uni_reverse</span> <span class="op">&lt;-</span> <span class="fu">dyadicMarkov</span><span class="fu">::</span><span class="fu"><a href="../reference/univariatePattern.html">univariatePattern</a></span><span class="op">(</span></span>
 <span>  chainFM <span class="op">=</span> <span class="va">dyadic_univariate_example</span><span class="op">$</span><span class="va">SM</span>,</span>
@@ -276,6 +281,10 @@ each returned pattern is specific to the member sequence analyzed.</p>
 <span><span class="co">#&gt; Pattern: PM (A3)</span></span>
 <span><span class="co">#&gt; Alpha: 0.05</span></span>
 <span><span class="co">#&gt; States: 2</span></span></code></pre></div>
+<p>In this example, reversing the two members also returns
+<code>PM (A3)</code>, but this does not occur in general: each call
+describes the pattern of the sequence supplied as the first member,
+conditional on the sequence supplied as the second member.</p>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
@@ -287,6 +296,13 @@ Bollenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti.
 Interdependence Model with Markov Chains for Unique Case
 Analysis.”</span> <em>The Quantitative Methods for Psychology</em> 19
 (3): 230–43. <a href="https://doi.org/10.20982/tqmp.19.3.p230" class="external-link">https://doi.org/10.20982/tqmp.19.3.p230</a>.
+</div>
+<div id="ref-bollen2026" class="csl-entry">
+Böllenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti. in
+press. <span>“Bivariate Dyadic Patterns Analysis Using Longitudinal
+Actor-Partner Interdependence Model and Markov Chains for
+Single-Case.”</span> <em>Quantitative and Computational Methods in
+Behavioral Sciences</em>, ahead of print, in press. <a href="https://doi.org/10.23668/psycharchives.22174" class="external-link">https://doi.org/10.23668/psycharchives.22174</a>.
 </div>
 </div>
 </div>

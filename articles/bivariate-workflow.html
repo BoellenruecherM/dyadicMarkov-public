@@ -32,7 +32,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dyadicMarkov</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -84,6 +84,13 @@
 variables are observed repeatedly for the two members of a dyad. The
 bivariate method follows the global-and-local procedure described in
 <span class="citation">Böllenrücher et al. (in press)</span>.</p>
+<p>The bivariate method uses matrix codes to identify the local
+dependence patterns. Partial bivariate patterns are denoted B1–B3, while
+complete bivariate patterns are denoted C, D1–D4, and E1–E4. When the
+global step identifies a univariate case, the A-family codes described
+in the univariate workflow apply. The pattern nomenclature is summarized
+in Table 2 of <span class="citation">Böllenrücher et al. (in
+press)</span>.</p>
 <p>The current bivariate functions support <code>states = 2</code>. With
 two binary variables observed for two members, the previous state is
 described by four binary components. The empirical bivariate count
@@ -102,7 +109,7 @@ lagged components: first member on <code>V1</code>, second member on
 <code>V2</code>. With two possible states for each component, this gives
 <span class="math inline">\(2^4 = 16\)</span> previous-state
 combinations. The 2 columns represent the possible next states of the
-member sequence analyzed on the current main variable.</p>
+first member on the current main variable.</p>
 </div>
 <div class="section level2">
 <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a>
@@ -180,9 +187,13 @@ variable.</p>
 <h2 id="global-bivariate-case">Global bivariate case<a class="anchor" aria-label="anchor" href="#global-bivariate-case"></a>
 </h2>
 <p>The function <code><a href="../reference/bivariateCase.html">bivariateCase()</a></code> performs the global step of
-the bivariate method. It applies the package chi-squared comparisons to
-classify the dependence structure of the member sequence analyzed as a
-trivial, univariate, partial bivariate or complete bivariate case.</p>
+the bivariate method. The global approach compares nested models within
+the likelihood-ratio test (LRT) framework. <code><a href="../reference/bivariateCase.html">bivariateCase()</a></code>
+implements the two chi-squared tests for the A1 and B1 comparisons used
+to identify the dependence case. <code>dyadicMarkov</code> evaluates
+these tests using Pearson’s chi-squared statistic, <span class="math inline">\(X^2 = \sum (O-E)^2/E\)</span>, to classify the
+analyzed sequence as a trivial, univariate, partial bivariate, or
+complete bivariate case.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">case_bi</span> <span class="op">&lt;-</span> <span class="fu">dyadicMarkov</span><span class="fu">::</span><span class="fu"><a href="../reference/bivariateCase.html">bivariateCase</a></span><span class="op">(</span><span class="va">emp_bi</span>, alpha <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span></span>
 <span></span>
@@ -211,54 +222,51 @@ candidate patterns.</p>
 <div class="section level2">
 <h2 id="local-pattern-identification-for-a-complete-case">Local pattern identification for a complete case<a class="anchor" aria-label="anchor" href="#local-pattern-identification-for-a-complete-case"></a>
 </h2>
-<p>For a complete bivariate case, <code><a href="../reference/completePattern.html">completePattern()</a></code>
-compares the complete bivariate candidate structures by AIC and returns
-the selected pattern.</p>
+<p>For a complete bivariate case, <code><a href="../reference/completePattern.html">completePattern()</a></code> first
+computes the G-squared deviance, <span class="math inline">\(G^2 = 2\sum
+O\log(O/E)\)</span>, for each complete bivariate candidate structure. It
+then calculates <span class="math inline">\(AIC = G^2 + 2k\)</span> and
+returns the candidate with the smallest AIC.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">complete_bi</span> <span class="op">&lt;-</span> <span class="fu">dyadicMarkov</span><span class="fu">::</span><span class="fu"><a href="../reference/completePattern.html">completePattern</a></span><span class="op">(</span><span class="va">emp_bi</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">complete_bi</span></span>
 <span><span class="co">#&gt; Dyadic interaction pattern</span></span>
-<span><span class="co">#&gt; Pattern: complete actor on the main, actor partner on the second (D2)</span></span>
+<span><span class="co">#&gt; Pattern: actor only on the main, actor-partner on the second (D2)</span></span>
 <span><span class="va">complete_bi</span><span class="op">$</span><span class="va">pattern</span></span>
-<span><span class="co">#&gt; [1] "complete actor on the main, actor partner on the second (D2)"</span></span>
+<span><span class="co">#&gt; [1] "actor only on the main, actor-partner on the second (D2)"</span></span>
 <span><span class="va">complete_bi</span><span class="op">$</span><span class="va">aic</span></span>
-<span><span class="co">#&gt;                                                          pattern matrix</span></span>
-<span><span class="co">#&gt; 1                             complete actor partner on both (C)      C</span></span>
-<span><span class="co">#&gt; 2 complete partner on the main, actor partner on the second (D1)     D1</span></span>
-<span><span class="co">#&gt; 3   complete actor on the main, actor partner on the second (D2)     D2</span></span>
-<span><span class="co">#&gt; 4 complete actor partner on the main, partner on the second (D3)     D3</span></span>
-<span><span class="co">#&gt; 5   complete actor partner on the main, actor on the second (D4)     D4</span></span>
-<span><span class="co">#&gt; 6                                  complete partner on both (E1)     E1</span></span>
-<span><span class="co">#&gt; 7         complete partner on the main, actor on the second (E2)     E2</span></span>
-<span><span class="co">#&gt; 8         complete actor on the main, partner on the second (E3)     E3</span></span>
-<span><span class="co">#&gt; 9                                    complete actor on both (E4)     E4</span></span>
-<span><span class="co">#&gt;        aic</span></span>
-<span><span class="co">#&gt; 1 32.00000</span></span>
-<span><span class="co">#&gt; 2 30.03720</span></span>
-<span><span class="co">#&gt; 3 28.42735</span></span>
-<span><span class="co">#&gt; 4 33.33973</span></span>
-<span><span class="co">#&gt; 5 38.60730</span></span>
-<span><span class="co">#&gt; 6 30.55374</span></span>
-<span><span class="co">#&gt; 7 42.91748</span></span>
-<span><span class="co">#&gt; 8 36.47261</span></span>
-<span><span class="co">#&gt; 9 40.57170</span></span></code></pre></div>
+<span><span class="co">#&gt;                                                      pattern matrix      aic</span></span>
+<span><span class="co">#&gt; 1                                 complete actor-partner (C)      C 32.00000</span></span>
+<span><span class="co">#&gt; 2 partner only on the main, actor-partner on the second (D1)     D1 30.03720</span></span>
+<span><span class="co">#&gt; 3   actor only on the main, actor-partner on the second (D2)     D2 28.42735</span></span>
+<span><span class="co">#&gt; 4 actor-partner on the main, partner only on the second (D3)     D3 33.33973</span></span>
+<span><span class="co">#&gt; 5   actor-partner on the main, actor only on the second (D4)     D4 38.60730</span></span>
+<span><span class="co">#&gt; 6                                 complete partner only (E1)     E1 30.55374</span></span>
+<span><span class="co">#&gt; 7    partner only on the main, actor only on the second (E2)     E2 42.91748</span></span>
+<span><span class="co">#&gt; 8    actor only on the main, partner only on the second (E3)     E3 36.47261</span></span>
+<span><span class="co">#&gt; 9                                   complete actor only (E4)     E4 40.57170</span></span></code></pre></div>
 <p>In this example, the selected complete bivariate pattern is
-<code>D2</code>, labelled by the package as complete actor on the main,
+<code>D2</code>, labelled by the package as actor only on the main,
 actor-partner on the second.</p>
 </div>
 <div class="section level2">
-<h2 id="reassigning-member-and-main-variable-roles">Reassigning member and main-variable roles<a class="anchor" aria-label="anchor" href="#reassigning-member-and-main-variable-roles"></a>
+<h2 id="analyzing-each-variable-and-member-in-turn">Analyzing each variable and member in turn<a class="anchor" aria-label="anchor" href="#analyzing-each-variable-and-member-in-turn"></a>
 </h2>
-<p>The previous analysis used <code>FM_V1</code> as the member-variable
-sequence analyzed, <code>V1</code> as the main variable and
-<code>V2</code> as the second variable. In the bivariate method, these
-are analysis roles rather than fixed identities. To describe the dyad
-more completely, the roles can be reassigned so that each
-member-variable sequence is analyzed in turn.</p>
-<p>The same data set gives different branches of the global-and-local
-procedure depending on the member-variable sequence analyzed and the
-main variable.</p>
+<p>Each bivariate analysis is defined from a specific perspective. The
+sequence supplied as the first member is the sequence being analyzed,
+while the second member provides the partner sequence. Likewise, one
+variable is treated as the main variable and the other as the second
+variable. Swapping the two members therefore changes the member
+perspective of the analysis, while swapping the two variables changes
+which variable is treated as the main variable. To describe the dyad
+more completely, the workflow can be repeated for each combination of
+analyzed member and main variable. These are distinct analyses and may
+therefore lead to different global cases and local interaction
+patterns.</p>
+<p>For compactness, the following vignette-local helper applies the
+exported functions in sequence; <code>analyze_bivariate()</code> is not
+part of the package API.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">analyze_bivariate</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">label</span>, <span class="va">fm_v1</span>, <span class="va">sm_v1</span>, <span class="va">fm_v2</span>, <span class="va">sm_v2</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">emp</span> <span class="op">&lt;-</span> <span class="fu">dyadicMarkov</span><span class="fu">::</span><span class="fu"><a href="../reference/countEmpBivariate.html">countEmpBivariate</a></span><span class="op">(</span></span>
@@ -299,7 +307,7 @@ main variable.</p>
 <span><span class="co">#&gt; Case: complete</span></span>
 <span><span class="co">#&gt; Alpha: 0.05</span></span>
 <span><span class="co">#&gt; Dyadic interaction pattern</span></span>
-<span><span class="co">#&gt; Pattern: complete actor on the main, actor partner on the second (D2)</span></span>
+<span><span class="co">#&gt; Pattern: actor only on the main, actor-partner on the second (D2)</span></span>
 <span></span>
 <span><span class="fu">analyze_bivariate</span><span class="op">(</span></span>
 <span>  <span class="st">"SM_V1 as analyzed sequence, V1 as main variable"</span>,</span>
@@ -311,7 +319,7 @@ main variable.</p>
 <span><span class="co">#&gt; Case: complete</span></span>
 <span><span class="co">#&gt; Alpha: 0.05</span></span>
 <span><span class="co">#&gt; Dyadic interaction pattern</span></span>
-<span><span class="co">#&gt; Pattern: complete actor partner on the main, partner on the second (D3)</span></span>
+<span><span class="co">#&gt; Pattern: actor-partner on the main, partner only on the second (D3)</span></span>
 <span></span>
 <span><span class="fu">analyze_bivariate</span><span class="op">(</span></span>
 <span>  <span class="st">"FM_V2 as analyzed sequence, V2 as main variable"</span>,</span>
@@ -323,7 +331,7 @@ main variable.</p>
 <span><span class="co">#&gt; Case: partial</span></span>
 <span><span class="co">#&gt; Alpha: 0.05</span></span>
 <span><span class="co">#&gt; Dyadic interaction pattern</span></span>
-<span><span class="co">#&gt; Pattern: partial actor (B2)</span></span>
+<span><span class="co">#&gt; Pattern: partial actor only (B2)</span></span>
 <span></span>
 <span><span class="fu">analyze_bivariate</span><span class="op">(</span></span>
 <span>  <span class="st">"SM_V2 as analyzed sequence, V2 as main variable"</span>,</span>
@@ -338,24 +346,30 @@ main variable.</p>
 <span><span class="co">#&gt; Pattern: APM (A1)</span></span>
 <span><span class="co">#&gt; Alpha: 0.05</span></span>
 <span><span class="co">#&gt; States: 2</span></span></code></pre></div>
-<p>For this example, the four role assignments illustrate three branches
-of the procedure: complete bivariate cases for the two <code>V1</code>
-member-variable sequences, a partial bivariate case for
-<code>FM_V2</code>, and a univariate case for <code>SM_V2</code>. The
-partial branch is therefore demonstrated with the same bivariate example
-data rather than with an artificial seeded example.</p>
+<p>For this example, analyzing the four sequences in turn illustrates
+three branches of the procedure: complete bivariate cases when
+<code>FM_V1</code> and <code>SM_V1</code> are analyzed, a partial
+bivariate case for <code>FM_V2</code>, and a univariate case for
+<code>SM_V2</code>. The partial branch is therefore demonstrated with
+the same bivariate example data rather than with an artificial seeded
+example.</p>
 </div>
 <div class="section level2">
 <h2 id="reading-the-global-and-local-steps-together">Reading the global and local steps together<a class="anchor" aria-label="anchor" href="#reading-the-global-and-local-steps-together"></a>
 </h2>
-<p>The global and local steps should be read together. If
-<code><a href="../reference/bivariateCase.html">bivariateCase()</a></code> returns <code>trivial</code>, no subsequent
-local pattern is selected. If it returns <code>univariate</code>, the
-bivariate workflow returns to <code><a href="../reference/univariatePattern.html">univariatePattern()</a></code> using the
-first- and second-member sequences of the current main variable. If it
-returns <code>partial</code>, the local step is
-<code><a href="../reference/partialPattern.html">partialPattern()</a></code>. If it returns <code>complete</code>, the
-local step is <code><a href="../reference/completePattern.html">completePattern()</a></code>.</p>
+<p>The global and local steps should be read together while keeping
+their statistics distinct. The global step compares nested models within
+the LRT framework through two chi-squared tests evaluated using
+Pearson’s chi-squared statistic, <span class="math inline">\(X^2\)</span>. The local partial and complete steps
+use the G-squared deviance, <span class="math inline">\(G^2\)</span>, to
+calculate candidate AIC values. If <code><a href="../reference/bivariateCase.html">bivariateCase()</a></code> returns
+<code>trivial</code>, no subsequent local pattern is selected. If it
+returns <code>univariate</code>, the bivariate workflow returns to
+<code><a href="../reference/univariatePattern.html">univariatePattern()</a></code> using the first- and second-member
+sequences of the current main variable. If it returns
+<code>partial</code>, the local step is <code><a href="../reference/partialPattern.html">partialPattern()</a></code>.
+If it returns <code>complete</code>, the local step is
+<code><a href="../reference/completePattern.html">completePattern()</a></code>.</p>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

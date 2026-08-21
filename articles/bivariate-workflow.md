@@ -8,6 +8,13 @@ observed repeatedly for the two members of a dyad. The bivariate method
 follows the global-and-local procedure described in Böllenrücher et al.
 (in press).
 
+The bivariate method uses matrix codes to identify the local dependence
+patterns. Partial bivariate patterns are denoted B1–B3, while complete
+bivariate patterns are denoted C, D1–D4, and E1–E4. When the global step
+identifies a univariate case, the A-family codes described in the
+univariate workflow apply. The pattern nomenclature is summarized in
+Table 2 of Böllenrücher et al. (in press).
+
 The current bivariate functions support `states = 2`. With two binary
 variables observed for two members, the previous state is described by
 four binary components. The empirical bivariate count matrix therefore
@@ -25,8 +32,8 @@ The 16 rows arise because the previous state combines four binary lagged
 components: first member on `V1`, second member on `V1`, first member on
 `V2`, and second member on `V2`. With two possible states for each
 component, this gives \\2^4 = 16\\ previous-state combinations. The 2
-columns represent the possible next states of the member sequence
-analyzed on the current main variable.
+columns represent the possible next states of the first member on the
+current main variable.
 
 ## Data
 
@@ -112,10 +119,14 @@ dim(emp_bi)
 
 The function
 [`bivariateCase()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/bivariateCase.md)
-performs the global step of the bivariate method. It applies the package
-chi-squared comparisons to classify the dependence structure of the
-member sequence analyzed as a trivial, univariate, partial bivariate or
-complete bivariate case.
+performs the global step of the bivariate method. The global approach
+compares nested models within the likelihood-ratio test (LRT) framework.
+[`bivariateCase()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/bivariateCase.md)
+implements the two chi-squared tests for the A1 and B1 comparisons used
+to identify the dependence case. `dyadicMarkov` evaluates these tests
+using Pearson’s chi-squared statistic, \\X^2 = \sum (O-E)^2/E\\, to
+classify the analyzed sequence as a trivial, univariate, partial
+bivariate, or complete bivariate case.
 
 ``` r
 
@@ -149,8 +160,9 @@ patterns.
 
 For a complete bivariate case,
 [`completePattern()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/completePattern.md)
-compares the complete bivariate candidate structures by AIC and returns
-the selected pattern.
+first computes the G-squared deviance, \\G^2 = 2\sum O\log(O/E)\\, for
+each complete bivariate candidate structure. It then calculates \\AIC =
+G^2 + 2k\\ and returns the candidate with the smallest AIC.
 
 ``` r
 
@@ -158,47 +170,42 @@ complete_bi <- dyadicMarkov::completePattern(emp_bi)
 
 complete_bi
 #> Dyadic interaction pattern
-#> Pattern: complete actor on the main, actor partner on the second (D2)
+#> Pattern: actor only on the main, actor-partner on the second (D2)
 complete_bi$pattern
-#> [1] "complete actor on the main, actor partner on the second (D2)"
+#> [1] "actor only on the main, actor-partner on the second (D2)"
 complete_bi$aic
-#>                                                          pattern matrix
-#> 1                             complete actor partner on both (C)      C
-#> 2 complete partner on the main, actor partner on the second (D1)     D1
-#> 3   complete actor on the main, actor partner on the second (D2)     D2
-#> 4 complete actor partner on the main, partner on the second (D3)     D3
-#> 5   complete actor partner on the main, actor on the second (D4)     D4
-#> 6                                  complete partner on both (E1)     E1
-#> 7         complete partner on the main, actor on the second (E2)     E2
-#> 8         complete actor on the main, partner on the second (E3)     E3
-#> 9                                    complete actor on both (E4)     E4
-#>        aic
-#> 1 32.00000
-#> 2 30.03720
-#> 3 28.42735
-#> 4 33.33973
-#> 5 38.60730
-#> 6 30.55374
-#> 7 42.91748
-#> 8 36.47261
-#> 9 40.57170
+#>                                                      pattern matrix      aic
+#> 1                                 complete actor-partner (C)      C 32.00000
+#> 2 partner only on the main, actor-partner on the second (D1)     D1 30.03720
+#> 3   actor only on the main, actor-partner on the second (D2)     D2 28.42735
+#> 4 actor-partner on the main, partner only on the second (D3)     D3 33.33973
+#> 5   actor-partner on the main, actor only on the second (D4)     D4 38.60730
+#> 6                                 complete partner only (E1)     E1 30.55374
+#> 7    partner only on the main, actor only on the second (E2)     E2 42.91748
+#> 8    actor only on the main, partner only on the second (E3)     E3 36.47261
+#> 9                                   complete actor only (E4)     E4 40.57170
 ```
 
 In this example, the selected complete bivariate pattern is `D2`,
-labelled by the package as complete actor on the main, actor-partner on
-the second.
+labelled by the package as actor only on the main, actor-partner on the
+second.
 
-## Reassigning member and main-variable roles
+## Analyzing each variable and member in turn
 
-The previous analysis used `FM_V1` as the member-variable sequence
-analyzed, `V1` as the main variable and `V2` as the second variable. In
-the bivariate method, these are analysis roles rather than fixed
-identities. To describe the dyad more completely, the roles can be
-reassigned so that each member-variable sequence is analyzed in turn.
+Each bivariate analysis is defined from a specific perspective. The
+sequence supplied as the first member is the sequence being analyzed,
+while the second member provides the partner sequence. Likewise, one
+variable is treated as the main variable and the other as the second
+variable. Swapping the two members therefore changes the member
+perspective of the analysis, while swapping the two variables changes
+which variable is treated as the main variable. To describe the dyad
+more completely, the workflow can be repeated for each combination of
+analyzed member and main variable. These are distinct analyses and may
+therefore lead to different global cases and local interaction patterns.
 
-The same data set gives different branches of the global-and-local
-procedure depending on the member-variable sequence analyzed and the
-main variable.
+For compactness, the following vignette-local helper applies the
+exported functions in sequence; `analyze_bivariate()` is not part of the
+package API.
 
 ``` r
 
@@ -241,7 +248,7 @@ analyze_bivariate(
 #> Case: complete
 #> Alpha: 0.05
 #> Dyadic interaction pattern
-#> Pattern: complete actor on the main, actor partner on the second (D2)
+#> Pattern: actor only on the main, actor-partner on the second (D2)
 
 analyze_bivariate(
   "SM_V1 as analyzed sequence, V1 as main variable",
@@ -253,7 +260,7 @@ analyze_bivariate(
 #> Case: complete
 #> Alpha: 0.05
 #> Dyadic interaction pattern
-#> Pattern: complete actor partner on the main, partner on the second (D3)
+#> Pattern: actor-partner on the main, partner only on the second (D3)
 
 analyze_bivariate(
   "FM_V2 as analyzed sequence, V2 as main variable",
@@ -265,7 +272,7 @@ analyze_bivariate(
 #> Case: partial
 #> Alpha: 0.05
 #> Dyadic interaction pattern
-#> Pattern: partial actor (B2)
+#> Pattern: partial actor only (B2)
 
 analyze_bivariate(
   "SM_V2 as analyzed sequence, V2 as main variable",
@@ -282,15 +289,20 @@ analyze_bivariate(
 #> States: 2
 ```
 
-For this example, the four role assignments illustrate three branches of
-the procedure: complete bivariate cases for the two `V1` member-variable
-sequences, a partial bivariate case for `FM_V2`, and a univariate case
-for `SM_V2`. The partial branch is therefore demonstrated with the same
-bivariate example data rather than with an artificial seeded example.
+For this example, analyzing the four sequences in turn illustrates three
+branches of the procedure: complete bivariate cases when `FM_V1` and
+`SM_V1` are analyzed, a partial bivariate case for `FM_V2`, and a
+univariate case for `SM_V2`. The partial branch is therefore
+demonstrated with the same bivariate example data rather than with an
+artificial seeded example.
 
 ## Reading the global and local steps together
 
-The global and local steps should be read together. If
+The global and local steps should be read together while keeping their
+statistics distinct. The global step compares nested models within the
+LRT framework through two chi-squared tests evaluated using Pearson’s
+chi-squared statistic, \\X^2\\. The local partial and complete steps use
+the G-squared deviance, \\G^2\\, to calculate candidate AIC values. If
 [`bivariateCase()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/bivariateCase.md)
 returns `trivial`, no subsequent local pattern is selected. If it
 returns `univariate`, the bivariate workflow returns to

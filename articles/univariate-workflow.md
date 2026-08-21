@@ -20,17 +20,17 @@ ordered observations from a dyad. For example, `FM` and `SM` could
 represent two partners, a parent and child, a therapist and client, or
 any two interacting members observed at repeated occasions. The integer
 states represent coded categories of a behavior or response. In a binary
-application, state 1 and state 2 could represent absence and presence of
-a coded behavior, two interaction states, or two response categories
-defined by the researcher.
+application, `state 1` and `state 2` could represent absence and
+presence of a coded behavior, two interaction states, or two response
+categories defined by the researcher.
 
 ## Data
 
 The univariate example contains one categorical variable for the first
 member (`FM`) and the second member (`SM`) of a dyad. Each row
-corresponds to one measurement occasion. In the first analysis, `FM` is
-the first member sequence analyzed and `SM` is the second member
-sequence.
+corresponds to one measurement occasion. In the first analysis, the
+sequence of `FM`, the first member, is analyzed; `SM` is the second
+member or partner.
 
 ``` r
 
@@ -132,13 +132,19 @@ structure of the observed dyadic sequence.
 
 ## Univariate pattern identification
 
+The univariate method uses the A-family matrix codes for its dependence
+patterns: A1 denotes actor-partner, A2 actor only, and A3 partner only.
+The pattern nomenclature is summarized in Table 2 of Böllenrücher et al.
+(in press).
+
 The function
 [`univariatePattern()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/univariatePattern.md)
-performs the univariate identification step. It compares the
-unrestricted actor-partner structure with actor-only and partner-only
-restricted structures through likelihood-ratio tests. The two test
-outcomes are then combined to classify the sequence as Actor-Partner,
-Actor-only, Partner-only or Independence.
+implements the univariate Likelihood-Ratio Test (LRT) procedure. It
+compares the unrestricted actor-partner structure with actor-only and
+partner-only restricted structures. `dyadicMarkov` evaluates these
+comparisons using Pearson’s chi-squared statistic, \\X^2 = \sum
+(O-E)^2/E\\. The two test outcomes are then combined to classify the
+sequence as actor-partner, actor only, partner only, or independence.
 
 ``` r
 
@@ -207,13 +213,13 @@ structure, whereas the previous state of the first member is not
 retained. In the terminology of the univariate method, this corresponds
 to a partner-only pattern.
 
-The result should be interpreted as a pattern description for the member
-sequence analyzed by the function. The function call above analyzes `FM`
-as the first member sequence and `SM` as the second member sequence.
+The result should be interpreted as a pattern description for the
+analyzed sequence. The function call above analyzes the sequence of
+`FM`, the first member, with `SM` as the second member or partner.
 Reversing the two arguments analyzes the sequence from the perspective
 of the second member. Thus, describing both members of a dyad requires
-two calls, and each returned pattern is specific to the member sequence
-analyzed.
+two calls, and each returned pattern is specific to the analyzed
+sequence.
 
 ``` r
 
@@ -231,6 +237,11 @@ pat_uni_reverse
 #> States: 2
 ```
 
+In this example, reversing the two members also returns `PM (A3)`, but
+this does not occur in general: each call describes the pattern of the
+sequence supplied as the first member, conditional on the sequence
+supplied as the second member.
+
 ## References
 
 Bollenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti.
@@ -238,3 +249,9 @@ Bollenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti.
 Interdependence Model with Markov Chains for Unique Case Analysis.” *The
 Quantitative Methods for Psychology* 19 (3): 230–43.
 <https://doi.org/10.20982/tqmp.19.3.p230>.
+
+Böllenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti. in
+press. “Bivariate Dyadic Patterns Analysis Using Longitudinal
+Actor-Partner Interdependence Model and Markov Chains for Single-Case.”
+*Quantitative and Computational Methods in Behavioral Sciences*, ahead
+of print, in press. <https://doi.org/10.23668/psycharchives.22174>.

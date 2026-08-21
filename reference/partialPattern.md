@@ -26,8 +26,10 @@ ordinary list.
 
 ## Details
 
-Conditional on the partial bivariate case, AIC is used to select among
-the B1, B2, and B3 structures.
+Conditional on the partial bivariate case, the G-squared deviance is
+computed for each B1, B2, and B3 candidate before calculating \$\$AIC =
+G^2 + 2k,\$\$ where \$\$G^2 = 2 \sum\_{ij} O\_{ij} \log(O\_{ij} /
+E\_{ij}).\$\$ The candidate with the smallest AIC is selected.
 
 ## Examples
 
@@ -42,5 +44,5 @@ emp <- countEmpBivariate(
 )
 partialPattern(emp)
 #> Dyadic interaction pattern
-#> Pattern: partial actor (B2)
+#> Pattern: partial actor only (B2)
 ```

@@ -32,7 +32,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dyadicMarkov</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,13 +88,13 @@ dyadic dependence.</p>
 <p><code>dyadicMarkov</code> is based on three methodological papers on
 dyadic pattern analysis with the Longitudinal Actor-Partner
 Interdependence Model (L-APIM) and Markov chains. The univariate
-single-case method is described by Bollenrücher, Darwiche, and
-Antonietti (2023). The extension to visualization and clustering of
-similar dyadic behaviors is described by Bollenrücher, Darwiche, and
-Antonietti (2024). The bivariate single-case method is described by
-Böllenrücher, Darwiche, and Antonietti (in press). The visualization and
-clustering methodology of Bollenrücher, Darwiche, and Antonietti (2024)
-is methodological background; it is not currently part of the exported
+single-case method is described by <span class="citation">Bollenrücher
+et al. (2023)</span>. The extension to visualization and clustering of
+similar dyadic behaviors is described by <span class="citation">Bollenrücher et al. (2024)</span>. The bivariate
+single-case method is described by <span class="citation">Böllenrücher
+et al. (in press)</span>. The visualization and clustering methodology
+of <span class="citation">Bollenrücher et al. (2024)</span> is
+methodological background; it is not currently part of the exported
 package API.</p>
 </div>
 <div class="section level2">
@@ -110,10 +110,10 @@ states, or whether two individuals report the presence or absence of a
 response across repeated observations.</p>
 <p>The package does not estimate a general-purpose time-series
 forecasting model. Instead, it summarizes how the next state of the
-member sequence analyzed is associated with its own previous state and
-with the previous state of the partner. The resulting pattern labels
-help describe whether the observed transitions are better characterized
-by actor dependence, partner dependence, actor-partner dependence,
+analyzed sequence is associated with its own previous state and with the
+previous state of the partner. The resulting pattern labels help
+describe whether the observed transitions are better characterized by
+actor dependence, partner dependence, actor-partner dependence,
 independence, or, in the bivariate workflow, by partial or complete
 bivariate dependence structures.</p>
 <p>The example datasets included in the package are synthetic. They are
@@ -139,6 +139,12 @@ first member on the main variable, the second member on the main
 variable, the first member on the second variable and the second member
 on the second variable. The 2 columns represent the possible next states
 of the first member on the main variable.</p>
+<p>The state-space scope differs between the two methods. The univariate
+workflow supports any integer number of categorical <span class="math inline">\(states \ge 2\)</span>. The bivariate method is
+developed for two dichotomous variables and supports
+<code>states = 2</code> only; bivariate analysis with more than two
+states would require additional mathematical and software
+development.</p>
 </div>
 <div class="section level2">
 <h2 id="estimation-and-identification">Estimation and identification<a class="anchor" aria-label="anchor" href="#estimation-and-identification"></a>
@@ -156,6 +162,18 @@ subsequent local pattern. A univariate case is followed by
 <code><a href="../reference/univariatePattern.html">univariatePattern()</a></code> on the main-variable sequences. Partial
 and complete cases are followed by <code><a href="../reference/partialPattern.html">partialPattern()</a></code> and
 <code><a href="../reference/completePattern.html">completePattern()</a></code>, respectively.</p>
+<p>The comparison statistics also differ by step. The univariate
+pattern-identification procedure uses the Likelihood-Ratio Test (LRT)
+nomenclature of the underlying method; <code>dyadicMarkov</code>
+evaluates these comparisons using Pearson’s chi-squared statistic, <span class="math inline">\(X^2 = \sum (O - E)^2 / E\)</span>. The global
+bivariate approach compares nested models within an LRT framework;
+<code><a href="../reference/bivariateCase.html">bivariateCase()</a></code> implements two chi-squared tests for the A1
+and B1 comparisons, also evaluated using Pearson’s chi-squared
+statistic, <span class="math inline">\(X^2\)</span>. The local partial
+and complete bivariate procedures instead compute the G-squared
+deviance, <span class="math inline">\(G^2 = 2 \sum O \log(O /
+E)\)</span>, and then calculate <span class="math inline">\(AIC = G^2 +
+2k\)</span> for each candidate structure.</p>
 </div>
 <div class="section level2">
 <h2 id="exported-functions">Exported functions<a class="anchor" aria-label="anchor" href="#exported-functions"></a>
@@ -178,7 +196,7 @@ counts for the first member sequence in a bivariate dyadic
 sequence.</li>
 <li>
 <code><a href="../reference/bivariateCase.html">bivariateCase()</a></code> identifies the global dependence case
-for the member sequence analyzed.</li>
+for the analyzed sequence.</li>
 <li>
 <code><a href="../reference/partialPattern.html">partialPattern()</a></code> selects a local pattern for a partial
 bivariate case.</li>
@@ -196,12 +214,20 @@ and a first-order homogeneous transition process. Inputs containing
 <code>NA</code> are rejected; missing observations are not deleted or
 imputed automatically because they break the construction of transition
 pairs.</p>
-<p>The bivariate functions currently support the binary-state case. With
-two binary variables observed for two members, the previous state is
-described by four binary components, producing 2^4 = 16 previous-state
-combinations. Generalizing this workflow beyond <code>states = 2</code>
-would require extending the bivariate restriction structures and their
-implementation.</p>
+<p>Based on the sensitivity analysis reported in <span class="citation">Böllenrücher et al. (in press)</span>, a minimum
+sequence length of 90 measurement points is recommended for applying the
+method. Pattern-identification accuracy improves with longer sequences;
+for shorter sequences, particularly at 30 measurement points, the
+procedure often results in a trivial pattern, whereas from 90
+measurement points onward the occurrence of trivial patterns diminishes
+significantly. This is methodological guidance rather than a hard input
+requirement in <code>dyadicMarkov</code>.</p>
+<p>The bivariate method and functions support the binary-state case.
+With two binary variables observed for two members, the previous state
+is described by four binary components, producing <span class="math inline">\(2^4 = 16\)</span> previous-state combinations.
+Generalizing this workflow beyond <code>states = 2</code> would require
+additional mathematical development of the bivariate restriction
+structures as well as software implementation.</p>
 </div>
 <div class="section level2">
 <h2 id="relationship-to-the-workflow-vignettes">Relationship to the workflow vignettes<a class="anchor" aria-label="anchor" href="#relationship-to-the-workflow-vignettes"></a>
@@ -214,23 +240,33 @@ the use of <code><a href="../reference/countEmpBivariate.html">countEmpBivariate
 <code><a href="../reference/bivariateCase.html">bivariateCase()</a></code>, <code><a href="../reference/partialPattern.html">partialPattern()</a></code> and
 <code><a href="../reference/completePattern.html">completePattern()</a></code>.</p>
 </div>
-<div class="section level2">
-<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+<div class="section level2 unnumbered">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<p>Bollenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti.
-2023. “Dyadic Pattern Analysis Using Longitudinal Actor-Partner
-Interdependence Model with Markov Chains for Unique Case Analysis.”
-<em>The Quantitative Methods for Psychology</em> 19 (3): 230-43. <a href="https://doi.org/10.20982/tqmp.19.3.p230" class="external-link uri">https://doi.org/10.20982/tqmp.19.3.p230</a>.</p>
-<p>Bollenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti.
-2024. “Methodology for Identification, Visualization, and Clustering of
-Similar Behaviors in Dyadic Sequences Analyzed Through the Longitudinal
-Actor-Partner Interdependence Model with Markov Chains.” <em>The
-Quantitative Methods for Psychology</em> 20 (1): 17-32. <a href="https://doi.org/10.20982/tqmp.20.1.p017" class="external-link uri">https://doi.org/10.20982/tqmp.20.1.p017</a>.</p>
-<p>Böllenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti.
-in press. “Bivariate Dyadic Patterns Analysis Using Longitudinal
-Actor-Partner Interdependence Model and Markov Chains for Single-Case.”
-<em>Quantitative and Computational Methods in Behavioral Sciences</em>,
-in press. <a href="https://doi.org/10.23668/psycharchives.22174" class="external-link uri">https://doi.org/10.23668/psycharchives.22174</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-bollen2023" class="csl-entry">
+Bollenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti.
+2023. <span>“Dyadic Pattern Analysis Using Longitudinal Actor-Partner
+Interdependence Model with Markov Chains for Unique Case
+Analysis.”</span> <em>The Quantitative Methods for Psychology</em> 19
+(3): 230–43. <a href="https://doi.org/10.20982/tqmp.19.3.p230" class="external-link">https://doi.org/10.20982/tqmp.19.3.p230</a>.
+</div>
+<div id="ref-bollen2024" class="csl-entry">
+Bollenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti.
+2024. <span>“Methodology for Identification, Visualization, and
+Clustering of Similar Behaviors in Dyadic Sequences Analyzed Through the
+Longitudinal Actor-Partner Interdependence Model with Markov
+Chains.”</span> <em>The Quantitative Methods for Psychology</em> 20 (1):
+17–32. <a href="https://doi.org/10.20982/tqmp.20.1.p017" class="external-link">https://doi.org/10.20982/tqmp.20.1.p017</a>.
+</div>
+<div id="ref-bollen2026" class="csl-entry">
+Böllenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti. in
+press. <span>“Bivariate Dyadic Patterns Analysis Using Longitudinal
+Actor-Partner Interdependence Model and Markov Chains for
+Single-Case.”</span> <em>Quantitative and Computational Methods in
+Behavioral Sciences</em>, ahead of print, in press. <a href="https://doi.org/10.23668/psycharchives.22174" class="external-link">https://doi.org/10.23668/psycharchives.22174</a>.
+</div>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

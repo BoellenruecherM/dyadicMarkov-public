@@ -6,10 +6,10 @@
     }
   };
 </script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet"><meta property="og:title" content="Bivariate case identification for dyadic Markov chains — bivariateCase"><meta name="description" content='Identifies the bivariate case as "trivial", "univariate",
-"partial", or "complete" using two likelihood-ratio tests
-against constrained bivariate structures.'><meta property="og:description" content='Identifies the bivariate case as "trivial", "univariate",
-"partial", or "complete" using two likelihood-ratio tests
-against constrained bivariate structures.'><meta property="og:image" content="https://boellenruecherm.github.io/dyadicMarkov-public/logo.png"></head><body>
+"partial", or "complete" using two chi-squared tests
+against constrained binary bivariate structures.'><meta property="og:description" content='Identifies the bivariate case as "trivial", "univariate",
+"partial", or "complete" using two chi-squared tests
+against constrained binary bivariate structures.'><meta property="og:image" content="https://boellenruecherm.github.io/dyadicMarkov-public/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -17,7 +17,7 @@ against constrained bivariate structures.'><meta property="og:image" content="ht
 
     <a class="navbar-brand me-2" href="../index.html">dyadicMarkov</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,8 +49,8 @@ against constrained bivariate structures.'><meta property="og:image" content="ht
 
     <div class="ref-description section level2">
     <p>Identifies the bivariate case as <code>"trivial"</code>, <code>"univariate"</code>,
-<code>"partial"</code>, or <code>"complete"</code> using two likelihood-ratio tests
-against constrained bivariate structures.</p>
+<code>"partial"</code>, or <code>"complete"</code> using two chi-squared tests
+against constrained binary bivariate structures.</p>
     </div>
 
     <div class="section level2">
@@ -82,9 +82,17 @@ ordinary list.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The returned case corresponds to the global approach of the
-bivariate method. It determines whether the sequence analyzed is treated
-as trivial, univariate, partial bivariate, or complete bivariate before
-the local identification of the pattern of interaction.</p>
+binary bivariate method. The scientific method treats the global
+comparisons as nested-model comparisons within a likelihood-ratio test
+(LRT) framework. <code>bivariateCase()</code> implements the two chi-squared
+tests for the A1 and B1 comparisons. dyadicMarkov evaluates these tests
+using Pearson's chi-squared statistic,
+$$X^2 = \sum_{ij} (O_{ij} - E_{ij})^2 / E_{ij},$$
+where \(O\) and \(E\) are the empirical and theoretical transition
+counts. A global comparison is treated as rejected when
+\(p \leq \alpha\). The result determines whether the sequence analyzed is
+treated as trivial, univariate, partial bivariate, or complete bivariate before the
+separate local AIC-based identification of the pattern of interaction.</p>
     </div>
 
     <div class="section level2">

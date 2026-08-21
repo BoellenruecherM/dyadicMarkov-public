@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dyadicMarkov</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +42,17 @@
       <small>Source: <a href="https://github.com/BoellenruecherM/dyadicMarkov-public/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.2" id="dyadicmarkov-012">dyadicMarkov 0.1.2<a class="anchor" aria-label="anchor" href="#dyadicmarkov-012"></a></h2>
+<ul><li>Clarified that the univariate pattern-identification procedure is an LRT procedure evaluated using Pearson’s chi-squared statistic, while the global bivariate nested-model/LRT framework implements two chi-squared tests for A1 and B1, also evaluated using Pearson’s chi-squared statistic.</li>
+<li>Clarified that local bivariate pattern selection computes the G-squared deviance before applying <code>AIC = G^2 + 2k</code>.</li>
+<li>Corrected the univariate pattern-identification and global bivariate case boundaries so that p-values equal to alpha are treated as rejection (<code>p &lt;= alpha</code>).</li>
+<li>Documented that the univariate workflow supports multiple categorical states, while the bivariate workflow is defined for two dichotomous variables.</li>
+<li>Added focused tests that distinguish Pearson’s chi-squared statistic from G-squared and verify both partial and complete bivariate AIC paths.</li>
+<li>Updated the maintainer email address and package version for this release.</li>
+<li>Made the manual simulated-parity script stop when a comparison fails.</li>
+<li>Declared <code>srr</code> as a development/documentation dependency.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.1" id="dyadicmarkov-011">dyadicMarkov 0.1.1<a class="anchor" aria-label="anchor" href="#dyadicmarkov-011"></a></h2><p class="text-muted">CRAN release: 2026-06-21</p>
 <ul><li>Updated package wording and metadata for the CRAN submission.</li>
