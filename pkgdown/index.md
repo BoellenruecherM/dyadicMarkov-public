@@ -18,7 +18,7 @@ Use `dyadicMarkov` when:
 * the research question concerns temporal dependence, dyadic dependence, or both;
 * the goal is to estimate transition probabilities and identify interpretable interaction patterns.
 
-The univariate workflow analyzes one categorical variable observed for two dyad members. The bivariate workflow analyzes two categorical variables observed for both members. The current bivariate implementation supports binary variables (`states = 2`). With two binary variables observed for two members, the previous state is described by four binary components, producing a bivariate empirical count matrix with 16 rows and 2 columns.
+The univariate workflow analyzes one categorical variable observed for two dyad members and supports any integer number of categorical states (`states >= 2`). The bivariate workflow analyzes two categorical variables observed for both members. The current bivariate implementation supports binary variables (`states = 2`) only. With two binary variables observed for two members, the previous state is described by four binary components, producing a bivariate empirical count matrix with 16 rows and 2 columns.
 
 ## Installation
 
