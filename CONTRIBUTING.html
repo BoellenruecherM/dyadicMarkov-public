@@ -97,6 +97,21 @@
 <p>Contributions that include clear documentation and relevant tests are easier to review and accept.</p>
 </div>
 <div class="section level2">
+<h2 id="extended-tests">Extended tests<a class="anchor" aria-label="anchor" href="#extended-tests"></a></h2>
+<p>The regular test suite is designed to remain fast and is run with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">test</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>The package also includes an opt-in extended test that reproduces the complete binary bivariate sequence-length sensitivity analysis using the bundled simulation data for sequence lengths 30, 60, 90, 180, and 720. The calculation classifies 1,000 dyads in four member-variable orientations at each sequence length, for 20,000 classifications in total.</p>
+<p>The extended test is part of the standard <code>testthat</code> framework but is disabled during ordinary test runs. To enable it in Windows CMD, run:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cmd"><code class="sourceCode dosbat"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="bu">set</span> <span class="st">"</span><span class="va">DYADICMARKOV_EXTENDED_TESTS</span>=<span class="st">true"</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>Rscript <span class="at">-e</span> <span class="st">"devtools::test(filter='extended-sensitivity')"</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="bu">set</span> <span class="st">"</span><span class="va">DYADICMARKOV_EXTENDED_TESTS</span>=<span class="st">"</span></span></code></pre></div>
+<p>On shells that support inline environment-variable assignment, the equivalent is:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="va">DYADICMARKOV_EXTENDED_TESTS</span><span class="op">=</span>true <span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">"devtools::test(filter='extended-sensitivity')"</span></span></code></pre></div>
+<p>The test is deterministic: it re-analyses fixed simulation data bundled with the package and does not regenerate the original stochastic simulations, so no random seed is required. It requires no downloads, external services, or manually supplied artefacts.</p>
+<p>A complete run on the Windows development machine used for package development took approximately 233 seconds (about 3 minutes 53 seconds). Runtime will depend on hardware. The test has no known special memory requirements, does not require platform-specific external software, and produces no files, figures, or other artefacts requiring manual inspection. The extended test has been directly validated on Windows; the R and <code>testthat</code> code itself contains no platform-specific implementation.</p>
+</div>
+<div class="section level2">
 <h2 id="code-of-conduct">Code of conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a></h2>
 <p>Please note that this project follows the <a href="https://ropensci.org/code-of-conduct/" class="external-link">rOpenSci Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>

@@ -79,6 +79,52 @@ testthat for unit tests.
 Contributions that include clear documentation and relevant tests are
 easier to review and accept.
 
+## Extended tests
+
+The regular test suite is designed to remain fast and is run with:
+
+``` r
+
+devtools::test()
+```
+
+The package also includes an opt-in extended test that reproduces the
+complete binary bivariate sequence-length sensitivity analysis using the
+bundled simulation data for sequence lengths 30, 60, 90, 180, and 720.
+The calculation classifies 1,000 dyads in four member-variable
+orientations at each sequence length, for 20,000 classifications in
+total.
+
+The extended test is part of the standard `testthat` framework but is
+disabled during ordinary test runs. To enable it in Windows CMD, run:
+
+``` cmd
+set "DYADICMARKOV_EXTENDED_TESTS=true"
+Rscript -e "devtools::test(filter='extended-sensitivity')"
+set "DYADICMARKOV_EXTENDED_TESTS="
+```
+
+On shells that support inline environment-variable assignment, the
+equivalent is:
+
+``` sh
+DYADICMARKOV_EXTENDED_TESTS=true Rscript -e "devtools::test(filter='extended-sensitivity')"
+```
+
+The test is deterministic: it re-analyses fixed simulation data bundled
+with the package and does not regenerate the original stochastic
+simulations, so no random seed is required. It requires no downloads,
+external services, or manually supplied artefacts.
+
+A complete run on the Windows development machine used for package
+development took approximately 233 seconds (about 3 minutes 53 seconds).
+Runtime will depend on hardware. The test has no known special memory
+requirements, does not require platform-specific external software, and
+produces no files, figures, or other artefacts requiring manual
+inspection. The extended test has been directly validated on Windows;
+the R and `testthat` code itself contains no platform-specific
+implementation.
+
 ## Code of conduct
 
 Please note that this project follows the [rOpenSci Code of
