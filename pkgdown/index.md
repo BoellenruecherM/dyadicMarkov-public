@@ -51,6 +51,7 @@ For complete examples, see the workflow vignettes:
 * [Introduction to dyadicMarkov](articles/dyadicMarkov-introduction.html)
 * [Univariate dyadic workflow](articles/univariate-workflow.html)
 * [Bivariate dyadic workflow](articles/bivariate-workflow.html)
+* [Sensitivity analysis](articles/sensitivity-analysis.html)
 
 ## Methodological background
 
