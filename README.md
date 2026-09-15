@@ -132,6 +132,7 @@ Bollenrücher, M., Darwiche, J., & Antonietti, J.-P. (in press).
 *Bivariate dyadic patterns analysis using longitudinal Actor-Partner Interdependence Model and Markov chains for single-case*.
 Quantitative and Computational Methods in Behavioral Sciences.
 DOI: [10.23668/psycharchives.22174](https://doi.org/10.23668/psycharchives.22174)
+PDF: [PDF](https://pada.psycharchives.org/bitstream/d30c7f42-a372-4dbe-bb52-00dc8ea44c3b)
 
 ## Citation
 
