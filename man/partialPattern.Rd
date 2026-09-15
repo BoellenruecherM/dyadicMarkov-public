@@ -14,7 +14,9 @@ columns, as returned by \code{\link{countEmpBivariate}}.}
 A list with class \code{c("dyadic_pattern", "list")} containing
 components \code{aic} (a data frame with candidate patterns and AIC
 values), \code{pattern} (the selected pattern label), and \code{call}. It
-remains usable as an ordinary list.
+remains usable as an ordinary list. When \code{empirical} was created by
+\code{countEmpBivariate()}, its stored sequence metadata is propagated so
+that \code{plot()} can display the four observed state strips.
 }
 \description{
 Compares the partial bivariate patterns B1, B2, and B3 using AIC and returns
@@ -26,7 +28,9 @@ computed for each B1, B2, and B3 candidate before calculating
 \deqn{AIC = G^2 + 2k,}{AIC = G^2 + 2k,}
 where
 \deqn{G^2 = 2 \sum_{ij} O_{ij} \log(O_{ij} / E_{ij}).}{G^2 = 2 * sum(O * log(O / E)).}
-The candidate with the smallest AIC is selected.
+The candidate with the smallest AIC is selected. If candidates have exactly
+equal AIC values, the first candidate in the documented comparison order
+is selected.
 }
 \examples{
 chainFM_V1 <- c(1L, 2L, 1L, 2L, 2L, 1L)

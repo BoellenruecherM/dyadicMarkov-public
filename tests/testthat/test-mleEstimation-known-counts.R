@@ -47,3 +47,35 @@ test_that("mleEstimation is stable when empirical counts are scaled", {
     tolerance = 1e-12
   )
 })
+
+
+test_that("mleEstimation is stable to trivial numeric noise", {
+  empirical <- matrix(
+    c(
+      30, 70,
+      25, 75,
+      60, 40,
+      10, 90
+    ),
+    nrow = 4L, ncol = 2L, byrow = TRUE
+  )
+
+  noise <- matrix(
+    c(
+      1, -1,
+      -1,  1,
+      1, -1,
+      -1,  1
+    ),
+    nrow = 4L, ncol = 2L, byrow = TRUE
+  ) * 1e-10
+
+  recovered <- dyadicMarkov::mleEstimation(empirical)
+  recovered_noisy <- dyadicMarkov::mleEstimation(empirical + noise)
+
+  expect_equal(
+    unclass(recovered_noisy),
+    unclass(recovered),
+    tolerance = 1e-10
+  )
+})

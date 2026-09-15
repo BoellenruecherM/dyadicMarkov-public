@@ -5,8 +5,10 @@
 #' actor-only and partner-only constrained models to identify the univariate
 #' pattern of interaction.
 #'
-#' @param chainFM Vector of observed states for the first member (FM).
-#' @param chainSM Vector of observed states for the second member (SM).
+#' @param chainFM Numeric vector of observed states for the first member (FM).
+#'   Values must be integers. Must have the same length as \code{chainSM}.
+#' @param chainSM Numeric vector of observed states for the second member (SM).
+#'   Values must be integers. Must have the same length as \code{chainFM}.
 #' @param states A single integer >= 2 giving the number of states.
 #' @param alpha A single number in (0, 1) giving the significance level.
 #'   Default is 0.05.
@@ -21,9 +23,10 @@
 #'   actor-partner pattern, \code{AM (A2)} an actor-only pattern, and
 #'   \code{PM (A3)} a partner-only pattern.
 #' @returns A list with class \code{c("dyadic_pattern", "list")} containing two
-#'   \code{htest} objects (\code{TEST.AM}, \code{TEST.PM}), a string
-#'   \code{pattern}, and metadata fields \code{alpha}, \code{states}, and
-#'   \code{call}. It remains usable as an ordinary list.
+#'   \code{htest} objects (\code{TEST.AM}, \code{TEST.PM}), the retained input
+#'   sequences \code{chainFM} and \code{chainSM}, a string \code{pattern}, and
+#'   metadata fields \code{alpha}, \code{states}, and \code{call}. It remains
+#'   usable as an ordinary list.
 #' @examples
 #' chainFM <- c(1L, 2L, 1L, 2L, 2L, 1L)
 #' chainSM <- c(2L, 1L, 2L, 1L, 1L, 2L)
@@ -32,10 +35,6 @@
 univariatePattern <- function(chainFM, chainSM, states, alpha = 0.05) {
 
   .validate_alpha(alpha)
-
-  states <- .validate_states(states)
-
-  .validate_univariate_chains(chainFM, chainSM, states)
 
   # Empirical counts under the unrestricted model
   emp <- countEmp(chainFM = chainFM, chainSM = chainSM, states = states)
@@ -86,6 +85,8 @@ univariatePattern <- function(chainFM, chainSM, states, alpha = 0.05) {
   out <- list(
     TEST.AM = TEST1,
     TEST.PM = TEST2,
+    chainFM = chainFM,
+    chainSM = chainSM,
     pattern = type,
     alpha = alpha,
     states = states,

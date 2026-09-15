@@ -68,10 +68,44 @@ test_that("empirical count functions return dyadic_counts matrices", {
 
   expect_s3_class(bivar_counts, "dyadic_counts")
   expect_true(is.matrix(bivar_counts))
-  expect_identical(unname(unclass(bivar_counts)), expected_bivar_counts)
-  expect_identical(colnames(bivar_counts), c("next_1", "next_2"))
-  expect_identical(length(rownames(bivar_counts)), 16L)
-  expect_identical(dim(bivar_counts), c(16L, 2L))
+
+  bivar_values <- unclass(bivar_counts)
+  attr(bivar_values, "dyadic_sequences") <- NULL
+
+  expect_identical(
+    unname(bivar_values),
+    expected_bivar_counts
+  )
+
+  expect_identical(
+    colnames(bivar_counts),
+    c("next_1", "next_2")
+  )
+
+  expect_identical(
+    length(rownames(bivar_counts)),
+    16L
+  )
+
+  expect_identical(
+    dim(bivar_counts),
+    c(16L, 2L)
+  )
+
+  expect_identical(
+    attr(
+      bivar_counts,
+      "dyadic_sequences",
+      exact = TRUE
+    ),
+    list(
+      chainFM_V1 = chainFM_V1,
+      chainSM_V1 = chainSM_V1,
+      chainFM_V2 = chainFM_V2,
+      chainSM_V2 = chainSM_V2,
+      states = 2L
+    )
+  )
 })
 
 
@@ -105,4 +139,58 @@ test_that("matrix-like dyadic objects have formatted print and summary methods",
   expect_identical(probs_summary$dimensions, dim(probs))
   expect_identical(counts_summary$column_names, colnames(counts))
   expect_identical(probs_summary$column_names, colnames(probs))
+})
+
+
+test_that("matrix-like dyadic print methods validate digits", {
+
+  counts <- dyadicMarkov::countEmp(
+    chainFM = c(1L, 1L, 2L, 2L),
+    chainSM = c(1L, 2L, 1L, 2L),
+    states = 2L
+  )
+
+  probs <- dyadicMarkov::mleEstimation(counts)
+
+  for (bad in list(
+    -1,
+    1.5,
+    NA_real_,
+    c(2, 3)
+  )) {
+
+    expect_error(
+      print(
+        counts,
+        digits = bad
+      ),
+      "`digits` must be one non-negative integer.",
+      fixed = TRUE
+    )
+
+    expect_error(
+      print(
+        probs,
+        digits = bad
+      ),
+      "`digits` must be one non-negative integer.",
+      fixed = TRUE
+    )
+  }
+})
+
+
+test_that("printing bivariate count matrices does not expose retained sequences", {
+  counts <- countEmpBivariate(
+    chainFM_V1 = c(1, 1, 2, 2, 1, 2),
+    chainSM_V1 = c(1, 2, 2, 1, 1, 2),
+    chainFM_V2 = c(2, 2, 1, 1, 2, 1),
+    chainSM_V2 = c(2, 1, 1, 2, 2, 1),
+    states = 2
+  )
+
+  output <- capture.output(print(counts))
+
+  expect_false(any(grepl("dyadic_sequences", output, fixed = TRUE)))
+  expect_false(any(grepl("attr(", output, fixed = TRUE)))
 })

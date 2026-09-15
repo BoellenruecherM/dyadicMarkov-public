@@ -102,8 +102,10 @@
 #' second member. Rows correspond to dyadic states of the two members, and
 #' columns correspond to the state of the first member at the next time point.
 #'
-#' @param chainFM Vector of observed states for the first member (FM).
-#' @param chainSM Vector of observed states for the second member (SM).
+#' @param chainFM Numeric vector of integer-valued observed states for the first
+#'   member (FM). Must have the same length as \code{chainSM}.
+#' @param chainSM Numeric vector of integer-valued observed states for the second
+#'   member (SM). Must have the same length as \code{chainFM}.
 #' @param states A single integer >= 2 giving the number of states.
 #' @details Rows correspond to current dyadic states \eqn{(FM_t, SM_t)}.
 #'   For general \code{states}, the row index is computed as
@@ -112,7 +114,8 @@
 #' @returns An integer matrix with class
 #'   \code{c("dyadic_counts", "matrix", "array")},
 #'   with \eqn{states^2} rows and \code{states} columns. It remains usable as an
-#'   ordinary matrix.
+#'   ordinary matrix. `print()`, `summary()`, and `utils::toLatex()` methods are
+#'   available for this result.
 #' @examples
 #' chainFM <- c(1L, 2L, 1L, 2L, 2L, 1L)
 #' chainSM <- c(2L, 1L, 2L, 1L, 1L, 2L)
@@ -250,6 +253,8 @@ countEmp <- function(chainFM, chainSM, states) {
 #'   \code{c("dyadic_mle", "matrix", "array")}
 #'   containing estimated transition probabilities with the same dimensions as
 #'   \code{empirical}. It remains usable as an ordinary matrix.
+#'   `print()`, `summary()`, and `utils::toLatex()` methods are available for
+#'   this result.
 #' @examples
 #' chainFM <- c(1L, 2L, 1L, 2L, 2L, 1L)
 #' chainSM <- c(2L, 1L, 2L, 1L, 1L, 2L)

@@ -25,13 +25,14 @@ Although the data are synthetic, the two columns can be read like real ordered o
 The univariate example contains one categorical variable for the first member (`FM`) and the second member (`SM`) of a dyad. Each row corresponds to one measurement occasion. In the first analysis, the sequence of `FM`, the first member, is analyzed; `SM` is the second member or partner.
 
 ```{r univariate-data}
+# Load the example data included with dyadicMarkov
 utils::data("dyadic_univariate_example", package = "dyadicMarkov")
 
 head(dyadic_univariate_example)
 dim(dyadic_univariate_example)
 ```
 
-The states are integer-coded. In this example, both members can take the values 1 or 2.
+In this example, the categorical states are coded as 1 and 2 for both members.
 
 ```{r univariate-states}
 table(dyadic_univariate_example$FM)
@@ -40,7 +41,7 @@ table(dyadic_univariate_example$SM)
 
 ## Empirical transition counts
 
-The first step is to compute empirical transition counts with `countEmp()`. For `states = 2`, the rows represent the four possible previous dyadic states `(FM_t, SM_t)`, and the columns represent the state of the first member at the next time point, `FM_{t+1}`.
+`countEmp()` computes the empirical transition counts for the first member from the two observed dyadic sequences. For `states = 2`, the resulting matrix has four rows corresponding to the possible previous dyadic states $(FM_t, SM_t)$ and two columns corresponding to the possible next states of the first member, $FM_{t+1}$. The returned `dyadic_counts` object retains ordinary matrix behavior and provides `print()`, `summary()`, and `utils::toLatex()` methods. The `summary()` method reports information including the matrix dimensions, total count, and row sums, while `utils::toLatex(emp_uni)` produces a LaTeX representation for reports or manuscripts.
 
 ```{r univariate-counts}
 emp_uni <- dyadicMarkov::countEmp(
@@ -49,30 +50,24 @@ emp_uni <- dyadicMarkov::countEmp(
   states = 2L
 )
 
-emp_uni
-class(emp_uni)
-```
-
-The resulting object keeps ordinary matrix behavior.
-
-```{r univariate-counts-matrix}
-dim(emp_uni)
-rowSums(emp_uni)
+print(emp_uni)
+summary(emp_uni)
 ```
 
 ## Maximum-likelihood transition probabilities
 
-The empirical counts can be converted into transition probabilities using `mleEstimation()`. Rows with positive totals are normalized independently. For an unobserved previous-state combination, the transition probabilities are unidentified; the package returns a uniform row as an implementation convention.
+The empirical counts are converted into estimated transition probabilities with `mleEstimation()`. For each previous-state combination that is observed in the data, the corresponding row of counts is divided by its row total so that the estimated transition probabilities sum to one.
+
+If a previous-state combination is never observed, its row total is zero and there is therefore no information in the data from which to estimate its transition probabilities. In this case, `dyadicMarkov` returns equal probabilities for all possible next states as an implementation convention.
+
+The returned `dyadic_mle` object retains ordinary matrix behavior and provides `print()`, `summary()`, and `utils::toLatex()` methods. The `summary()` method reports the matrix structure and row sums, while `utils::toLatex(fit_uni)` produces a LaTeX representation of the estimated transition matrix.
 
 ```{r univariate-mle}
 fit_uni <- dyadicMarkov::mleEstimation(emp_uni)
 
-round(fit_uni, 3)
-rowSums(fit_uni)
-class(fit_uni)
+print(fit_uni)
+summary(fit_uni)
 ```
-
-The estimated transition matrix summarizes the empirical transition structure of the observed dyadic sequence.
 
 ## Univariate pattern identification
 
@@ -80,7 +75,9 @@ The univariate method uses the A-family matrix codes for its dependence patterns
 
 The function `univariatePattern()` implements the univariate Likelihood-Ratio Test (LRT) procedure. It compares the unrestricted actor-partner structure with actor-only and partner-only restricted structures. `dyadicMarkov` evaluates these comparisons using Pearson's chi-squared statistic, $X^2 = \sum (O-E)^2/E$. The two test outcomes are then combined to classify the sequence as actor-partner, actor only, partner only, or independence.
 
-```{r univariate-pattern}
+The returned `dyadic_pattern` object contains the selected interaction pattern and the corresponding test results and provides `print()`, `summary()`, and `plot()` methods. The printed output gives the selected pattern, `summary()` reports the two restriction tests and their decisions at the specified significance level, and `plot()` displays the observed categorical sequences of the two members. Individual components can also be accessed directly, including `pat_uni$pattern`, `pat_uni$TEST.AM`, and `pat_uni$TEST.PM`.
+
+```{r pattern-methods, fig.width=8.5, fig.height=4.1, out.width="99%", fig.align="center"}
 pat_uni <- dyadicMarkov::univariatePattern(
   chainFM = dyadic_univariate_example$FM,
   chainSM = dyadic_univariate_example$SM,
@@ -88,19 +85,10 @@ pat_uni <- dyadicMarkov::univariatePattern(
   alpha = 0.05
 )
 
-pat_uni
-```
-
-For this example, the selected pattern is stored in the `pattern` component.
-
-```{r univariate-pattern-details}
-pat_uni$pattern
-pat_uni$TEST.AM
-pat_uni$TEST.PM
+print(pat_uni)
 summary(pat_uni)
+plot(pat_uni)
 ```
-
-The returned object is a list with an additional S3 class. It can therefore be printed and summarized, while still allowing direct access to its components.
 
 ## Interpretation
 
@@ -119,6 +107,6 @@ pat_uni_reverse <- dyadicMarkov::univariatePattern(
 pat_uni_reverse
 ```
 
-In this example, reversing the two members also returns `PM (A3)`, but this does not occur in general: each call describes the pattern of the sequence supplied as the first member, conditional on the sequence supplied as the second member.
+In this example, reversing the two members also returns `PM (A3)`, but this does not occur in general: each call describes the pattern of the sequence supplied as the first member, conditional on the sequence supplied as the second member. For a complementary approach to visualization and clustering of dyadic longitudinal sequences, see @bollen2024.
 
 ## References

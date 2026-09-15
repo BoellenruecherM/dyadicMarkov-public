@@ -64,10 +64,17 @@
 #'   an error.
 #' @noRd
 .validate_bivariate_chain_types <- function(chains) {
-  is_num <- vapply(chains, is.numeric, logical(1))
+  is_numeric_vector <- vapply(
+    chains,
+    function(x) is.numeric(x) && is.null(dim(x)),
+    logical(1)
+  )
 
-  if (!all(is_num)) {
-    stop("chain values must be numeric integers in {1, 2}.", call. = FALSE)
+  if (!all(is_numeric_vector)) {
+    stop(
+      "bivariate chains must be numeric vectors.",
+      call. = FALSE
+    )
   }
 
   invisible(chains)
@@ -113,7 +120,7 @@
 
   if (!all(finite)) {
     stop(
-      "bivariate chains must contain finite integer-coded states.",
+      "bivariate chains must contain finite integer-valued states.",
       call. = FALSE
     )
   }
@@ -151,7 +158,7 @@
 
 #' Validate bivariate chain values
 #'
-#' Internal helper that checks whether bivariate chain values are integer coded
+#' Internal helper that checks whether bivariate chain values are integer-valued
 #' and belong to the supported binary state set \code{1, 2}.
 #'
 #' @param chains List of bivariate chain vectors.
@@ -161,7 +168,7 @@
 #' @noRd
 .validate_bivariate_chain_values <- function(chains) {
   bad_chain <- function(x) {
-    any(x != as.integer(x)) || any(x < 1L | x > 2L)
+    any(x != floor(x)) || any(x < 1L | x > 2L)
   }
 
   bad <- vapply(chains, bad_chain, logical(1))
@@ -183,10 +190,11 @@
 #' sequences with two variables. This function currently supports
 #' \code{states = 2} only.
 #'
-#' @param chainFM_V1,chainSM_V1 Vectors of observed states for variable 1
-#'   for the first and second member.
-#' @param chainFM_V2,chainSM_V2 Vectors of observed states for variable 2
-#'   for the first and second member.
+#' @param chainFM_V1,chainSM_V1 Numeric vectors of observed states for variable 1
+#'   for the first and second member. Values must be integers.
+#' @param chainFM_V2,chainSM_V2 Numeric vectors of observed states for variable 2
+#'   for the first and second member. Values must be integers.
+#'   All four chain vectors must have the same length.
 #' @param states A single integer. Currently only \code{2} is supported.
 #'   Default is 2.
 #' @details The bivariate counter currently supports \code{states = 2} only.
@@ -198,7 +206,10 @@
 #'   \eqn{FM_{V1,t+1}}.
 #' @returns An integer matrix with class
 #'   \code{c("dyadic_counts", "matrix", "array")} with 16 rows and 2 columns
-#'   when \code{states = 2}. It remains usable as an ordinary matrix.
+#'   when \code{states = 2}. It remains usable as an ordinary matrix. The four
+#'   validated input sequences and the binary state count are retained in the
+#'   \code{"dyadic_sequences"} attribute so that downstream bivariate results
+#'   can display the observed state strips with \code{plot()}.
 #' @examples
 #' chainFM_V1 <- c(1L, 2L, 1L, 2L, 2L, 1L)
 #' chainSM_V1 <- c(2L, 1L, 2L, 1L, 1L, 2L)
@@ -211,8 +222,8 @@
 #' dim(emp)
 #' @export
 countEmpBivariate <- function(
-  chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2,
-  states = 2L
+    chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2,
+    states = 2L
 ) {
 
   states <- .validate_bivariate_states(states)
@@ -242,7 +253,7 @@ countEmpBivariate <- function(
   bfm2 <- chainFM_V2[1L:chainCount]
   bsm2 <- chainSM_V2[1L:chainCount]
 
-  # Legacy dimensions: 16 rows (states = 2) and 2 columns
+  # Binary bivariate dimensions: 16 rows and 2 columns
   nrow_out <- 4L * states * states
 
   # Map (V1 state, V2 state) to a row index in 1:16, then flatten
@@ -257,6 +268,15 @@ countEmpBivariate <- function(
   dimnames(count) <- .dyadic_bivariate_dimnames(states)
 
   class(count) <- c("dyadic_counts", "matrix", "array")
+
+  attr(count, "dyadic_sequences") <- list(
+    chainFM_V1 = as.integer(chainFM_V1),
+    chainSM_V1 = as.integer(chainSM_V1),
+    chainFM_V2 = as.integer(chainFM_V2),
+    chainSM_V2 = as.integer(chainSM_V2),
+    states = states
+  )
+
   count
 }
 
@@ -288,7 +308,9 @@ countEmpBivariate <- function(
 #' @returns A list with class \code{c("dyadic_case", "list")} containing
 #'   components \code{testUnivariate}, \code{testPartial}, \code{case}, and
 #'   metadata fields \code{alpha} and \code{call}. It remains usable as an
-#'   ordinary list.
+#'   ordinary list. When \code{empirical} was created by
+#'   \code{countEmpBivariate()}, its stored sequence metadata is propagated so
+#'   that \code{plot()} can display the four observed state strips.
 #' @examples
 #' chainFM_V1 <- c(1L, 2L, 1L, 2L, 2L, 1L)
 #' chainSM_V1 <- c(2L, 1L, 2L, 1L, 1L, 2L)
@@ -340,6 +362,8 @@ bivariateCase <- function(empirical, alpha = 0.05) {
     call = match.call()
   )
   class(out) <- c("dyadic_case", "list")
+  attr(out, "dyadic_sequences") <-
+    attr(empirical, "dyadic_sequences", exact = TRUE)
   out
 }
 
@@ -356,11 +380,15 @@ bivariateCase <- function(empirical, alpha = 0.05) {
 #'   \deqn{AIC = G^2 + 2k,}{AIC = G^2 + 2k,}
 #'   where
 #'   \deqn{G^2 = 2 \sum_{ij} O_{ij} \log(O_{ij} / E_{ij}).}{G^2 = 2 * sum(O * log(O / E)).}
-#'   The candidate with the smallest AIC is selected.
+#'   The candidate with the smallest AIC is selected. If candidates have exactly
+#'   equal AIC values, the first candidate in the documented comparison order
+#'   is selected.
 #' @returns A list with class \code{c("dyadic_pattern", "list")} containing
 #'   components \code{aic} (a data frame with candidate patterns and AIC
 #'   values), \code{pattern} (the selected pattern label), and \code{call}. It
-#'   remains usable as an ordinary list.
+#'   remains usable as an ordinary list. When \code{empirical} was created by
+#'   \code{countEmpBivariate()}, its stored sequence metadata is propagated so
+#'   that \code{plot()} can display the four observed state strips.
 #' @examples
 #' chainFM_V1 <- c(1L, 2L, 1L, 2L, 2L, 1L)
 #' chainSM_V1 <- c(2L, 1L, 2L, 1L, 1L, 2L)
@@ -420,6 +448,8 @@ partialPattern <- function(empirical) {
     call = match.call()
   )
   class(out) <- c("dyadic_pattern", "list")
+  attr(out, "dyadic_sequences") <-
+    attr(empirical, "dyadic_sequences", exact = TRUE)
   out
 }
 
@@ -435,11 +465,16 @@ partialPattern <- function(empirical) {
 #'   \deqn{AIC = G^2 + 2k,}{AIC = G^2 + 2k,}
 #'   where
 #'   \deqn{G^2 = 2 \sum_{ij} O_{ij} \log(O_{ij} / E_{ij}).}{G^2 = 2 * sum(O * log(O / E)).}
-#'   The candidate with the smallest AIC is selected.
+#'   The candidate with the smallest AIC is selected. If candidates have exactly
+#'   equal AIC values, the first candidate in the documented comparison order
+#'   is selected.
 #' @returns A list with class \code{c("dyadic_pattern", "list")} containing
 #'   components \code{aic} (a data frame with columns \code{pattern},
 #'   \code{matrix}, and \code{aic}), \code{pattern} (the selected pattern
-#'   label), and \code{call}. It remains usable as an ordinary list.
+#'   label), and \code{call}. It remains usable as an ordinary list. When
+#'   \code{empirical} was created by \code{countEmpBivariate()}, its stored
+#'   sequence metadata is propagated so that \code{plot()} can display the four
+#'   observed state strips.
 #' @examples
 #' chainFM_V1 <- c(1L, 2L, 1L, 2L, 2L, 1L)
 #' chainSM_V1 <- c(2L, 1L, 2L, 1L, 1L, 2L)
@@ -508,5 +543,7 @@ completePattern <- function(empirical) {
     call = match.call()
   )
   class(out) <- c("dyadic_pattern", "list")
+  attr(out, "dyadic_sequences") <-
+    attr(empirical, "dyadic_sequences", exact = TRUE)
   out
 }

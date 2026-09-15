@@ -15,8 +15,8 @@
 #'
 #' @section Supported state spaces:
 #' The univariate workflow supports any integer number of categorical states
-#' \eqn{S \ge 2}. The bivariate method is developed for two dichotomous variables
-#' and therefore supports \code{states = 2} only, producing 16-by-2 empirical
+#' \eqn{\mathrm{states} \ge 2}. The bivariate method is developed for two dichotomous
+#' variables and therefore supports \code{states = 2} only, producing 16-by-2 empirical
 #' count matrices. Bivariate support beyond two states would require additional
 #' mathematical and software development and is not implemented by this package.
 #'
@@ -94,7 +94,7 @@
 #' statement describing the current active-development status.
 #' @srrstats {EA1.3} Function-level documentation identifies the expected input structures for each exported function, including state vectors, empirical transition count matrices, and bivariate 16-by-2 count matrices.
 #' @srrstats {EA1.2} The vignettes describe the exploratory questions addressed by the package: empirical transition structure, transition probabilities, actor-partner restrictions, and dyadic pattern classification.
-#' @srrstats {EA1.1} The introduction vignette and function documentation identify the supported data as integer-coded categorical dyadic state sequences, with univariate and bivariate workflows.
+#' @srrstats {EA1.1} The introduction vignette and function documentation identify the supported data as categorical dyadic state sequences represented by numeric vectors with integer-valued entries, with univariate and bivariate workflows.
 #' @srrstats {EA1.0} The package-level documentation and vignettes identify researchers analysing single-case categorical dyadic sequences as the target audience.
 #' @srrstats {G1.3} The package-level documentation defines the main statistical terminology used by dyadicMarkov, including dyadic sequence, empirical transition counts, transition probabilities, Pearson's chi-squared statistic, G-squared deviance, and patterns of interaction.
 #' @keywords internal

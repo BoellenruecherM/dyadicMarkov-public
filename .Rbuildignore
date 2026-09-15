@@ -10,3 +10,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
+tests/testthat/legacy$
+tests/testthat/helper-legacy[.]R$
+tests/testthat/parity-legacy[.]R$
+tests/testthat/parity-simulated[.]R$
+tests/testthat/test-legacy-chapter2[.]R$
+tests/testthat/test-legacy-chapter3[.]R$

@@ -7,9 +7,11 @@
 countEmp(chainFM, chainSM, states)
 }
 \arguments{
-\item{chainFM}{Vector of observed states for the first member (FM).}
+\item{chainFM}{Numeric vector of integer-valued observed states for the first
+member (FM). Must have the same length as \code{chainSM}.}
 
-\item{chainSM}{Vector of observed states for the second member (SM).}
+\item{chainSM}{Numeric vector of integer-valued observed states for the second
+member (SM). Must have the same length as \code{chainFM}.}
 
 \item{states}{A single integer >= 2 giving the number of states.}
 }
@@ -17,7 +19,8 @@ countEmp(chainFM, chainSM, states)
 An integer matrix with class
 \code{c("dyadic_counts", "matrix", "array")},
 with \eqn{states^2} rows and \code{states} columns. It remains usable as an
-ordinary matrix.
+ordinary matrix. \code{print()}, \code{summary()}, and \code{utils::toLatex()} methods are
+available for this result.
 }
 \description{
 Computes empirical transition counts for the sequences of the first and

@@ -24,8 +24,8 @@ identified patterns of interaction.
 \section{Supported state spaces}{
 
 The univariate workflow supports any integer number of categorical states
-\eqn{S \ge 2}. The bivariate method is developed for two dichotomous variables
-and therefore supports \code{states = 2} only, producing 16-by-2 empirical
+\eqn{\mathrm{states} \ge 2}. The bivariate method is developed for two dichotomous
+variables and therefore supports \code{states = 2} only, producing 16-by-2 empirical
 count matrices. Bivariate support beyond two states would require additional
 mathematical and software development and is not implemented by this package.
 }

@@ -16,7 +16,7 @@ test_that("univariate input validation errors are explicit", {
 
   expect_error(
     dyadicMarkov::countEmp(c("1", "2"), c("1", "2"), states = 2L),
-    "chain values must be numeric vectors of integer-coded states.",
+    "chainFM must be a numeric vector.",
     fixed = TRUE
   )
 
@@ -52,7 +52,27 @@ test_that("univariate input validation errors are explicit", {
 
   expect_error(
     dyadicMarkov::countEmp(c(1, Inf), c(1L, 2L), states = 2L),
-    "chains must contain finite integer-coded states.",
+    "chains must contain finite integer-valued states.",
+    fixed = TRUE
+  )
+})
+
+
+test_that("univariate chains must be numeric vectors", {
+  fm_matrix <- matrix(c(1, 2, 1, 2), nrow = 2)
+  sm_vector <- c(1, 2, 1, 2)
+
+  expect_error(
+    countEmp(fm_matrix, sm_vector, states = 2L),
+    "chainFM must be a numeric vector.",
+    fixed = TRUE
+  )
+
+  fm_array <- array(c(1, 2, 1, 2), dim = c(2, 2, 1))
+
+  expect_error(
+    countEmp(fm_array, sm_vector, states = 2L),
+    "chainFM must be a numeric vector.",
     fixed = TRUE
   )
 })
@@ -80,7 +100,7 @@ test_that("bivariate validation errors are explicit", {
       c("1", "2"), c(1L, 2L), c(1L, 2L), c(1L, 2L),
       states = 2L
     ),
-    "chain values must be numeric integers in {1, 2}.",
+    "bivariate chains must be numeric vectors.",
     fixed = TRUE
   )
 
@@ -88,7 +108,7 @@ test_that("bivariate validation errors are explicit", {
     dyadicMarkov::countEmpBivariate(
       c(1L, Inf), c(1L, 2L), c(1L, 2L), c(1L, 2L), states = 2L
     ),
-    "bivariate chains must contain finite integer-coded states.",
+    "bivariate chains must contain finite integer-valued states.",
     fixed = TRUE
   )
 
@@ -128,6 +148,68 @@ test_that("bivariate validation errors are explicit", {
   expect_error(
     dyadicMarkov::bivariateCase(matrix(1, nrow = 4L, ncol = 2L), alpha = 0.05),
     "bivariate functions currently support states = 2 only (empirical must be a 16x2 matrix).",
+    fixed = TRUE
+  )
+})
+
+
+test_that("bivariate chains must be numeric vectors", {
+  bad_matrix <- matrix(c(1, 2, 1, 2), nrow = 2)
+
+  expect_error(
+    countEmpBivariate(
+      bad_matrix,
+      c(1, 2, 1, 2),
+      c(1, 2, 1, 2),
+      c(2, 1, 2, 1),
+      states = 2L
+    ),
+    "bivariate chains must be numeric vectors.",
+    fixed = TRUE
+  )
+
+  bad_array <- array(c(1, 2, 1, 2), dim = c(2, 2, 1))
+
+  expect_error(
+    countEmpBivariate(
+      bad_array,
+      c(1, 2, 1, 2),
+      c(1, 2, 1, 2),
+      c(2, 1, 2, 1),
+      states = 2L
+    ),
+    "bivariate chains must be numeric vectors.",
+    fixed = TRUE
+  )
+})
+
+
+test_that("large finite chain values fail without coercion warnings", {
+  expect_error(
+    expect_warning(
+      countEmp(
+        c(1, 1e20),
+        c(1, 1),
+        states = 2L
+      ),
+      NA
+    ),
+    "chain values must be integers in 1:states.",
+    fixed = TRUE
+  )
+
+  expect_error(
+    expect_warning(
+      countEmpBivariate(
+        c(1, 1e20),
+        c(1, 1),
+        c(1, 1),
+        c(1, 1),
+        states = 2L
+      ),
+      NA
+    ),
+    "with states = 2, chain values must be integers in {1, 2}.",
     fixed = TRUE
   )
 })
@@ -418,5 +500,17 @@ test_that("empirical count total invariant is checked explicitly", {
     dyadicMarkov:::.check_empirical_count_total(count, n_trans = 1L),
     "internal error: empirical counts do not sum to the number of transitions.",
     fixed = TRUE
+  )
+})
+
+
+test_that("states too large for transition matrix are rejected", {
+  expect_error(
+    dyadicMarkov::countEmp(
+      chainFM = c(1L, 1L),
+      chainSM = c(1L, 1L),
+      states = 1291L
+    ),
+    "too large to construct the required transition-count matrix"
   )
 })

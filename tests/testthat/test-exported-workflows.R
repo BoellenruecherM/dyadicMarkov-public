@@ -35,8 +35,6 @@ test_that("univariatePattern runs", {
   expect_true(is.list(res))
 })
 
-
-
 test_that("bivariate pipeline runs for states=2 (exported API only)", {
   states <- 2L
   n_obs <- 200L
@@ -63,4 +61,3 @@ test_that("bivariate pipeline runs for states=2 (exported API only)", {
   res_complete <- dyadicMarkov::completePattern(emp)
   expect_true(is.list(res_complete))
 })
-

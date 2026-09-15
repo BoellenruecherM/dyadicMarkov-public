@@ -9,7 +9,7 @@
 #' @srrstats {G2.0} Input-validation helpers assert lengths of scalar arguments and sequence inputs. For example, alpha and states must have length one, dyadic chains must have equal lengths, and chains must have length at least two.
 #' @srrstats {G2.0a} Function documentation specifies length expectations for inputs, including equal-length dyadic chains, scalar alpha, scalar states, and fixed empirical matrix dimensions.
 #' @srrstats {G2.1} Input-validation helpers assert expected input types, including numeric state vectors, numeric empirical count matrices, scalar numeric alpha, and scalar numeric states.
-#' @srrstats {G2.1a} Function documentation specifies expected data types for vector and matrix inputs, including numeric/integer-coded state vectors and numeric empirical transition count matrices.
+#' @srrstats {G2.1a} Function documentation specifies expected data types for vector and matrix inputs, including numeric state vectors with integer-valued entries and numeric empirical transition count matrices.
 #' @srrstats {G2.13} Input-validation helpers explicitly check for missing data before analytical routines are applied, using anyNA() for dyadic chains and empirical transition count matrices.
 #' @srrstats {G2.14} dyadicMarkov handles missing data by rejecting missing categorical states or missing empirical counts before transition count estimation or pattern identification.
 #' @srrstats {G2.14a} dyadicMarkov implements the error-on-missing-data option: inputs containing NA values trigger informative errors before analysis proceeds.
@@ -19,9 +19,9 @@
 #' @srrstats {G2.2} Functions restrict inputs to the expected dimensionality. Chain inputs are checked as vectors through length and type validation, univariate empirical inputs must be matrices with states^2 rows and states columns, and bivariate empirical inputs must be 16x2 matrices.
 #' @srrstats {G2.4} dyadicMarkov uses explicit validation and limited conversion mechanisms where appropriate. The state-space size is converted to integer after validation, while categorical chain values and empirical counts are checked rather than silently coerced.
 #' @srrstats {G2.4a} The states argument is explicitly validated and converted with as.integer() after checking that it is a single finite integer-like value.
-#' @srrstats {G2.6} One-dimensional chain inputs are pre-processed through validation helpers that check type, length, missingness, integer coding, and supported state ranges before empirical transition counts are computed.
-#' @srrstats {G2.8} The package uses validation and preprocessing routines to ensure that analytical routines receive standardized inputs: integer-coded state vectors for counting functions and numeric empirical transition count matrices for estimation and testing functions.
-#' @srrstats {EA2.6} Validation tests demonstrate that vector inputs are checked for length, missing values, finite integer-coded states, and admissible state ranges before analytic routines are applied.
+#' @srrstats {G2.6} One-dimensional chain inputs are pre-processed through validation helpers that check type, length, missingness, integer-valued entries, and supported state ranges before empirical transition counts are computed.
+#' @srrstats {G2.8} The package uses validation and preprocessing routines to ensure that analytical routines receive standardized inputs: numeric state vectors with integer-valued entries for counting functions and numeric empirical transition count matrices for estimation and testing functions.
+#' @srrstats {EA2.6} Validation tests demonstrate that vector inputs are checked for length, missing values, finite integer-valued states, and admissible state ranges before analytic routines are applied.
 #' @noRd
 .validate_alpha <- function(alpha) {
   if (!(is.numeric(alpha) && length(alpha) == 1L &&
@@ -54,6 +54,18 @@
     stop("states must be provided as a single integer >= 2.", call. = FALSE)
   }
 
+  states_double <- as.double(states)
+
+  if (
+    states_double^2 > .Machine$integer.max ||
+    states_double^3 > .Machine$integer.max
+  ) {
+    stop(
+      "states is too large to construct the required transition-count matrix.",
+      call. = FALSE
+    )
+  }
+
   as.integer(states)
 }
 
@@ -72,11 +84,11 @@
 .validate_univariate_chains <- function(chainFM, chainSM, states) {
   n <- length(chainFM)
 
-  if (!is.numeric(chainFM) || !is.numeric(chainSM)) {
-    stop(
-      "chain values must be numeric vectors of integer-coded states.",
-      call. = FALSE
-    )
+  if (!is.numeric(chainFM) || !is.null(dim(chainFM))) {
+    stop("chainFM must be a numeric vector.", call. = FALSE)
+  }
+  if (!is.numeric(chainSM) || !is.null(dim(chainSM))) {
+    stop("chainSM must be a numeric vector.", call. = FALSE)
   }
   if (n != length(chainSM)) {
     stop("chainFM and chainSM must have the same length.", call. = FALSE)
@@ -88,11 +100,11 @@
     stop("chains must not contain NA.", call. = FALSE)
   }
   if (!all(is.finite(chainFM)) || !all(is.finite(chainSM))) {
-    stop("chains must contain finite integer-coded states.", call. = FALSE)
+    stop("chains must contain finite integer-valued states.", call. = FALSE)
   }
 
-  bad <- any(chainFM != as.integer(chainFM)) ||
-    any(chainSM != as.integer(chainSM)) ||
+  bad <- any(chainFM != floor(chainFM)) ||
+    any(chainSM != floor(chainSM)) ||
     any(chainFM < 1L | chainFM > states) ||
     any(chainSM < 1L | chainSM > states)
 
@@ -131,7 +143,7 @@
   if (states < 2L) {
     stop("empirical must have at least 2 columns (states >= 2).", call. = FALSE)
   }
-  if (nrow(empirical) != states * states) {
+  if (nrow(empirical) != as.double(states)^2) {
     stop("empirical must have states^2 rows and states columns.", call. = FALSE)
   }
 

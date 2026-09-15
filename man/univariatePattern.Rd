@@ -7,9 +7,11 @@
 univariatePattern(chainFM, chainSM, states, alpha = 0.05)
 }
 \arguments{
-\item{chainFM}{Vector of observed states for the first member (FM).}
+\item{chainFM}{Numeric vector of observed states for the first member (FM).
+Values must be integers. Must have the same length as \code{chainSM}.}
 
-\item{chainSM}{Vector of observed states for the second member (SM).}
+\item{chainSM}{Numeric vector of observed states for the second member (SM).
+Values must be integers. Must have the same length as \code{chainFM}.}
 
 \item{states}{A single integer >= 2 giving the number of states.}
 
@@ -18,9 +20,10 @@ Default is 0.05.}
 }
 \value{
 A list with class \code{c("dyadic_pattern", "list")} containing two
-\code{htest} objects (\code{TEST.AM}, \code{TEST.PM}), a string
-\code{pattern}, and metadata fields \code{alpha}, \code{states}, and
-\code{call}. It remains usable as an ordinary list.
+\code{htest} objects (\code{TEST.AM}, \code{TEST.PM}), the retained input
+sequences \code{chainFM} and \code{chainSM}, a string \code{pattern}, and
+metadata fields \code{alpha}, \code{states}, and \code{call}. It remains
+usable as an ordinary list.
 }
 \description{
 Computes empirical transition counts, estimates transition probabilities by

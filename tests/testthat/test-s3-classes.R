@@ -7,6 +7,8 @@ test_that("pattern and case functions return S3 list objects", {
   expect_s3_class(uni, "dyadic_pattern")
   expect_true("pattern" %in% names(uni))
   expect_true(is.character(uni$pattern) || is.na(uni$pattern))
+  expect_identical(uni$chainFM, chainFM)
+  expect_identical(uni$chainSM, chainSM)
 
   chainFM_V1 <- c(1L, 2L, 1L, 2L, 2L, 1L)
   chainSM_V1 <- c(2L, 1L, 2L, 1L, 1L, 2L)
@@ -28,10 +30,18 @@ test_that("pattern and case functions return S3 list objects", {
   expect_s3_class(partial, "dyadic_pattern")
   expect_true("pattern" %in% names(partial))
   expect_type(partial$pattern, "character")
+  expect_s3_class(partial$aic, "data.frame")
+  expect_type(partial$aic$pattern, "character")
+  expect_type(partial$aic$matrix, "character")
+  expect_true(is.numeric(partial$aic$aic))
 
   expect_s3_class(complete, "dyadic_pattern")
   expect_true("pattern" %in% names(complete))
   expect_type(complete$pattern, "character")
+  expect_s3_class(complete$aic, "data.frame")
+  expect_type(complete$aic$pattern, "character")
+  expect_type(complete$aic$matrix, "character")
+  expect_true(is.numeric(complete$aic$aic))
 
   uni_summary <- summary(uni)
   expect_s3_class(uni_summary, "summary_dyadic_pattern")

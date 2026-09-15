@@ -14,6 +14,8 @@ A numeric matrix with class
 \code{c("dyadic_mle", "matrix", "array")}
 containing estimated transition probabilities with the same dimensions as
 \code{empirical}. It remains usable as an ordinary matrix.
+\code{print()}, \code{summary()}, and \code{utils::toLatex()} methods are available for
+this result.
 }
 \description{
 Estimates transition probabilities by maximum likelihood from an empirical

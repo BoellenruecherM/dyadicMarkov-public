@@ -17,7 +17,9 @@ Default is 0.05.}
 A list with class \code{c("dyadic_case", "list")} containing
 components \code{testUnivariate}, \code{testPartial}, \code{case}, and
 metadata fields \code{alpha} and \code{call}. It remains usable as an
-ordinary list.
+ordinary list. When \code{empirical} was created by
+\code{countEmpBivariate()}, its stored sequence metadata is propagated so
+that \code{plot()} can display the four observed state strips.
 }
 \description{
 Identifies the bivariate case as \code{"trivial"}, \code{"univariate"},

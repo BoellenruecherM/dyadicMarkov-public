@@ -1,0 +1,542 @@
+---
+title: "Sensitivity analysis"
+bibliography: references.bib
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Sensitivity analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+## Overview
+
+The sensitivity analysis reported in @bollen2026 examines how sequence length affects pattern identification for dichotomous dyadic sequences. Five sequence lengths are considered: 30, 60, 90, 180, and 720 measurement points. The simulations focus on four patterns: A1, B2, D4, and E4. Following the notation in Table 2 of @bollen2026, A1 denotes actor-partner, B2 partial actor only, D4 actor-partner on the main, actor only on the second, and E4 complete actor only.
+
+This vignette has two purposes. First, it uses one simulated dyad to illustrate how the univariate and bivariate `dyadicMarkov` workflows behave at 30 and 90 measurement points. These worked examples are illustrations. Second, the vignette reproduces the full sequence-length analysis across all 1,000 simulated dyads and all five sequence lengths.
+
+The worked examples and the full sensitivity analysis use the simulation data included with `dyadicMarkov`. Because the bivariate method described in @bollen2026 is developed for `states = 2`, the univariate worked example is also presented with `states = 2` for consistency. The univariate method described in @bollen2023 supports any integer `states ≥ 2`, so the binary setting shown here is only one possible application.
+
+## Data
+
+The package includes five simulation data sets for sequence lengths 30, 60, 90, 180, and 720. Each data set contains 1,000 simulated dyads. For each dyad, four dichotomous sequences are available. To match the package workflow notation, this vignette refers to them as `FM_V1`, `SM_V1`, `FM_V2`, and `SM_V2`.
+
+```{r sensitivity-data}
+utils::data("data_complete_30", package = "dyadicMarkov")
+utils::data("data_complete_60", package = "dyadicMarkov")
+utils::data("data_complete_90", package = "dyadicMarkov")
+utils::data("data_complete_180", package = "dyadicMarkov")
+utils::data("data_complete_720", package = "dyadicMarkov")
+```
+
+The columns TM1, TM2, and so forth contain the ordered measurements. The remaining columns identify the member, variable, simulated pattern, dyad, and archived historical classification. More specifically, `caseSimulated` records the interaction pattern used to generate the sequence, whereas `local` stores the classification produced by the historical analysis. The historical terminology is retained in these fixed simulation datasets; current `dyadicMarkov` output uses the current scientific nomenclature. For consistency with the bivariate workflow, the two archived simulation variables are relabelled `V1` (main variable) and `V2` (second variable) below. The helper then extracts one sequence for a given dyad, variable, and member.
+
+```{r extract-chain}
+simulation_variables <- setNames(
+  rev(sort(unique(as.character(data_complete_30$variable)))),
+  c("V1", "V2")
+)
+
+simulation_chain <- function(x, n, dyad, variable, member) {
+  measurement_columns <- paste0("TM", seq_len(n))
+  variable_code <- unname(simulation_variables[[variable]])
+
+  keep <- x$dyad == as.character(dyad) &
+    x$variable == variable_code &
+    x$members == as.character(member)
+
+  as.integer(unlist(
+    x[keep, measurement_columns, drop = FALSE],
+    use.names = FALSE
+  ))
+}
+
+simulation_pattern <- function(x, dyad, variable, member) {
+  variable_code <- unname(simulation_variables[[variable]])
+
+  x[
+    x$dyad == as.character(dyad) &
+      x$variable == variable_code &
+      x$members == as.character(member),
+    "caseSimulated",
+    drop = TRUE
+  ]
+}
+```
+
+The five data sets were simulated separately. Therefore, for example, a 30-measurement-point sequence is not the first 30 observations of a corresponding 90-measurement-point sequence.
+
+## Univariate worked example
+
+For the univariate illustration, we select simulated dyad 241 and analyze one of its variables at sequence lengths of 30 and 90 measurement points. As in the univariate workflow, the analyzed member sequence is denoted `FM` and the partner sequence `SM`. These two sequence lengths illustrate how the available transition information and the identified pattern can change with sequence length.
+
+```{r univariate-chains}
+FM_30 <- simulation_chain(data_complete_30, 30L, 241L, "V2", 1L)
+SM_30 <- simulation_chain(data_complete_30, 30L, 241L, "V2", 2L)
+
+FM_90 <- simulation_chain(data_complete_90, 90L, 241L, "V2", 1L)
+SM_90 <- simulation_chain(data_complete_90, 90L, 241L, "V2", 2L)
+```
+
+The empirical transition counts show the amount of observed transition information available at each sequence length.
+
+```{r univariate-counts}
+emp_uni_30 <- dyadicMarkov::countEmp(FM_30, SM_30, states = 2L)
+emp_uni_90 <- dyadicMarkov::countEmp(FM_90, SM_90, states = 2L)
+
+rbind(
+  `L = 30` = rowSums(emp_uni_30),
+  `L = 90` = rowSums(emp_uni_90)
+)
+```
+
+For the 30-measurement-point sequence, one previous dyadic state has no observed outgoing transition. For the 90-measurement-point sequence, all four previous dyadic states contribute observed transitions.
+
+```{r univariate-patterns}
+uni_30 <- dyadicMarkov::univariatePattern(
+  chainFM = FM_30,
+  chainSM = SM_30,
+  states = 2L,
+  alpha = 0.05
+)
+
+uni_90 <- dyadicMarkov::univariatePattern(
+  chainFM = FM_90,
+  chainSM = SM_90,
+  states = 2L,
+  alpha = 0.05
+)
+
+c(
+  `L = 30` = uni_30$pattern,
+  `L = 90` = uni_90$pattern
+)
+
+c(
+  `L = 30` = simulation_pattern(
+    data_complete_30, 241L, "V2", 1L
+  ),
+  `L = 90` = simulation_pattern(
+    data_complete_90, 241L, "V2", 1L
+  )
+)
+```
+
+The 30-measurement-point sequence is identified as `IM (A0)`, whereas the 90-measurement-point sequence is identified as `APM (A1)`. For the 90-measurement-point example, `A1` is also the simulated pattern.
+
+## Bivariate worked example
+
+For the bivariate illustration, we use the same simulated dyad 241 at sequence lengths of 30 and 90 measurement points. Following the bivariate workflow notation, the analyzed sequence is `FM_V1`, with `SM_V1` on the main variable and `FM_V2` and `SM_V2` on the second variable. As in the univariate section, this is a worked example rather than the full sensitivity analysis.
+
+```{r bivariate-chains}
+FM_V1_30 <- simulation_chain(data_complete_30, 30L, 241L, "V1", 1L)
+SM_V1_30 <- simulation_chain(data_complete_30, 30L, 241L, "V1", 2L)
+FM_V2_30 <- FM_30
+SM_V2_30 <- SM_30
+
+FM_V1_90 <- simulation_chain(data_complete_90, 90L, 241L, "V1", 1L)
+SM_V1_90 <- simulation_chain(data_complete_90, 90L, 241L, "V1", 2L)
+FM_V2_90 <- FM_90
+SM_V2_90 <- SM_90
+
+emp_bi_30 <- dyadicMarkov::countEmpBivariate(
+  chainFM_V1 = FM_V1_30,
+  chainSM_V1 = SM_V1_30,
+  chainFM_V2 = FM_V2_30,
+  chainSM_V2 = SM_V2_30,
+  states = 2L
+)
+
+emp_bi_90 <- dyadicMarkov::countEmpBivariate(
+  chainFM_V1 = FM_V1_90,
+  chainSM_V1 = SM_V1_90,
+  chainFM_V2 = FM_V2_90,
+  chainSM_V2 = SM_V2_90,
+  states = 2L
+)
+```
+
+The global bivariate analysis first identifies whether the sequence is trivial, univariate, partial bivariate, or complete bivariate.
+
+```{r bivariate-cases}
+case_bi_30 <- dyadicMarkov::bivariateCase(emp_bi_30, alpha = 0.05)
+case_bi_90 <- dyadicMarkov::bivariateCase(emp_bi_90, alpha = 0.05)
+
+c(
+  `L = 30` = case_bi_30$case,
+  `L = 90` = case_bi_90$case
+)
+
+c(
+  `L = 30` = simulation_pattern(
+    data_complete_30, 241L, "V1", 1L
+  ),
+  `L = 90` = simulation_pattern(
+    data_complete_90, 241L, "V1", 1L
+  )
+)
+```
+
+Both selected sequences were simulated under pattern D4. The 30-measurement-point sequence is classified as trivial. The 90-measurement-point sequence is classified as complete bivariate and therefore proceeds to the corresponding local pattern identification.
+
+```{r bivariate-local-pattern}
+complete_bi_90 <- dyadicMarkov::completePattern(emp_bi_90)
+
+complete_bi_90$pattern
+
+```
+
+The 90-measurement-point sequence selects pattern D4, recovering the pattern under which that sequence was simulated.
+
+## Sequence-length sensitivity results
+
+The worked examples above considered one simulated dyad. We now consider all 1,000 simulated dyads at each of the five sequence lengths used in @bollen2026. For every dyad, the four member-variable combinations are classified, giving 20,000 classifications in total.
+
+The code below is included for reproducibility rather than as part of the usual `dyadicMarkov` workflow. It extracts each simulated sequence, applies the same classification procedure illustrated above, and compares the identified pattern with the pattern used to simulate that sequence. Because the complete calculation is relatively expensive, the chunk is not evaluated when the vignette is built. Readers interested in reproducing the analysis can run the code locally.
+
+The same complete reproduction is also implemented as an opt-in extended test in the package source. From a source checkout, it can be run by setting `DYADICMARKOV_EXTENDED_TESTS=true` and executing `devtools::test(filter = "extended-sensitivity")`. The extended test also compares the reproduced sensitivity and specificity values with those reported in Table 5 of @bollen2026, using an absolute tolerance of 0.01 to accommodate the small specificity differences documented below.
+
+```{r full-sensitivity-reproduction, eval=FALSE}
+# -------------------------------------------------------------------------
+# Helper 1: recover the A-code from a univariate result.
+#
+# univariatePattern() returns labels such as:
+#   "IM (A0)"
+#   "APM (A1)"
+#   "AM (A2)"
+#   "PM (A3)"
+# -------------------------------------------------------------------------
+univariate_code <- function(x) {
+  code <- sub(
+    "^.*\\(([A-Z][0-9]+)\\)$",
+    "\\1",
+    x$pattern
+  )
+
+  if (identical(code, x$pattern)) {
+    stop("The univariate pattern code could not be extracted.")
+  }
+
+  code
+}
+
+
+# -------------------------------------------------------------------------
+# Helper 2: recover the current pattern code selected by an AIC procedure.
+#
+# partialPattern() and completePattern() return:
+#   - $pattern: the selected pattern written out in full;
+#   - $aic:     the candidate table, including the short matrix code.
+#
+# Matching these two fields gives codes such as B2, D4, or E4.
+# -------------------------------------------------------------------------
+selected_matrix_code <- function(x) {
+  i <- match(x$pattern, x$aic$pattern)
+
+  if (is.na(i)) {
+    stop("The selected pattern could not be matched to its AIC table.")
+  }
+
+  x$aic$matrix[i]
+}
+
+
+# -------------------------------------------------------------------------
+# Helper 3: classify one selected member-variable combination.
+#
+# For each classification, the selected member is placed in the
+# first-member position for the main variable, while the other member is
+# placed in the second-member position. The second variable is supplied
+# using the same member order.
+#
+# The global bivariate classification determines whether the result is:
+#   - trivial;
+#   - univariate;
+#   - partial bivariate;
+#   - complete bivariate.
+#
+# The corresponding local identification method is then applied.
+# -------------------------------------------------------------------------
+classify_local_pattern <- function(data, n, dyad, variable, member,
+                                   alpha = 0.05) {
+
+  other_member <- if (member == 1L) 2L else 1L
+  second_variable <- if (variable == "V1") "V2" else "V1"
+
+  # Main variable
+  main_first <- simulation_chain(
+    data, n, dyad, variable, member
+  )
+
+  main_second <- simulation_chain(
+    data, n, dyad, variable, other_member
+  )
+
+  # Second variable, using the same member order
+  second_first <- simulation_chain(
+    data, n, dyad, second_variable, member
+  )
+
+  second_second <- simulation_chain(
+    data, n, dyad, second_variable, other_member
+  )
+
+  # Empirical 16 x 2 transition-count matrix
+  empirical <- dyadicMarkov::countEmpBivariate(
+    chainFM_V1 = main_first,
+    chainSM_V1 = main_second,
+    chainFM_V2 = second_first,
+    chainSM_V2 = second_second,
+    states = 2L
+  )
+
+  # Global bivariate case
+  global <- dyadicMarkov::bivariateCase(
+    empirical,
+    alpha = alpha
+  )
+
+  # Proceed to the appropriate local identification
+  if (global$case == "trivial") {
+    return("trivial")
+  }
+
+  if (global$case == "univariate") {
+    local <- dyadicMarkov::univariatePattern(
+      main_first,
+      main_second,
+      states = 2L,
+      alpha = alpha
+    )
+
+    return(univariate_code(local))
+  }
+
+  if (global$case == "partial") {
+    local <- dyadicMarkov::partialPattern(empirical)
+    return(selected_matrix_code(local))
+  }
+
+  if (global$case == "complete") {
+    local <- dyadicMarkov::completePattern(empirical)
+    return(selected_matrix_code(local))
+  }
+
+  stop("Unknown bivariate case: ", global$case)
+}
+
+
+# -------------------------------------------------------------------------
+# Helper 4: run the classification for all 1,000 dyads at one sequence
+# length.
+#
+# Each dyad contributes four member-variable combinations:
+#
+#   V1, first member
+#   V1, second member
+#   V2, first member
+#   V2, second member
+#
+# The simulation label is read directly from caseSimulated rather than
+# entered manually.
+# -------------------------------------------------------------------------
+classify_one_length <- function(data, n, alpha = 0.05) {
+
+  dyads <- sort(unique(as.integer(data$dyad)))
+
+  orientations <- data.frame(
+    variable = c("V1", "V1", "V2", "V2"),
+    member = c(1L, 2L, 1L, 2L),
+    stringsAsFactors = FALSE
+  )
+
+  out <- vector(
+    "list",
+    length(dyads) * nrow(orientations)
+  )
+
+  k <- 1L
+
+  for (i in seq_along(dyads)) {
+
+    d <- dyads[i]
+
+    # Optional progress information when the full analysis is run locally
+    if (i %% 100L == 0L) {
+      message(
+        "Length ", n, ": completed ",
+        i, " of ", length(dyads), " dyads"
+      )
+    }
+
+    for (j in seq_len(nrow(orientations))) {
+
+      variable <- orientations$variable[j]
+      member <- orientations$member[j]
+
+      # Pattern used to simulate this member-variable combination
+      variable_code <- unname(simulation_variables[[variable]])
+
+      keep <- data$dyad == as.character(d) &
+        data$variable == variable_code &
+        data$members == as.character(member)
+
+      simulated <- unique(data$caseSimulated[keep])
+
+      if (length(simulated) != 1L) {
+        stop(
+          "Expected exactly one simulation label for dyad ",
+          d, ", variable ", variable,
+          ", member ", member, "."
+        )
+      }
+
+      # Pattern identified by the current dyadicMarkov workflow
+      identified <- classify_local_pattern(
+        data = data,
+        n = n,
+        dyad = d,
+        variable = variable,
+        member = member,
+        alpha = alpha
+      )
+
+      out[[k]] <- data.frame(
+        length = n,
+        dyad = d,
+        variable = variable,
+        member = member,
+        simulated = simulated,
+        identified = identified,
+        stringsAsFactors = FALSE
+      )
+
+      k <- k + 1L
+    }
+  }
+
+  do.call(rbind, out)
+}
+
+
+# -------------------------------------------------------------------------
+# Run all five sequence lengths.
+#
+# 5 lengths x 1,000 dyads x 4 member-variable combinations
+# = 20,000 classifications.
+# -------------------------------------------------------------------------
+simulation_data <- list(
+  `30`  = data_complete_30,
+  `60`  = data_complete_60,
+  `90`  = data_complete_90,
+  `180` = data_complete_180,
+  `720` = data_complete_720
+)
+
+classification_results <- do.call(
+  rbind,
+  lapply(names(simulation_data), function(n) {
+    classify_one_length(
+      data = simulation_data[[n]],
+      n = as.integer(n),
+      alpha = 0.05
+    )
+  })
+)
+
+# -------------------------------------------------------------------------
+# Calculate sensitivity and specificity for each pattern and sequence length.
+#
+#   Sensitivity = TP / (TP + FN)
+#   Specificity = TN / (TN + FP)
+#
+# The simulated pattern is treated as the reference classification.
+# -------------------------------------------------------------------------
+patterns <- c("A1", "B2", "D4", "E4")
+lengths <- c(30L, 60L, 90L, 180L, 720L)
+
+sensitivity_results <- data.frame(
+  Length = lengths
+)
+
+for (pattern in patterns) {
+
+  sensitivity <- numeric(length(lengths))
+  specificity <- numeric(length(lengths))
+
+  for (i in seq_along(lengths)) {
+
+    current <- classification_results[
+      classification_results$length == lengths[i],
+    ]
+
+    truth <- current$simulated == pattern
+    identified <- current$identified == pattern
+
+    TP <- sum(truth & identified)
+    FN <- sum(truth & !identified)
+    TN <- sum(!truth & !identified)
+    FP <- sum(!truth & identified)
+
+    sensitivity[i] <- TP / (TP + FN)
+    specificity[i] <- TN / (TN + FP)
+  }
+
+  sensitivity_results[[paste(pattern, "Se")]] <-
+    round(sensitivity, 3)
+
+  sensitivity_results[[paste(pattern, "Sp")]] <-
+    round(specificity, 3)
+}
+
+sensitivity_results
+```
+
+The complete calculation above is not run during an ordinary vignette build. The `sensitivity_results` values obtained from that reproduction, rounded to three decimals, are stored below so that the vignette can display the results without rerunning all 20,000 classifications. They reproduce the sensitivity and specificity results reported in Table 5 of @bollen2026, with minor numerical differences in a few specificity values.
+
+```{r sensitivity-results}
+# Results obtained from the full sensitivity-analysis reproduction above.
+# Values are stored here so that the vignette does not rerun the 20,000
+# classifications every time it is built.
+
+sensitivity_results <- data.frame(
+  Length = c(30L, 60L, 90L, 180L, 720L),
+
+  `A1 Se` = c(0.125, 0.836, 0.936, 0.941, 0.946),
+  `A1 Sp` = c(0.992, 0.942, 0.951, 0.997, 1.000),
+
+  `B2 Se` = c(0.114, 0.680, 0.801, 0.835, 0.850),
+  `B2 Sp` = c(0.994, 0.940, 0.935, 0.991, 1.000),
+
+  `D4 Se` = c(0.000, 0.119, 0.426, 0.876, 0.951),
+  `D4 Sp` = c(0.999, 0.972, 0.955, 0.952, 0.960),
+
+  `E4 Se` = c(0.015, 0.358, 0.621, 0.765, 0.808),
+  `E4 Sp` = c(1.000, 0.997, 0.997, 0.999, 0.998),
+
+  check.names = FALSE
+)
+
+knitr::kable(
+  sensitivity_results,
+  digits = 3,
+  align = c("r", rep("r", 8)),
+  caption = paste(
+    "Sensitivity (Se) and specificity (Sp) for patterns A1, B2, D4,",
+    "and E4 across the five sequence lengths."
+  )
+)
+```
+
+Sensitivity generally increases with sequence length, whereas specificity remains high across all five lengths. With 30 measurement points, sensitivity is low for all four patterns and is particularly low for the more complex bivariate patterns D4 and E4. Their identification improves progressively as more transition information becomes available. At 90 measurement points, sensitivity is already high for A1 and B2 and has also increased substantially for D4 and E4; further improvements are observed at 180 and 720 measurement points.
+
+## Interpretation
+
+These results are consistent with @bollen2026, where shorter sequences are more frequently associated with trivial classifications and the identification of more complex patterns requires longer sequences. From 90 measurement points onward, trivial classifications decrease markedly, leading @bollen2026 to recommend approximately 90 measurement points as a practical minimum for the bivariate method.
+
+This recommendation is methodological guidance from the sensitivity study, rather than a requirement imposed by `dyadicMarkov`.
+
+## References
