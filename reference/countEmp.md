@@ -15,11 +15,13 @@ countEmp(chainFM, chainSM, states)
 
 - chainFM:
 
-  Vector of observed states for the first member (FM).
+  Numeric vector of integer-valued observed states for the first member
+  (FM). Must have the same length as `chainSM`.
 
 - chainSM:
 
-  Vector of observed states for the second member (SM).
+  Numeric vector of integer-valued observed states for the second member
+  (SM). Must have the same length as `chainFM`.
 
 - states:
 
@@ -29,7 +31,10 @@ countEmp(chainFM, chainSM, states)
 
 An integer matrix with class `c("dyadic_counts", "matrix", "array")`,
 with \\states^2\\ rows and `states` columns. It remains usable as an
-ordinary matrix.
+ordinary matrix. [`print()`](https://rdrr.io/r/base/print.html),
+[`summary()`](https://rdrr.io/r/base/summary.html), and
+[`utils::toLatex()`](https://rdrr.io/r/utils/toLatex.html) methods are
+available for this result.
 
 ## Details
 

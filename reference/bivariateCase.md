@@ -27,7 +27,12 @@ bivariateCase(empirical, alpha = 0.05)
 
 A list with class `c("dyadic_case", "list")` containing components
 `testUnivariate`, `testPartial`, `case`, and metadata fields `alpha` and
-`call`. It remains usable as an ordinary list.
+`call`. It remains usable as an ordinary list. When `empirical` was
+created by
+[`countEmpBivariate()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/countEmpBivariate.md),
+its stored sequence metadata is propagated so that
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) can display the
+four observed state strips.
 
 ## Details
 

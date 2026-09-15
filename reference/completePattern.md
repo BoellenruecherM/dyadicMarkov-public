@@ -22,7 +22,11 @@ completePattern(empirical)
 A list with class `c("dyadic_pattern", "list")` containing components
 `aic` (a data frame with columns `pattern`, `matrix`, and `aic`),
 `pattern` (the selected pattern label), and `call`. It remains usable as
-an ordinary list.
+an ordinary list. When `empirical` was created by
+[`countEmpBivariate()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/countEmpBivariate.md),
+its stored sequence metadata is propagated so that
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) can display the
+four observed state strips.
 
 ## Details
 
@@ -30,7 +34,8 @@ Conditional on the complete bivariate case, the G-squared deviance is
 computed for each C, D1–D4, and E1–E4 candidate before calculating
 \$\$AIC = G^2 + 2k,\$\$ where \$\$G^2 = 2 \sum\_{ij} O\_{ij}
 \log(O\_{ij} / E\_{ij}).\$\$ The candidate with the smallest AIC is
-selected.
+selected. If candidates have exactly equal AIC values, the first
+candidate in the documented comparison order is selected.
 
 ## Examples
 

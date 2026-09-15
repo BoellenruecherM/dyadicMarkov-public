@@ -14,13 +14,14 @@ countEmpBivariate(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2, states = 2L)
 
 - chainFM_V1, chainSM_V1:
 
-  Vectors of observed states for variable 1 for the first and second
-  member.
+  Numeric vectors of observed states for variable 1 for the first and
+  second member. Values must be integers.
 
 - chainFM_V2, chainSM_V2:
 
-  Vectors of observed states for variable 2 for the first and second
-  member.
+  Numeric vectors of observed states for variable 2 for the first and
+  second member. Values must be integers. All four chain vectors must
+  have the same length.
 
 - states:
 
@@ -30,7 +31,10 @@ countEmpBivariate(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2, states = 2L)
 
 An integer matrix with class `c("dyadic_counts", "matrix", "array")`
 with 16 rows and 2 columns when `states = 2`. It remains usable as an
-ordinary matrix.
+ordinary matrix. The four validated input sequences and the binary state
+count are retained in the `"dyadic_sequences"` attribute so that
+downstream bivariate results can display the observed state strips with
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html).
 
 ## Details
 

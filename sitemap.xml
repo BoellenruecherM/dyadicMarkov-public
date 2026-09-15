@@ -6,6 +6,7 @@
 <url><loc>https://boellenruecherm.github.io/dyadicMarkov-public/articles/bivariate-workflow.html</loc></url>
 <url><loc>https://boellenruecherm.github.io/dyadicMarkov-public/articles/dyadicMarkov-introduction.html</loc></url>
 <url><loc>https://boellenruecherm.github.io/dyadicMarkov-public/articles/index.html</loc></url>
+<url><loc>https://boellenruecherm.github.io/dyadicMarkov-public/articles/sensitivity-analysis.html</loc></url>
 <url><loc>https://boellenruecherm.github.io/dyadicMarkov-public/articles/univariate-workflow.html</loc></url>
 <url><loc>https://boellenruecherm.github.io/dyadicMarkov-public/authors.html</loc></url>
 <url><loc>https://boellenruecherm.github.io/dyadicMarkov-public/index.html</loc></url>
@@ -20,6 +21,8 @@
 <url><loc>https://boellenruecherm.github.io/dyadicMarkov-public/reference/index.html</loc></url>
 <url><loc>https://boellenruecherm.github.io/dyadicMarkov-public/reference/mleEstimation.html</loc></url>
 <url><loc>https://boellenruecherm.github.io/dyadicMarkov-public/reference/partialPattern.html</loc></url>
+<url><loc>https://boellenruecherm.github.io/dyadicMarkov-public/reference/plot.dyadic_pattern.html</loc></url>
+<url><loc>https://boellenruecherm.github.io/dyadicMarkov-public/reference/sensitivity_simulation_data.html</loc></url>
 <url><loc>https://boellenruecherm.github.io/dyadicMarkov-public/reference/univariatePattern.html</loc></url>
 </urlset>
 

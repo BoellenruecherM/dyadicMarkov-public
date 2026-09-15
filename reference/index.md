@@ -23,9 +23,22 @@
 - [`completePattern()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/completePattern.md)
   : Complete bivariate pattern identification by AIC
 
+## Plotting
+
+- [`plot(`*`<dyadic_pattern>`*`)`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/plot.dyadic_pattern.md)
+  [`plot(`*`<dyadic_case>`*`)`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/plot.dyadic_pattern.md)
+  : Plot dyadic categorical state strips
+
 ## Example data
 
 - [`dyadic_univariate_example`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/dyadic_univariate_example.md)
   : Synthetic univariate dyadic sequence example
 - [`dyadic_bivariate_example`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/dyadic_bivariate_example.md)
   : Synthetic bivariate dyadic sequence example
+- [`sensitivity_simulation_data`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/sensitivity_simulation_data.md)
+  [`data_complete_30`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/sensitivity_simulation_data.md)
+  [`data_complete_60`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/sensitivity_simulation_data.md)
+  [`data_complete_90`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/sensitivity_simulation_data.md)
+  [`data_complete_180`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/sensitivity_simulation_data.md)
+  [`data_complete_720`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/sensitivity_simulation_data.md)
+  : Sensitivity-analysis simulation datasets

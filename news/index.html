@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dyadicMarkov</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,6 +28,7 @@
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/dyadicMarkov-introduction.html">Introduction</a></li>
     <li><a class="dropdown-item" href="../articles/univariate-workflow.html">Univariate workflow</a></li>
     <li><a class="dropdown-item" href="../articles/bivariate-workflow.html">Bivariate workflow</a></li>
+    <li><a class="dropdown-item" href="../articles/sensitivity-analysis.html">Sensitivity analysis</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://github.com/BoellenruecherM/dyadicMarkov-public" aria-label="GitHub"><span class="fa fab fa-github"></span></a></li>
@@ -43,8 +44,21 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.2" id="dyadicmarkov-012-2026-08-21">dyadicMarkov 0.1.2 (2026-08-21)<a class="anchor" aria-label="anchor" href="#dyadicmarkov-012-2026-08-21"></a></h2><p class="text-muted">CRAN release: 2026-08-21</p>
-<ul><li>Clarified that the univariate pattern-identification procedure is an LRT procedure evaluated using Pearson’s chi-squared statistic, while the global bivariate nested-model/LRT framework implements two chi-squared tests for A1 and B1, also evaluated using Pearson’s chi-squared statistic.</li>
+<h2 class="pkg-version" data-toc-text="0.1.3" id="dyadicmarkov-013">dyadicMarkov 0.1.3<a class="anchor" aria-label="anchor" href="#dyadicmarkov-013"></a></h2>
+<ul><li>Added a sensitivity-analysis vignette reproducing the published sequence-length analysis for 1,000 simulated dyads at five sequence lengths, with shorter worked examples for 30- and 90-point sequences.</li>
+<li>Added the fixed simulation datasets used in the sensitivity analysis and documented their structure, binary state space, historical labels, and separate simulation at each sequence length.</li>
+<li>Clarified the terminology used in the sensitivity analysis and noted the small numerical differences from the published sensitivity and specificity results.</li>
+<li>Documented how exact AIC ties are handled in partial and complete bivariate pattern selection.</li>
+<li>Improved validation of the <code>digits</code> argument used by print, summary, and LaTeX methods.</li>
+<li>Added a check for state-space sizes that are too large to construct the required transition-count matrices safely.</li>
+<li>Updated the statistical-software-review annotations to reflect the legacy implementation parity tests.</li>
+<li>Added and updated tests for the changes above.</li>
+<li>Added base-R state-strip <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> methods for univariate pattern results and binary bivariate case and pattern results, with accessible defaults and retained sequence metadata.</li>
+<li>Added inferential summary tables and LaTeX representations for empirical-count and MLE matrices.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.1.2" id="dyadicmarkov-012">dyadicMarkov 0.1.2<a class="anchor" aria-label="anchor" href="#dyadicmarkov-012"></a></h2><p class="text-muted">CRAN release: 2026-08-21</p>
+<ul><li>Clarified that the univariate pattern-identification procedure is an LRT procedure evaluated using Pearson Chi-squared, while the global bivariate nested-model/LRT framework implements two chi-squared tests for A1 and B1, also evaluated using Pearson Chi-squared.</li>
 <li>Clarified that local bivariate pattern selection computes the G-squared deviance before applying <code>AIC = G^2 + 2k</code>.</li>
 <li>Corrected the univariate pattern-identification and global bivariate case boundaries so that p-values equal to alpha are treated as rejection (<code>p &lt;= alpha</code>).</li>
 <li>Documented that the univariate workflow supports multiple categorical states, while the bivariate workflow is defined for two dichotomous variables.</li>
@@ -54,7 +68,7 @@
 <li>Declared <code>srr</code> as a development/documentation dependency.</li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.1" id="dyadicmarkov-011-2026-06-21">dyadicMarkov 0.1.1 (2026-06-21)<a class="anchor" aria-label="anchor" href="#dyadicmarkov-011-2026-06-21"></a></h2><p class="text-muted">CRAN release: 2026-06-21</p>
+<h2 class="pkg-version" data-toc-text="0.1.1" id="dyadicmarkov-011">dyadicMarkov 0.1.1<a class="anchor" aria-label="anchor" href="#dyadicmarkov-011"></a></h2><p class="text-muted">CRAN release: 2026-06-21</p>
 <ul><li>Updated package wording and metadata for the CRAN submission.</li>
 <li>Added S3 classes and print/summary support for pattern and case identification results.</li>
 <li>Added S3 classes for empirical count matrices and MLE transition probability matrices while preserving ordinary matrix behavior.</li>
@@ -67,7 +81,7 @@
 <li>Improved bivariate count validation coverage for unsupported and malformed inputs.</li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.0" id="dyadicmarkov-010-2026-03-16">dyadicMarkov 0.1.0 (2026-03-16)<a class="anchor" aria-label="anchor" href="#dyadicmarkov-010-2026-03-16"></a></h2><p class="text-muted">CRAN release: 2026-03-16</p>
+<h2 class="pkg-version" data-toc-text="0.1.0" id="dyadicmarkov-010">dyadicMarkov 0.1.0<a class="anchor" aria-label="anchor" href="#dyadicmarkov-010"></a></h2><p class="text-muted">CRAN release: 2026-03-16</p>
 <ul><li>Initial CRAN submission.</li>
 </ul></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -23,6 +23,10 @@ mleEstimation(empirical)
 A numeric matrix with class `c("dyadic_mle", "matrix", "array")`
 containing estimated transition probabilities with the same dimensions
 as `empirical`. It remains usable as an ordinary matrix.
+[`print()`](https://rdrr.io/r/base/print.html),
+[`summary()`](https://rdrr.io/r/base/summary.html), and
+[`utils::toLatex()`](https://rdrr.io/r/utils/toLatex.html) methods are
+available for this result.
 
 ## Details
 

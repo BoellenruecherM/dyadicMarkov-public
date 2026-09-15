@@ -17,8 +17,8 @@ probability matrices, and identified patterns of interaction.
 ## Supported state spaces
 
 The univariate workflow supports any integer number of categorical
-states \\S \ge 2\\. The bivariate method is developed for two
-dichotomous variables and therefore supports `states = 2` only,
+states \\\mathrm{states} \ge 2\\. The bivariate method is developed for
+two dichotomous variables and therefore supports `states = 2` only,
 producing 16-by-2 empirical count matrices. Bivariate support beyond two
 states would require additional mathematical and software development
 and is not implemented by this package.

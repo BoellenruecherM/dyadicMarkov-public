@@ -15,11 +15,13 @@ univariatePattern(chainFM, chainSM, states, alpha = 0.05)
 
 - chainFM:
 
-  Vector of observed states for the first member (FM).
+  Numeric vector of observed states for the first member (FM). Values
+  must be integers. Must have the same length as `chainSM`.
 
 - chainSM:
 
-  Vector of observed states for the second member (SM).
+  Numeric vector of observed states for the second member (SM). Values
+  must be integers. Must have the same length as `chainFM`.
 
 - states:
 
@@ -33,8 +35,9 @@ univariatePattern(chainFM, chainSM, states, alpha = 0.05)
 ## Value
 
 A list with class `c("dyadic_pattern", "list")` containing two `htest`
-objects (`TEST.AM`, `TEST.PM`), a string `pattern`, and metadata fields
-`alpha`, `states`, and `call`. It remains usable as an ordinary list.
+objects (`TEST.AM`, `TEST.PM`), the retained input sequences `chainFM`
+and `chainSM`, a string `pattern`, and metadata fields `alpha`,
+`states`, and `call`. It remains usable as an ordinary list.
 
 ## Details
 

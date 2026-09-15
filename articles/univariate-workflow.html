@@ -32,7 +32,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">dyadicMarkov</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,6 +49,7 @@
 <li><a class="dropdown-item" href="../articles/dyadicMarkov-introduction.html">Introduction</a></li>
     <li><a class="dropdown-item" href="../articles/univariate-workflow.html">Univariate workflow</a></li>
     <li><a class="dropdown-item" href="../articles/bivariate-workflow.html">Bivariate workflow</a></li>
+    <li><a class="dropdown-item" href="../articles/sensitivity-analysis.html">Sensitivity analysis</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -108,7 +109,8 @@ of a dyad. Each row corresponds to one measurement occasion. In the
 first analysis, the sequence of <code>FM</code>, the first member, is
 analyzed; <code>SM</code> is the second member or partner.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"dyadic_univariate_example"</span>, package <span class="op">=</span> <span class="st">"dyadicMarkov"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Load the example data included with dyadicMarkov</span></span>
+<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"dyadic_univariate_example"</span>, package <span class="op">=</span> <span class="st">"dyadicMarkov"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dyadic_univariate_example</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   time FM SM</span></span>
@@ -120,8 +122,8 @@ analyzed; <code>SM</code> is the second member or partner.</p>
 <span><span class="co">#&gt; 6    6  2  1</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">dyadic_univariate_example</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 90  3</span></span></code></pre></div>
-<p>The states are integer-coded. In this example, both members can take
-the values 1 or 2.</p>
+<p>In this example, the categorical states are coded as 1 and 2 for both
+members.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">dyadic_univariate_example</span><span class="op">$</span><span class="va">FM</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -135,11 +137,17 @@ the values 1 or 2.</p>
 <div class="section level2">
 <h2 id="empirical-transition-counts">Empirical transition counts<a class="anchor" aria-label="anchor" href="#empirical-transition-counts"></a>
 </h2>
-<p>The first step is to compute empirical transition counts with
-<code><a href="../reference/countEmp.html">countEmp()</a></code>. For <code>states = 2</code>, the rows represent
-the four possible previous dyadic states <code>(FM_t, SM_t)</code>, and
-the columns represent the state of the first member at the next time
-point, <code>FM_{t+1}</code>.</p>
+<p><code><a href="../reference/countEmp.html">countEmp()</a></code> computes the empirical transition counts for
+the first member from the two observed dyadic sequences. For
+<code>states = 2</code>, the resulting matrix has four rows
+corresponding to the possible previous dyadic states <span class="math inline">\((FM_t, SM_t)\)</span> and two columns
+corresponding to the possible next states of the first member, <span class="math inline">\(FM_{t+1}\)</span>. The returned
+<code>dyadic_counts</code> object retains ordinary matrix behavior and
+provides <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, and
+<code><a href="https://rdrr.io/r/utils/toLatex.html" class="external-link">utils::toLatex()</a></code> methods. The <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> method
+reports information including the matrix dimensions, total count, and
+row sums, while <code>utils::toLatex(emp_uni)</code> produces a LaTeX
+representation for reports or manuscripts.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">emp_uni</span> <span class="op">&lt;-</span> <span class="fu">dyadicMarkov</span><span class="fu">::</span><span class="fu"><a href="../reference/countEmp.html">countEmp</a></span><span class="op">(</span></span>
 <span>  chainFM <span class="op">=</span> <span class="va">dyadic_univariate_example</span><span class="op">$</span><span class="va">FM</span>,</span>
@@ -147,46 +155,94 @@ point, <code>FM_{t+1}</code>.</p>
 <span>  states <span class="op">=</span> <span class="fl">2L</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">emp_uni</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">emp_uni</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         next_1 next_2</span></span>
 <span><span class="co">#&gt; FM1_SM1 26     4     </span></span>
 <span><span class="co">#&gt; FM1_SM2 5      14    </span></span>
 <span><span class="co">#&gt; FM2_SM1 12     5     </span></span>
 <span><span class="co">#&gt; FM2_SM2 7      16</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">emp_uni</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "dyadic_counts" "matrix"        "array"</span></span></code></pre></div>
-<p>The resulting object keeps ordinary matrix behavior.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">emp_uni</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">emp_uni</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $object_type</span></span>
+<span><span class="co">#&gt; [1] "empirical transition counts"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $object_class</span></span>
+<span><span class="co">#&gt; [1] "dyadic_counts" "matrix"        "array"        </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $storage_mode</span></span>
+<span><span class="co">#&gt; [1] "integer"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dimensions</span></span>
 <span><span class="co">#&gt; [1] 4 2</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">emp_uni</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $row_names</span></span>
+<span><span class="co">#&gt; [1] "FM1_SM1" "FM1_SM2" "FM2_SM1" "FM2_SM2"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $column_names</span></span>
+<span><span class="co">#&gt; [1] "next_1" "next_2"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $total_count</span></span>
+<span><span class="co">#&gt; [1] 89</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $row_sums</span></span>
 <span><span class="co">#&gt; FM1_SM1 FM1_SM2 FM2_SM1 FM2_SM2 </span></span>
-<span><span class="co">#&gt;      30      19      17      23</span></span></code></pre></div>
+<span><span class="co">#&gt;      30      19      17      23 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"class")</span></span>
+<span><span class="co">#&gt; [1] "summary_dyadic_counts" "list"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="maximum-likelihood-transition-probabilities">Maximum-likelihood transition probabilities<a class="anchor" aria-label="anchor" href="#maximum-likelihood-transition-probabilities"></a>
 </h2>
-<p>The empirical counts can be converted into transition probabilities
-using <code><a href="../reference/mleEstimation.html">mleEstimation()</a></code>. Rows with positive totals are
-normalized independently. For an unobserved previous-state combination,
-the transition probabilities are unidentified; the package returns a
-uniform row as an implementation convention.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p>The empirical counts are converted into estimated transition
+probabilities with <code><a href="../reference/mleEstimation.html">mleEstimation()</a></code>. For each previous-state
+combination that is observed in the data, the corresponding row of
+counts is divided by its row total so that the estimated transition
+probabilities sum to one.</p>
+<p>If a previous-state combination is never observed, its row total is
+zero and there is therefore no information in the data from which to
+estimate its transition probabilities. In this case,
+<code>dyadicMarkov</code> returns equal probabilities for all possible
+next states as an implementation convention.</p>
+<p>The returned <code>dyadic_mle</code> object retains ordinary matrix
+behavior and provides <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, and
+<code><a href="https://rdrr.io/r/utils/toLatex.html" class="external-link">utils::toLatex()</a></code> methods. The <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> method
+reports the matrix structure and row sums, while
+<code>utils::toLatex(fit_uni)</code> produces a LaTeX representation of
+the estimated transition matrix.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fit_uni</span> <span class="op">&lt;-</span> <span class="fu">dyadicMarkov</span><span class="fu">::</span><span class="fu"><a href="../reference/mleEstimation.html">mleEstimation</a></span><span class="op">(</span><span class="va">emp_uni</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">fit_uni</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fit_uni</span><span class="op">)</span></span>
 <span><span class="co">#&gt;         next_1 next_2</span></span>
 <span><span class="co">#&gt; FM1_SM1 0.867  0.133 </span></span>
 <span><span class="co">#&gt; FM1_SM2 0.263  0.737 </span></span>
 <span><span class="co">#&gt; FM2_SM1 0.706  0.294 </span></span>
 <span><span class="co">#&gt; FM2_SM2 0.304  0.696</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">rowSums</a></span><span class="op">(</span><span class="va">fit_uni</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">fit_uni</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $object_type</span></span>
+<span><span class="co">#&gt; [1] "transition probability estimates"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $object_class</span></span>
+<span><span class="co">#&gt; [1] "dyadic_mle" "matrix"     "array"     </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $storage_mode</span></span>
+<span><span class="co">#&gt; [1] "double"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $dimensions</span></span>
+<span><span class="co">#&gt; [1] 4 2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $row_names</span></span>
+<span><span class="co">#&gt; [1] "FM1_SM1" "FM1_SM2" "FM2_SM1" "FM2_SM2"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $column_names</span></span>
+<span><span class="co">#&gt; [1] "next_1" "next_2"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $row_sums</span></span>
 <span><span class="co">#&gt; FM1_SM1 FM1_SM2 FM2_SM1 FM2_SM2 </span></span>
-<span><span class="co">#&gt;       1       1       1       1</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">fit_uni</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "dyadic_mle" "matrix"     "array"</span></span></code></pre></div>
-<p>The estimated transition matrix summarizes the empirical transition
-structure of the observed dyadic sequence.</p>
+<span><span class="co">#&gt;       1       1       1       1 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; attr(,"class")</span></span>
+<span><span class="co">#&gt; [1] "summary_dyadic_mle" "list"</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="univariate-pattern-identification">Univariate pattern identification<a class="anchor" aria-label="anchor" href="#univariate-pattern-identification"></a>
@@ -201,7 +257,17 @@ restricted structures. <code>dyadicMarkov</code> evaluates these
 comparisons using Pearson’s chi-squared statistic, <span class="math inline">\(X^2 = \sum (O-E)^2/E\)</span>. The two test
 outcomes are then combined to classify the sequence as actor-partner,
 actor only, partner only, or independence.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<p>The returned <code>dyadic_pattern</code> object contains the selected
+interaction pattern and the corresponding test results and provides
+<code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, and <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>
+methods. The printed output gives the selected pattern,
+<code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> reports the two restriction tests and their
+decisions at the specified significance level, and <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>
+displays the observed categorical sequences of the two members.
+Individual components can also be accessed directly, including
+<code>pat_uni$pattern</code>, <code>pat_uni$TEST.AM</code>, and
+<code>pat_uni$TEST.PM</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pat_uni</span> <span class="op">&lt;-</span> <span class="fu">dyadicMarkov</span><span class="fu">::</span><span class="fu"><a href="../reference/univariatePattern.html">univariatePattern</a></span><span class="op">(</span></span>
 <span>  chainFM <span class="op">=</span> <span class="va">dyadic_univariate_example</span><span class="op">$</span><span class="va">FM</span>,</span>
 <span>  chainSM <span class="op">=</span> <span class="va">dyadic_univariate_example</span><span class="op">$</span><span class="va">SM</span>,</span>
@@ -209,49 +275,24 @@ actor only, partner only, or independence.</p>
 <span>  alpha <span class="op">=</span> <span class="fl">0.05</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">pat_uni</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pat_uni</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Dyadic interaction pattern</span></span>
 <span><span class="co">#&gt; Pattern: PM (A3)</span></span>
 <span><span class="co">#&gt; Alpha: 0.05</span></span>
-<span><span class="co">#&gt; States: 2</span></span></code></pre></div>
-<p>For this example, the selected pattern is stored in the
-<code>pattern</code> component.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pat_uni</span><span class="op">$</span><span class="va">pattern</span></span>
-<span><span class="co">#&gt; [1] "PM (A3)"</span></span>
-<span><span class="va">pat_uni</span><span class="op">$</span><span class="va">TEST.AM</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  Likelihood-ratio test, Actor-only model</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; data:  Observed vs Estimated</span></span>
-<span><span class="co">#&gt; X-squared = 24.551, df = 2, p-value = 4.666e-06</span></span>
-<span><span class="co">#&gt; alternative hypothesis: The unrestricted model fits the data better</span></span>
-<span><span class="va">pat_uni</span><span class="op">$</span><span class="va">TEST.PM</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;  Likelihood-ratio test, Partner-only model</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; data:  Observed vs Estimated</span></span>
-<span><span class="co">#&gt; X-squared = 1.8984, df = 2, p-value = 0.3871</span></span>
-<span><span class="co">#&gt; alternative hypothesis: The unrestricted model fits the data better</span></span>
+<span><span class="co">#&gt; States: 2</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">pat_uni</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $pattern</span></span>
-<span><span class="co">#&gt; [1] "PM (A3)"</span></span>
+<span><span class="co">#&gt; Dyadic interaction pattern summary</span></span>
+<span><span class="co">#&gt; Pattern: PM (A3)</span></span>
+<span><span class="co">#&gt; Alpha: 0.05</span></span>
+<span><span class="co">#&gt; States: 2</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $alpha</span></span>
-<span><span class="co">#&gt; [1] 0.05</span></span>
+<span><span class="co">#&gt; Likelihood-ratio comparisons evaluated with Pearson Chi-squared</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $states</span></span>
-<span><span class="co">#&gt; [1] 2</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $call</span></span>
-<span><span class="co">#&gt; dyadicMarkov::univariatePattern(chainFM = dyadic_univariate_example$FM, </span></span>
-<span><span class="co">#&gt;     chainSM = dyadic_univariate_example$SM, states = 2L, alpha = 0.05)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; attr(,"class")</span></span>
-<span><span class="co">#&gt; [1] "summary_dyadic_pattern" "list"</span></span></code></pre></div>
-<p>The returned object is a list with an additional S3 class. It can
-therefore be printed and summarized, while still allowing direct access
-to its components.</p>
+<span><span class="co">#&gt;  Restriction                       Chi-squared df   p-value Decision    </span></span>
+<span><span class="co">#&gt;  AM (A2): actor-only restriction   24.6           2 &lt;0.001  Rejected    </span></span>
+<span><span class="co">#&gt;  PM (A3): partner-only restriction  1.9           2 0.387   Not rejected</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pat_uni</span><span class="op">)</span></span></code></pre></div>
+<p><img src="univariate-workflow_files/figure-html/pattern-methods-1.png" class="r-plt" alt="" width="99%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="interpretation">Interpretation<a class="anchor" aria-label="anchor" href="#interpretation"></a>
@@ -268,7 +309,7 @@ member or partner. Reversing the two arguments analyzes the sequence
 from the perspective of the second member. Thus, describing both members
 of a dyad requires two calls, and each returned pattern is specific to
 the analyzed sequence.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pat_uni_reverse</span> <span class="op">&lt;-</span> <span class="fu">dyadicMarkov</span><span class="fu">::</span><span class="fu"><a href="../reference/univariatePattern.html">univariatePattern</a></span><span class="op">(</span></span>
 <span>  chainFM <span class="op">=</span> <span class="va">dyadic_univariate_example</span><span class="op">$</span><span class="va">SM</span>,</span>
 <span>  chainSM <span class="op">=</span> <span class="va">dyadic_univariate_example</span><span class="op">$</span><span class="va">FM</span>,</span>
@@ -284,7 +325,10 @@ the analyzed sequence.</p>
 <p>In this example, reversing the two members also returns
 <code>PM (A3)</code>, but this does not occur in general: each call
 describes the pattern of the sequence supplied as the first member,
-conditional on the sequence supplied as the second member.</p>
+conditional on the sequence supplied as the second member. For a
+complementary approach to visualization and clustering of dyadic
+longitudinal sequences, see <span class="citation">Bollenrücher et al.
+(2024)</span>.</p>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
@@ -296,6 +340,14 @@ Bollenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti.
 Interdependence Model with Markov Chains for Unique Case
 Analysis.”</span> <em>The Quantitative Methods for Psychology</em> 19
 (3): 230–43. <a href="https://doi.org/10.20982/tqmp.19.3.p230" class="external-link">https://doi.org/10.20982/tqmp.19.3.p230</a>.
+</div>
+<div id="ref-bollen2024" class="csl-entry">
+Bollenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti.
+2024. <span>“Methodology for Identification, Visualization, and
+Clustering of Similar Behaviors in Dyadic Sequences Analyzed Through the
+Longitudinal Actor-Partner Interdependence Model with Markov
+Chains.”</span> <em>The Quantitative Methods for Psychology</em> 20 (1):
+17–32. <a href="https://doi.org/10.20982/tqmp.20.1.p017" class="external-link">https://doi.org/10.20982/tqmp.20.1.p017</a>.
 </div>
 <div id="ref-bollen2026" class="csl-entry">
 Böllenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti. in

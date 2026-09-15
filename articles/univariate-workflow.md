@@ -34,6 +34,7 @@ member or partner.
 
 ``` r
 
+# Load the example data included with dyadicMarkov
 utils::data("dyadic_univariate_example", package = "dyadicMarkov")
 
 head(dyadic_univariate_example)
@@ -48,8 +49,8 @@ dim(dyadic_univariate_example)
 #> [1] 90  3
 ```
 
-The states are integer-coded. In this example, both members can take the
-values 1 or 2.
+In this example, the categorical states are coded as 1 and 2 for both
+members.
 
 ``` r
 
@@ -65,11 +66,20 @@ table(dyadic_univariate_example$SM)
 
 ## Empirical transition counts
 
-The first step is to compute empirical transition counts with
-[`countEmp()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/countEmp.md).
-For `states = 2`, the rows represent the four possible previous dyadic
-states `(FM_t, SM_t)`, and the columns represent the state of the first
-member at the next time point, `FM_{t+1}`.
+[`countEmp()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/countEmp.md)
+computes the empirical transition counts for the first member from the
+two observed dyadic sequences. For `states = 2`, the resulting matrix
+has four rows corresponding to the possible previous dyadic states
+\\(FM_t, SM_t)\\ and two columns corresponding to the possible next
+states of the first member, \\FM\_{t+1}\\. The returned `dyadic_counts`
+object retains ordinary matrix behavior and provides
+[`print()`](https://rdrr.io/r/base/print.html),
+[`summary()`](https://rdrr.io/r/base/summary.html), and
+[`utils::toLatex()`](https://rdrr.io/r/utils/toLatex.html) methods. The
+[`summary()`](https://rdrr.io/r/base/summary.html) method reports
+information including the matrix dimensions, total count, and row sums,
+while `utils::toLatex(emp_uni)` produces a LaTeX representation for
+reports or manuscripts.
 
 ``` r
 
@@ -79,56 +89,101 @@ emp_uni <- dyadicMarkov::countEmp(
   states = 2L
 )
 
-emp_uni
+print(emp_uni)
 #>         next_1 next_2
 #> FM1_SM1 26     4     
 #> FM1_SM2 5      14    
 #> FM2_SM1 12     5     
 #> FM2_SM2 7      16
-class(emp_uni)
-#> [1] "dyadic_counts" "matrix"        "array"
-```
-
-The resulting object keeps ordinary matrix behavior.
-
-``` r
-
-dim(emp_uni)
+summary(emp_uni)
+#> $object_type
+#> [1] "empirical transition counts"
+#> 
+#> $object_class
+#> [1] "dyadic_counts" "matrix"        "array"        
+#> 
+#> $storage_mode
+#> [1] "integer"
+#> 
+#> $dimensions
 #> [1] 4 2
-rowSums(emp_uni)
+#> 
+#> $row_names
+#> [1] "FM1_SM1" "FM1_SM2" "FM2_SM1" "FM2_SM2"
+#> 
+#> $column_names
+#> [1] "next_1" "next_2"
+#> 
+#> $total_count
+#> [1] 89
+#> 
+#> $row_sums
 #> FM1_SM1 FM1_SM2 FM2_SM1 FM2_SM2 
-#>      30      19      17      23
+#>      30      19      17      23 
+#> 
+#> attr(,"class")
+#> [1] "summary_dyadic_counts" "list"
 ```
 
 ## Maximum-likelihood transition probabilities
 
-The empirical counts can be converted into transition probabilities
-using
+The empirical counts are converted into estimated transition
+probabilities with
 [`mleEstimation()`](https://boellenruecherm.github.io/dyadicMarkov-public/reference/mleEstimation.md).
-Rows with positive totals are normalized independently. For an
-unobserved previous-state combination, the transition probabilities are
-unidentified; the package returns a uniform row as an implementation
+For each previous-state combination that is observed in the data, the
+corresponding row of counts is divided by its row total so that the
+estimated transition probabilities sum to one.
+
+If a previous-state combination is never observed, its row total is zero
+and there is therefore no information in the data from which to estimate
+its transition probabilities. In this case, `dyadicMarkov` returns equal
+probabilities for all possible next states as an implementation
 convention.
+
+The returned `dyadic_mle` object retains ordinary matrix behavior and
+provides [`print()`](https://rdrr.io/r/base/print.html),
+[`summary()`](https://rdrr.io/r/base/summary.html), and
+[`utils::toLatex()`](https://rdrr.io/r/utils/toLatex.html) methods. The
+[`summary()`](https://rdrr.io/r/base/summary.html) method reports the
+matrix structure and row sums, while `utils::toLatex(fit_uni)` produces
+a LaTeX representation of the estimated transition matrix.
 
 ``` r
 
 fit_uni <- dyadicMarkov::mleEstimation(emp_uni)
 
-round(fit_uni, 3)
+print(fit_uni)
 #>         next_1 next_2
 #> FM1_SM1 0.867  0.133 
 #> FM1_SM2 0.263  0.737 
 #> FM2_SM1 0.706  0.294 
 #> FM2_SM2 0.304  0.696
-rowSums(fit_uni)
+summary(fit_uni)
+#> $object_type
+#> [1] "transition probability estimates"
+#> 
+#> $object_class
+#> [1] "dyadic_mle" "matrix"     "array"     
+#> 
+#> $storage_mode
+#> [1] "double"
+#> 
+#> $dimensions
+#> [1] 4 2
+#> 
+#> $row_names
+#> [1] "FM1_SM1" "FM1_SM2" "FM2_SM1" "FM2_SM2"
+#> 
+#> $column_names
+#> [1] "next_1" "next_2"
+#> 
+#> $row_sums
 #> FM1_SM1 FM1_SM2 FM2_SM1 FM2_SM2 
-#>       1       1       1       1
-class(fit_uni)
-#> [1] "dyadic_mle" "matrix"     "array"
+#>       1       1       1       1 
+#> 
+#> attr(,"class")
+#> [1] "summary_dyadic_mle" "list"
 ```
-
-The estimated transition matrix summarizes the empirical transition
-structure of the observed dyadic sequence.
 
 ## Univariate pattern identification
 
@@ -146,6 +201,19 @@ comparisons using Pearson’s chi-squared statistic, \\X^2 = \sum
 (O-E)^2/E\\. The two test outcomes are then combined to classify the
 sequence as actor-partner, actor only, partner only, or independence.
 
+The returned `dyadic_pattern` object contains the selected interaction
+pattern and the corresponding test results and provides
+[`print()`](https://rdrr.io/r/base/print.html),
+[`summary()`](https://rdrr.io/r/base/summary.html), and
+[`plot()`](https://rdrr.io/r/graphics/plot.default.html) methods. The
+printed output gives the selected pattern,
+[`summary()`](https://rdrr.io/r/base/summary.html) reports the two
+restriction tests and their decisions at the specified significance
+level, and [`plot()`](https://rdrr.io/r/graphics/plot.default.html)
+displays the observed categorical sequences of the two members.
+Individual components can also be accessed directly, including
+`pat_uni$pattern`, `pat_uni$TEST.AM`, and `pat_uni$TEST.PM`.
+
 ``` r
 
 pat_uni <- dyadicMarkov::univariatePattern(
@@ -155,55 +223,26 @@ pat_uni <- dyadicMarkov::univariatePattern(
   alpha = 0.05
 )
 
-pat_uni
+print(pat_uni)
 #> Dyadic interaction pattern
 #> Pattern: PM (A3)
 #> Alpha: 0.05
 #> States: 2
-```
-
-For this example, the selected pattern is stored in the `pattern`
-component.
-
-``` r
-
-pat_uni$pattern
-#> [1] "PM (A3)"
-pat_uni$TEST.AM
-#> 
-#>  Likelihood-ratio test, Actor-only model
-#> 
-#> data:  Observed vs Estimated
-#> X-squared = 24.551, df = 2, p-value = 4.666e-06
-#> alternative hypothesis: The unrestricted model fits the data better
-pat_uni$TEST.PM
-#> 
-#>  Likelihood-ratio test, Partner-only model
-#> 
-#> data:  Observed vs Estimated
-#> X-squared = 1.8984, df = 2, p-value = 0.3871
-#> alternative hypothesis: The unrestricted model fits the data better
 summary(pat_uni)
-#> $pattern
-#> [1] "PM (A3)"
+#> Dyadic interaction pattern summary
+#> Pattern: PM (A3)
+#> Alpha: 0.05
+#> States: 2
 #> 
-#> $alpha
-#> [1] 0.05
+#> Likelihood-ratio comparisons evaluated with Pearson Chi-squared
 #> 
-#> $states
-#> [1] 2
-#> 
-#> $call
-#> dyadicMarkov::univariatePattern(chainFM = dyadic_univariate_example$FM, 
-#>     chainSM = dyadic_univariate_example$SM, states = 2L, alpha = 0.05)
-#> 
-#> attr(,"class")
-#> [1] "summary_dyadic_pattern" "list"
+#>  Restriction                       Chi-squared df   p-value Decision    
+#>  AM (A2): actor-only restriction   24.6           2 <0.001  Rejected    
+#>  PM (A3): partner-only restriction  1.9           2 0.387   Not rejected
+plot(pat_uni)
 ```
 
-The returned object is a list with an additional S3 class. It can
-therefore be printed and summarized, while still allowing direct access
-to its components.
+![](univariate-workflow_files/figure-html/pattern-methods-1.png)
 
 ## Interpretation
 
@@ -240,7 +279,9 @@ pat_uni_reverse
 In this example, reversing the two members also returns `PM (A3)`, but
 this does not occur in general: each call describes the pattern of the
 sequence supplied as the first member, conditional on the sequence
-supplied as the second member.
+supplied as the second member. For a complementary approach to
+visualization and clustering of dyadic longitudinal sequences, see
+Bollenrücher et al. (2024).
 
 ## References
 
@@ -249,6 +290,13 @@ Bollenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti.
 Interdependence Model with Markov Chains for Unique Case Analysis.” *The
 Quantitative Methods for Psychology* 19 (3): 230–43.
 <https://doi.org/10.20982/tqmp.19.3.p230>.
+
+Bollenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti.
+2024. “Methodology for Identification, Visualization, and Clustering of
+Similar Behaviors in Dyadic Sequences Analyzed Through the Longitudinal
+Actor-Partner Interdependence Model with Markov Chains.” *The
+Quantitative Methods for Psychology* 20 (1): 17–32.
+<https://doi.org/10.20982/tqmp.20.1.p017>.
 
 Böllenrücher, Mégane, Joëlle Darwiche, and Jean-Philippe Antonietti. in
 press. “Bivariate Dyadic Patterns Analysis Using Longitudinal
