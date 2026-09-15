@@ -21,6 +21,8 @@ navbar:
         href: articles/univariate-workflow.html
       - text: Bivariate workflow
         href: articles/bivariate-workflow.html
+      - text: Sensitivity analysis
+        href: articles/sensitivity-analysis.html
     github:
       icon: fab fa-github
       href: https://github.com/BoellenruecherM/dyadicMarkov-public
@@ -43,10 +45,15 @@ reference:
   - partialPattern
   - completePattern
 
+- title: Plotting
+  contents:
+  - plot.dyadic_pattern
+
 - title: Example data
   contents:
   - dyadic_univariate_example
   - dyadic_bivariate_example
+  - sensitivity_simulation_data
 
 articles:
 - title: Articles
@@ -55,6 +62,7 @@ articles:
   - dyadicMarkov-introduction
   - univariate-workflow
   - bivariate-workflow
+  - sensitivity-analysis
 
 home:
   sidebar:
