@@ -90,6 +90,8 @@ For complete examples, see the workflow vignettes:
   workflow](https://boellenruecherm.github.io/dyadicMarkov-public/articles/univariate-workflow.md)
 - [Bivariate dyadic
   workflow](https://boellenruecherm.github.io/dyadicMarkov-public/articles/bivariate-workflow.md)
+- [Sensitivity
+  analysis](https://boellenruecherm.github.io/dyadicMarkov-public/articles/sensitivity-analysis.md)
 
 ## Methodological background
 
