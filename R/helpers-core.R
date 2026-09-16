@@ -106,7 +106,8 @@
 #'   member (FM). Must have the same length as \code{chainSM}.
 #' @param chainSM Numeric vector of integer-valued observed states for the second
 #'   member (SM). Must have the same length as \code{chainFM}.
-#' @param states A single integer >= 2 giving the number of states.
+#' @param states A single positive integer greater than or equal to 2 giving
+#'   the number of states.
 #' @details Rows correspond to current dyadic states \eqn{(FM_t, SM_t)}.
 #'   For general \code{states}, the row index is computed as
 #'   \code{1 + states * (FM_t - 1) + (SM_t - 1)}. Columns correspond to the

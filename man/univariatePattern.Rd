@@ -13,7 +13,8 @@ Values must be integers. Must have the same length as \code{chainSM}.}
 \item{chainSM}{Numeric vector of observed states for the second member (SM).
 Values must be integers. Must have the same length as \code{chainFM}.}
 
-\item{states}{A single integer >= 2 giving the number of states.}
+\item{states}{A single positive integer greater than or equal to 2 giving
+the number of states.}
 
 \item{alpha}{A single number in (0, 1) giving the significance level.
 Default is 0.05.}

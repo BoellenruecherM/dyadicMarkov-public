@@ -9,7 +9,8 @@
 #'   Values must be integers. Must have the same length as \code{chainSM}.
 #' @param chainSM Numeric vector of observed states for the second member (SM).
 #'   Values must be integers. Must have the same length as \code{chainFM}.
-#' @param states A single integer >= 2 giving the number of states.
+#' @param states A single positive integer greater than or equal to 2 giving
+#'   the number of states.
 #' @param alpha A single number in (0, 1) giving the significance level.
 #'   Default is 0.05.
 #' @details The nested full/restricted comparisons form the univariate

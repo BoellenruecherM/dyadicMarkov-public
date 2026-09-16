@@ -1,3 +1,7 @@
+# dyadicMarkov 0.1.3.9000
+
+* Refined argument documentation for rOpenSci review, including explicit state-space constraints, separate documentation of the four bivariate sequence inputs, and clarification that bivariate empirical count matrices may use integer or double storage modes.
+
 # dyadicMarkov 0.1.3
 
 * Added a sensitivity-analysis vignette reproducing the published

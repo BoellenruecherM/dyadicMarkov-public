@@ -190,13 +190,20 @@
 #' sequences with two variables. This function currently supports
 #' \code{states = 2} only.
 #'
-#' @param chainFM_V1,chainSM_V1 Numeric vectors of observed states for variable 1
-#'   for the first and second member. Values must be integers.
-#' @param chainFM_V2,chainSM_V2 Numeric vectors of observed states for variable 2
-#'   for the first and second member. Values must be integers.
-#'   All four chain vectors must have the same length.
-#' @param states A single integer. Currently only \code{2} is supported.
-#'   Default is 2.
+#' @param chainFM_V1 Numeric vector of observed states for variable 1 for the
+#'   first member. Values must be either 1 or 2, and the vector must have the
+#'   same length as the other three chain vectors.
+#' @param chainSM_V1 Numeric vector of observed states for variable 1 for the
+#'   second member. Values must be either 1 or 2, and the vector must have the
+#'   same length as the other three chain vectors.
+#' @param chainFM_V2 Numeric vector of observed states for variable 2 for the
+#'   first member. Values must be either 1 or 2, and the vector must have the
+#'   same length as the other three chain vectors.
+#' @param chainSM_V2 Numeric vector of observed states for variable 2 for the
+#'   second member. Values must be either 1 or 2, and the vector must have the
+#'   same length as the other three chain vectors.
+#' @param states A single integer equal to 2. Other state counts are not
+#'   currently supported. Default is 2.
 #' @details The bivariate counter currently supports \code{states = 2} only.
 #'   Rows represent the previous dyadic states of variable 1 and variable 2.
 #'   Writing \eqn{K} for the number of states, the row index at time \eqn{t} is
@@ -287,8 +294,10 @@ countEmpBivariate <- function(
 #' \code{"partial"}, or \code{"complete"} using two chi-squared tests
 #' against constrained binary bivariate structures.
 #'
-#' @param empirical An empirical bivariate count matrix with 16 rows and 2
-#'   columns, as returned by \code{\link{countEmpBivariate}}.
+#' @param empirical A numeric matrix with 16 rows and 2 columns containing
+#'   finite non-negative counts, as returned by
+#'   \code{\link{countEmpBivariate}}. Integer and double storage modes are
+#'   both accepted.
 #' @srrstats {EA3.1} The package provides standardized comparison of restricted univariate and bivariate transition structures that would otherwise require manual construction of theoretical transition matrices and separate test statistics.
 #' @srrstats {EA3.0} The package automates extraction and reporting of dyadic transition counts, MLE transition probabilities, univariate LRT comparisons, global bivariate chi-squared comparisons, local bivariate G-squared/AIC comparisons, and selected interaction patterns.
 #' @param alpha A single number in (0, 1) giving the significance level.
@@ -373,8 +382,10 @@ bivariateCase <- function(empirical, alpha = 0.05) {
 #' Compares the partial bivariate patterns B1, B2, and B3 using AIC and returns
 #' the selected pattern.
 #'
-#' @param empirical An empirical bivariate count matrix with 16 rows and 2
-#'   columns, as returned by \code{\link{countEmpBivariate}}.
+#' @param empirical A numeric matrix with 16 rows and 2 columns containing
+#'   finite non-negative counts, as returned by
+#'   \code{\link{countEmpBivariate}}. Integer and double storage modes are
+#'   both accepted.
 #' @details Conditional on the partial bivariate case, the G-squared deviance is
 #'   computed for each B1, B2, and B3 candidate before calculating
 #'   \deqn{AIC = G^2 + 2k,}{AIC = G^2 + 2k,}
@@ -458,8 +469,10 @@ partialPattern <- function(empirical) {
 #' Compares the complete bivariate patterns C, D1--D4, and E1--E4 using AIC and
 #' returns the selected pattern.
 #'
-#' @param empirical An empirical bivariate count matrix with 16 rows and 2
-#'   columns, as returned by \code{\link{countEmpBivariate}}.
+#' @param empirical A numeric matrix with 16 rows and 2 columns containing
+#'   finite non-negative counts, as returned by
+#'   \code{\link{countEmpBivariate}}. Integer and double storage modes are
+#'   both accepted.
 #' @details Conditional on the complete bivariate case, the G-squared deviance
 #'   is computed for each C, D1--D4, and E1--E4 candidate before calculating
 #'   \deqn{AIC = G^2 + 2k,}{AIC = G^2 + 2k,}

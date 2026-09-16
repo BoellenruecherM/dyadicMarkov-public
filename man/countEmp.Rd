@@ -13,7 +13,8 @@ member (FM). Must have the same length as \code{chainSM}.}
 \item{chainSM}{Numeric vector of integer-valued observed states for the second
 member (SM). Must have the same length as \code{chainFM}.}
 
-\item{states}{A single integer >= 2 giving the number of states.}
+\item{states}{A single positive integer greater than or equal to 2 giving
+the number of states.}
 }
 \value{
 An integer matrix with class

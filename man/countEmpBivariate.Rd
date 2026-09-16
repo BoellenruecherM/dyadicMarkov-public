@@ -7,15 +7,24 @@
 countEmpBivariate(chainFM_V1, chainSM_V1, chainFM_V2, chainSM_V2, states = 2L)
 }
 \arguments{
-\item{chainFM_V1, chainSM_V1}{Numeric vectors of observed states for variable 1
-for the first and second member. Values must be integers.}
+\item{chainFM_V1}{Numeric vector of observed states for variable 1 for the
+first member. Values must be either 1 or 2, and the vector must have the
+same length as the other three chain vectors.}
 
-\item{chainFM_V2, chainSM_V2}{Numeric vectors of observed states for variable 2
-for the first and second member. Values must be integers.
-All four chain vectors must have the same length.}
+\item{chainSM_V1}{Numeric vector of observed states for variable 1 for the
+second member. Values must be either 1 or 2, and the vector must have the
+same length as the other three chain vectors.}
 
-\item{states}{A single integer. Currently only \code{2} is supported.
-Default is 2.}
+\item{chainFM_V2}{Numeric vector of observed states for variable 2 for the
+first member. Values must be either 1 or 2, and the vector must have the
+same length as the other three chain vectors.}
+
+\item{chainSM_V2}{Numeric vector of observed states for variable 2 for the
+second member. Values must be either 1 or 2, and the vector must have the
+same length as the other three chain vectors.}
+
+\item{states}{A single integer equal to 2. Other state counts are not
+currently supported. Default is 2.}
 }
 \value{
 An integer matrix with class

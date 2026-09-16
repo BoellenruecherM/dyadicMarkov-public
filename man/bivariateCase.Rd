@@ -7,8 +7,10 @@
 bivariateCase(empirical, alpha = 0.05)
 }
 \arguments{
-\item{empirical}{An empirical bivariate count matrix with 16 rows and 2
-columns, as returned by \code{\link{countEmpBivariate}}.}
+\item{empirical}{A numeric matrix with 16 rows and 2 columns containing
+finite non-negative counts, as returned by
+\code{\link{countEmpBivariate}}. Integer and double storage modes are
+both accepted.}
 
 \item{alpha}{A single number in (0, 1) giving the significance level.
 Default is 0.05.}

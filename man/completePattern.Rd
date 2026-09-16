@@ -7,8 +7,10 @@
 completePattern(empirical)
 }
 \arguments{
-\item{empirical}{An empirical bivariate count matrix with 16 rows and 2
-columns, as returned by \code{\link{countEmpBivariate}}.}
+\item{empirical}{A numeric matrix with 16 rows and 2 columns containing
+finite non-negative counts, as returned by
+\code{\link{countEmpBivariate}}. Integer and double storage modes are
+both accepted.}
 }
 \value{
 A list with class \code{c("dyadic_pattern", "list")} containing
