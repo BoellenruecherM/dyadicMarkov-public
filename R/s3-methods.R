@@ -51,13 +51,13 @@ print.dyadic_pattern <- function(x, ...) {
   .cat_line("Dyadic interaction pattern")
 
   if ("pattern" %in% names(x)) {
-    .cat_line("Pattern: ", paste0(x[["pattern"]], collapse = ", "))
+    .cat_line("Pattern: ", toString(x[["pattern"]]))
   }
   if ("alpha" %in% names(x)) {
-    .cat_line("Alpha: ", paste0(x[["alpha"]], collapse = ", "))
+    .cat_line("Alpha: ", toString(x[["alpha"]]))
   }
   if ("states" %in% names(x)) {
-    .cat_line("States: ", paste0(x[["states"]], collapse = ", "))
+    .cat_line("States: ", toString(x[["states"]]))
   }
 
   invisible(x)
@@ -70,10 +70,10 @@ print.dyadic_case <- function(x, ...) {
   .cat_line("Bivariate dyadic case")
 
   if ("case" %in% names(x)) {
-    .cat_line("Case: ", paste0(x[["case"]], collapse = ", "))
+    .cat_line("Case: ", toString(x[["case"]]))
   }
   if ("alpha" %in% names(x)) {
-    .cat_line("Alpha: ", paste0(x[["alpha"]], collapse = ", "))
+    .cat_line("Alpha: ", toString(x[["alpha"]]))
   }
 
   invisible(x)
@@ -661,7 +661,7 @@ summary.dyadic_mle <- function(object, ...) {
       missing <- is.na(escaped)
       escaped[missing] <- chars[missing]
 
-      paste0(escaped, collapse = "")
+      paste(escaped, collapse = "")
     },
     character(1),
     USE.NAMES = FALSE
@@ -915,13 +915,7 @@ summary.dyadic_mle <- function(object, ...) {
   # Dynamic LaTeX alignment specification
   # ------------------------------------------------------------------
 
-  numeric_alignment <- paste(
-    rep(
-      "r",
-      ncol(x)
-    ),
-    collapse = ""
-  )
+  numeric_alignment <- strrep("r", ncol(x))
 
 
   # ------------------------------------------------------------------

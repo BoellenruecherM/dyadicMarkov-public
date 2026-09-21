@@ -322,7 +322,7 @@
     stop(
       "This univariate `dyadic_pattern` object does not contain the stored ",
       "sequence field(s): ",
-      paste(missing_fields, collapse = ", "),
+      toString(missing_fields),
       ". Recompute the object with the current version of dyadicMarkov.",
       call. = FALSE
     )
@@ -427,7 +427,7 @@
   if (length(missing_fields) > 0L) {
     stop(
       "Stored bivariate sequence metadata is missing: ",
-      paste(missing_fields, collapse = ", "),
+      toString(missing_fields),
       ".",
       call. = FALSE
     )

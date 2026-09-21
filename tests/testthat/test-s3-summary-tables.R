@@ -110,8 +110,7 @@ test_that("univariate summary table preserves inferential evidence", {
     )
   )
 
-  expect_identical(
-    names(out$tests),
+  expect_named(out$tests,
     c(
       "restriction",
       "statistic",
@@ -235,8 +234,7 @@ test_that("bivariate case summary table preserves global comparisons", {
     )
   )
 
-  expect_identical(
-    names(out$tests),
+  expect_named(out$tests,
     c(
       "model",
       "statistic",
@@ -365,8 +363,7 @@ test_that("partial AIC summary has stable schema and source order", {
     "summary_dyadic_pattern"
   )
 
-  expect_identical(
-    names(out$aic),
+  expect_named(out$aic,
     c(
       "pattern",
       "matrix",
@@ -483,8 +480,7 @@ test_that("complete AIC summary has stable schema and source order", {
 
   out <- summary(object)
 
-  expect_identical(
-    names(out$aic),
+  expect_named(out$aic,
     c(
       "pattern",
       "matrix",

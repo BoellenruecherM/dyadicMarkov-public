@@ -3,11 +3,10 @@ test_that("example datasets have expected shape and state values", {
   utils::data("dyadic_bivariate_example", package = "dyadicMarkov", envir = environment())
 
   expect_identical(nrow(dyadic_univariate_example), 90L)
-  expect_identical(names(dyadic_univariate_example), c("time", "FM", "SM"))
+  expect_named(dyadic_univariate_example, c("time", "FM", "SM"))
 
   expect_identical(nrow(dyadic_bivariate_example), 90L)
-  expect_identical(
-    names(dyadic_bivariate_example),
+  expect_named(dyadic_bivariate_example,
     c("time", "FM_V1", "SM_V1", "FM_V2", "SM_V2")
   )
 

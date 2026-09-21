@@ -63,8 +63,7 @@ test_that("categorical sequence runs preserve exact observation intervals", {
     c(1L, 1L, 2L, 2L, 2L, 1L)
   )
 
-  expect_identical(
-    names(runs),
+  expect_named(runs,
     c("left", "right", "state")
   )
 
@@ -275,8 +274,7 @@ test_that("bivariate plot specification preserves chain order and labels", {
     "bivariate_sequence"
   )
 
-  expect_identical(
-    names(out$chains),
+  expect_named(out$chains,
     c(
       "chainFM_V1",
       "chainSM_V1",

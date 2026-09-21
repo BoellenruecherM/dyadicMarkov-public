@@ -32,7 +32,7 @@ test_that("univariatePattern runs", {
     chainFM = chainFM, chainSM = chainSM, states = 2L, alpha = 0.05
   )
 
-  expect_true(is.list(res))
+  expect_type(res, "list")
 })
 
 test_that("bivariate pipeline runs for states=2 (exported API only)", {
@@ -53,11 +53,11 @@ test_that("bivariate pipeline runs for states=2 (exported API only)", {
   expect_identical(nrow(emp), as.integer(states^4))
 
   res_case <- dyadicMarkov::bivariateCase(empirical = emp, alpha = 0.05)
-  expect_true(is.list(res_case))
+  expect_type(res_case, "list")
 
   res_partial <- dyadicMarkov::partialPattern(emp)
-  expect_true(is.list(res_partial))
+  expect_type(res_partial, "list")
 
   res_complete <- dyadicMarkov::completePattern(emp)
-  expect_true(is.list(res_complete))
+  expect_type(res_complete, "list")
 })

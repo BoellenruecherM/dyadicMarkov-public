@@ -82,10 +82,7 @@ test_that("empirical count functions return dyadic_counts matrices", {
     c("next_1", "next_2")
   )
 
-  expect_identical(
-    length(rownames(bivar_counts)),
-    16L
-  )
+  expect_length(rownames(bivar_counts), 16L)
 
   expect_identical(
     dim(bivar_counts),

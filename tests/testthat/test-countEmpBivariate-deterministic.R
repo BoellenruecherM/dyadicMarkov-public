@@ -24,7 +24,7 @@ test_that("countEmpBivariate returns exact counts on a tiny hand-constructed cas
     unname(got_values),
     exp
   )
-  expect_identical(length(rownames(got)), 16L)
+  expect_length(rownames(got), 16L)
   expect_identical(rownames(got)[1L], "mainFM1_mainSM1_secondFM1_secondSM1")
   expect_identical(rownames(got)[10L], "mainFM2_mainSM1_secondFM1_secondSM2")
   expect_identical(colnames(got), c("next_1", "next_2"))

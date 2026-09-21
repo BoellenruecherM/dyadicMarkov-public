@@ -86,7 +86,7 @@ test_that("univariatePattern runs deterministically (seed 888)", {
 
   res <- dyadicMarkov::univariatePattern(chainFM, chainSM, states = states, alpha = 0.05)
 
-  expect_true(is.list(res))
+  expect_type(res, "list")
   expect_true(all(c("TEST.AM","TEST.PM","pattern") %in% names(res)))
   expect_s3_class(res$TEST.AM, "htest")
   expect_s3_class(res$TEST.PM, "htest")
