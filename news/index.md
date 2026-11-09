@@ -1,6 +1,14 @@
 # Changelog
 
+## dyadicMarkov (development version)
+
+- Addressed 29 applicable `goodpractice`/`lintr` findings in maintained
+  code and tests, simplifying string handling and using more specific
+  `testthat` expectations.
+
 ## dyadicMarkov 0.1.3
+
+CRAN release: 2026-09-15
 
 - Added a sensitivity-analysis vignette reproducing the published
   sequence-length analysis for 1,000 simulated dyads at five sequence
