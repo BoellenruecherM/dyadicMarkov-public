@@ -1,3 +1,9 @@
+# dyadicMarkov (development version)
+
+* Addressed 29 applicable `goodpractice`/`lintr` findings in maintained code
+  and tests, simplifying string handling and using more specific `testthat`
+  expectations.
+
 # dyadicMarkov 0.1.3
 
 * Added a sensitivity-analysis vignette reproducing the published
