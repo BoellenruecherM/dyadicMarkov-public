@@ -1,5 +1,6 @@
 # dyadicMarkov
 
+[![Status at rOpenSci Software Peer Review](https://badges.ropensci.org/810_status.svg)](https://github.com/ropensci/software-review/issues/810)
 
 <table>
   <tr>
